@@ -41,7 +41,7 @@ difference()
 //  polygon(points = airfoil_data(30)); 
 
 //T(30)
- airfoil(naca = 2432, L = 60, N=101, h = 30, open = false); 
+ airfoil(naca = 0008, L = 60, N=101, h = 30, open = false); 
 
 // some airfoil objects, Naca values defined with number or vector
  //airfoil ();                  // NACA12 object 
@@ -53,7 +53,7 @@ difference()
 
 // end of sampler
 
-polygon(points = airfoil_data(10)); 
+//polygon(points = airfoil_data(10)); 
 
 }
 
