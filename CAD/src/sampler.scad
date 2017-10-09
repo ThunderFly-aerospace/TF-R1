@@ -26,22 +26,7 @@ difference()
   square(100, 100); 
 }
 
-// some winding airfoils
-//linear_extrude(height = 100, twist = 30, scale = .5)
- // polygon(points = airfoil_data(30)); 
-
-//translate([50, 0, 0])
-//linear_extrude(height = 100, twist = 30, scale = .5)
-//translate([-50, 0, 0])
-//  polygon(points = airfoil_data(30)); 
-
-//translate([100, 0, 0])
-//linear_extrude(height = 100, twist = 30, scale = .5)
-//translate([-100, 0, 0])
-//  polygon(points = airfoil_data(30)); 
-
-//T(30)
- airfoil(naca = 0008, L = 60, N=101, h = 30, open = false); 
+airfoil(naca = 0008, L = 60, N=101, h = 30, open = false); 
 
 // some airfoil objects, Naca values defined with number or vector
  //airfoil ();                  // NACA12 object 
@@ -50,10 +35,6 @@ difference()
  //airfoil ([-.10101, .52344, .17122]); // inverted precise curvature
 
 //help();  // show help in console
-
-// end of sampler
-
-//polygon(points = airfoil_data(10)); 
 
 }
 
