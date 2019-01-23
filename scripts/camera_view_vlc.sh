@@ -9,6 +9,6 @@ filename="./$station-$today.mkv"
 
 echo "$camera"
 
-#vlc "rtsp://@$camera/user=admin&password=&channel=0&stream=0" --network-caching=45 &
-cvlc "rtsp://@$camera/user=admin&password=&channel=0&stream=0" --http-reconnect --sout "#transcode{acodec=none}:file{dst=../../cam_out/1/$filename}"
+vlc "rtsp://@$camera/user=admin&password=&channel=0&stream=0" --network-caching=45 &
+#cvlc "rtsp://@$camera/user=admin&password=&channel=0&stream=0" --http-reconnect --sout "#transcode{acodec=none}:file{dst=../../cam_out/1/$filename}"
 
