@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <script src="/static/gauges/js/d3.min.js"></script>
+    <script src="/static/gauges/js/jquery.flightindicators.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/gauges/css/flightindicators.css" />
+    <script type="text/javascript" src="/static/roslibjs/build/roslib.min.js"></script>
+    <meta name="theme-color" content="#020202">
+
+    <style>
+        body{
+            background-color: black;
+            color: gray;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .card{
+            background-color: #202020;
+            color: gray;
+        }
+
+        .speed_big{
+            font-size: 4em;
+            overflow-wrap: normal;
+            color: lightgray;
+            font-weight: 400;
+        }
+
+
+        .speed_ok{
+            color: #1ece1e;
+        }
+
+        .speed_medium{
+            color: #ce8e1e;
+        }
+
+        .speed_bad{
+            color: #ff0e0e;
+        }
+
+        .card{
+            margin-top:  0.5em;
+        }
+
+        .toggle-red{
+            background-color: red;
+        }
+
+        .toggle-green{
+            background-color: green;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container-float">
+        <div class="row">
+            <div class="col-4 col-sm-12">
+                <div>
+                    <h2>ThunderFly aerospace</h2>
+                    <h3>TF-R1</h3>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">mode:</div>
+                            <div class="col-4">Manual</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Pitch:</div>
+                            <div class="col-4"><span class="ph_pitch"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Roll:</div>
+                            <div class="col-4"><span class="ph_roll"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Yaw:</div>
+                            <div class="col-4"><span class="ph_yaw"></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">Rotor freq:</div>
+                            <div class="col-4">540 RPM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="activity-hud toggle-red" style="border-radius: 50%; height: 15pt; width: 15pt;"></div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div>Ground spd</div>
+                                <div class="speed_big" style="font-size: 3em;"><span class="ph_gspd"></div>
+                                <div>AirSPD diff</div>
+                                <div class="speed_big" style="font-size: 3em;"><span class="ph_wind"></div>
+                            </div>
+                            <div class="col-4">
+                                <div>Indicated airspeed</div>
+                                <div class="speed_big" style="font-weight: 600;"><span class="ph_aspd"></div>
+                                <div>km/h</div>
+                            </div>
+                            <div class="col-4">
+                                <div>Airspeed error</div>
+                                <div class="speed_big speed_ok"><span class="ph_deltaspd"></div>
+                                <div>km/h</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <span id="attitude"></span>
+                            <span id="airspeed"></span>
+                            <span id="heading"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<script>
+
+    var options = {
+    	size : 250,				// Sets the size in pixels of the indicator (square)
+    	showBox : false,			// Sets the visibility of the box behind the instruments
+    	showScrews: true,		// Sets the visibility of the four screws around the instruments
+    	airspeed: 10,			// Air speed in knots for an air speed indicator
+    	roll : 15,				// Roll angle in degrees for an attitude indicator
+    	pitch : 5,				// Pitch angle in degrees for an attitude indicator
+    	off_flag: false,			// Off flag for an attitude indicator
+    	altitude: 0,			// Altitude in feets for an altimeter indicator
+    	pressure: 30,			// Pressure in inHg for an altimeter indicator
+    	turn: 0,				// Turn direction for turn coordinator
+    	slip: 0,				// Slip ball position for turn coordinator (0 to 1; 0.5 is middle)
+    	heading: 0,				// Heading angle in degrees for an heading indicator
+    	beaconone: 0, 			// Angle of first beacon on the heading indicator
+    	beacononeshow: false,	// Sets the visibility of the first beacon on the heading indicator
+    	beacontwo: 0, 			// Angle of second beacon on heading indicator
+    	beacontwoshow: false,	// Sets the visibility of the second beacon on the heading indicator
+    	vario: 0,				// Variometer in 1000 feets/min for the variometer indicator
+    	img_directory : '/static/gauges/img/'	// The directory where the images are saved to
+    }
+    var indicator_attitude = $.flightIndicator('#attitude', 'attitude', options);
+    var indicator_airspeed = $.flightIndicator('#airspeed', 'airspeed', options);
+    var indicator_heading = $.flightIndicator('#heading', 'heading', options);
+    var pi = 3.141569;
+    var ros = new ROSLIB.Ros({
+        url : 'ws://192.168.1.220:9090'
+    });
+
+    // AXIS PITCH
+    // -------------
+
+    /*
+    {…}​airspeed: 0​
+    altitude: 448.9934997558594​
+    climb: 0.001242583035491407​groundspeed: 0.0037190942093729973​header: Object { stamp: {…}, frame_id: "", seq: 67333 }​heading: 54​throttle: 0​<prototype>: Object { … } dashboard:175:7
+
+    */
+
+    // airspeed, attitude, climb, groundspeed, heading, throttle
+    var listener = new ROSLIB.Topic({
+      ros : ros,
+      name : '/mavros/vfr_hud',
+      messageType : 'mavros_msgs/VFR_HUD'
+    });
+
+    listener.subscribe(function(message) {
+      //console.log(message);
+      $('.activity-hud').toggleClass("toggle-green");
+      $('.ph_heading').text((message.heading).toFixed(2));
+      $('.ph_gspd').text((message.groundspeed).toFixed(2) || 999);
+      $('.ph_aspd').text((message.airspeed).toFixed(2));
+      $('.ph_wind').text((message.airspeed - message.groundspeed).toFixed(2));
+      indicator_heading.setHeading((message.heading).toFixed(2));
+      indicator_airspeed.setAirSpeed((message.airspeed).toFixed(2));
+    });
+/*
+    var listener = new ROSLIB.Topic({
+      ros : ros,
+      name : '/mavros/imu/data',
+      messageType : 'sensor_msgs/Imu'
+    });
+
+    listener.subscribe(function(message) {
+        var q = message.orientation;
+        var test = q.x*q.y + q.z*q.w;
+        var sqx = q.x*q.x;
+        var sqy = q.y*q.y;
+        var sqz = q.z*q.z;
+        var yaw = Math.atan2(2.0*q.y*q.w - 2.0*q.x*q.z , 1.0 - 2.0*sqy - 2.0*sqz)*45; // yaw
+        var pitch = Math.asin(2.0*q.x*q.y - 2.0*q.z*q.w); // pitch
+        var roll = Math.atan2(2.0*q.x*q.w - 2.0*q.y*q.z , 1.0 - 2.0*sqx - 2.0*sqz)/(pi/2)*90; // roll
+
+        //console.log(yaw, pitch, roll);
+
+      $('.ph_pitch').text(pitch.toFixed(3));
+      $('.ph_roll').text(roll.toFixed(3));
+      $('.ph_yaw').text(yaw.toFixed(3));
+     // $('.ph_gspd').text(message.groundspeed);
+     // $('.ph_aspd').text(message.airspeed);
+     // $('.ph_wind').text(message.airspeed - message.groundspeed);
+      indicator_attitude.setPitch(pitch.toFixed(4));
+      indicator_attitude.setRoll(roll.toFixed(4));
+  });*/
+
+
+</script>
+
+
+</body>
+</html>

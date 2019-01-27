@@ -1,0 +1,6 @@
+[submodule "scripts/dashboard/static/gauges"]
+	path = scripts/dashboard/static/gauges
+	url = git@github.com:uw-ray/Skyhawk-Flight-Instruments.git
+[submodule "scripts/dashboard/static/roslibjs"]
+	path = scripts/dashboard/static/roslibjs
+	url = git@github.com:RobotWebTools/roslibjs.git
