@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="/static/jquery/dist/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
 
     <script src="/static/gauges/js/d3.min.js"></script>
     <script src="/static/gauges/js/jquery.flightindicators.js"></script>
@@ -167,7 +167,7 @@
     var indicator_heading = $.flightIndicator('#heading', 'heading', options);
     var pi = 3.141569;
     var ros = new ROSLIB.Ros({
-        url : 'ws://192.168.1.220:9090'
+        url : 'ws://10.1.1.152:9090'
     });
 
     // AXIS PITCH
@@ -197,10 +197,10 @@
       indicator_heading.setHeading((message.heading).toFixed(2));
       indicator_airspeed.setAirSpeed((message.airspeed).toFixed(2));
     });
-/*
+
     var listener = new ROSLIB.Topic({
       ros : ros,
-      name : '/mavros/imu/data',
+      name : '/mavros/imu/data  ',
       messageType : 'sensor_msgs/Imu'
     });
 
@@ -224,7 +224,7 @@
      // $('.ph_wind').text(message.airspeed - message.groundspeed);
       indicator_attitude.setPitch(pitch.toFixed(4));
       indicator_attitude.setRoll(roll.toFixed(4));
-  });*/
+  });
 
 
 </script>
