@@ -1,3 +1,4 @@
+$fn = 100;
 include <Parameters.scad>
 
 box_width = 185;
@@ -195,7 +196,7 @@ module back(){
 
 
 //translate([0, 0, -10-10])
-front();
+//front();
 //translate([0, 0, 10+10])
-//rotate([180, 0, 0])
-//back();
+//rotate([180, 0, ])
+back();

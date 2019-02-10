@@ -18,5 +18,21 @@ FactPanel {
             text: "Prerotator terminate"
             onClicked: controller.sendCommand(32002, 0, 0, 0, 0, 0, 0, 0, 0, 0)
         }
+        QGCButton {
+            text: "RR manual"
+            onClicked: controller.sendCommand(176, 209, 2, 0, 0, 0, 0, 0, 0, 0)
+        }
+        QGCButton {
+            text: "RR Stabilized"
+            onClicked: controller.sendCommand(176, 209, 1, 0, 0, 0, 0, 0, 0, 0)
+        }
+        QGCButton {
+            text: "RR manual"
+            onClicked: controller.sendCommand(176, 209, 24, 0, 0, 0, 0, 0, 0, 0)
+        }
+        QGCButton {
+            text: "RR Stabilized"
+            onClicked: controller.sendCommand(176, 209, 25, 0, 0, 0, 0, 0, 0, 0)
+        }
     }
 }
