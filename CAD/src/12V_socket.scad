@@ -1,3 +1,5 @@
+include <Parameters.scad>
+
 //podlozka
 //velikost zakladny 
 delka = 100;
@@ -32,9 +34,9 @@ difference(){
     
 //prohluben pro matky
     translate([61.5, 28.5, 0])
-     cylinder(h = vyskamatky, d = matkapolomer, $fn=6);
+     cylinder(h = vyskamatky, d = M3_nut_diameter, $fn=6);
     translate([38.5, 28.5, 0])
-     cylinder(h = vyskamatky, d = matkapolomer, $fn=6);
+     cylinder(h = vyskamatky, d = M3_nut_diameter, $fn=6);
 //privodni drat
     translate([50, 67.5, 1])
     rotate([0,0,90]){  
