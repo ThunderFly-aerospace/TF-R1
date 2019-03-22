@@ -20,9 +20,9 @@ cubewidth=15;
 cubeheight=10;
 
 //privodni drat
-chanelwidth=6;
+chanelwidth=8;
 chanellenght=45;
-chanelheight=3;
+chanelheight=4;
 
 difference(){
     translate([50, 45, height/2])
