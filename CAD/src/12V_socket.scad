@@ -1,44 +1,50 @@
 include <Parameters.scad>
 
 //podlozka
+
 //velikost zakladny 
-delka = 100;
-sirka = 90;
-vyskazakladny = 10;
+lenght = 100;
+width = 90;
+height = 7;
 
 //dira pro srouby
-polomer=3.3;
-vyskadiry=10;
+lenghtscrew=10;
+indentationscrewhole=28.5;
+indentationcubehole=32.5;
+pitchleft= 38.5;
+pitchright=61.5;
 
-//parametry prohlubne pro matky
-matkapolomer =5.7;
-vyskamatky=5;
+//vyrez pro zapojeni
+cubelenght=25;
+cubewidth=15;
+cubeheight=10;
 
-// privod dratu
-privodsirka=2;
-privoddelka=45;
-privodvyska=2;
+//privodni drat
+chanelwidth=6;
+chanellenght=45;
+chanelheight=3;
 
 difference(){
-    translate([50, 45, 5])
-    cube(size = [delka,sirka,vyskazakladny], center = true);
+    translate([50, 45, height/2])
+    cube(size = [lenght,width,height], center = true);
 //pruchod pro srouby
-    translate([38.5, 28.5, 0])
-        cylinder(h = vyskadiry, d = polomer, $fn=100);
+    translate([pitchleft, indentationscrewhole, 0])
+        cylinder(h = lenghtscrew, d = M3_screw_diameter, $fn=100);
     
-    translate([61.5, 28.5, 0])
-        cylinder(h = vyskadiry, d = polomer, $fn=100);
+    translate([pitchright, indentationscrewhole, 0])
+        cylinder(h = lenghtscrew, d = M3_screw_diameter, $fn=100);
 //vyrez pro pripojeni
-    translate([50, 32.5, 5])
-    cube(size = [15,25,10], center = true);
+    translate([50, indentationcubehole, 5])
+        cube(size = [cubewidth,cubelenght,cubeheight], center = true);
     
 //prohluben pro matky
-    translate([61.5, 28.5, 0])
-     cylinder(h = vyskamatky, d = M3_nut_diameter, $fn=6);
-    translate([38.5, 28.5, 0])
-     cylinder(h = vyskamatky, d = M3_nut_diameter, $fn=6);
+    translate([pitchright, indentationscrewhole, 0])
+     cylinder(h = M3_nut_height*1.5, d = M3_nut_diameter, $fn=6);
+    translate([pitchleft, indentationscrewhole, 0])
+     cylinder(h = M3_nut_height*1.5, d = M3_nut_diameter, $fn=6);
 //privodni drat
     translate([50, 67.5, 1])
-    rotate([0,0,90]){  
-      cube(size=[privoddelka,privodsirka, privodvyska], center = true); }
+        rotate([0,0,90]){  
+            cube(size=[chanellenght,chanelwidth, chanelheight], center = true);
+                        }
 };
