@@ -3,8 +3,8 @@ include <Parameters.scad>
 //podlozka
 
 //velikost zakladny 
-length = 100;
-width = 90;
+length = 50;
+width = 50;
 height = 7;
 
 //dira pro srouby
@@ -25,7 +25,7 @@ chanellength=45;
 chanelheight=4;
 
 difference(){
-    translate([50, 45, height/2])
+    translate([50, width/2, height/2])
     cube(size = [length,width,height], center = true);
 //pruchod pro srouby
     translate([pitchleft, indentationscrewhole, 0])
