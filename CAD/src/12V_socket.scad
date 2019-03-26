@@ -42,7 +42,7 @@ difference(){
     translate([pitchleft, indentationscrewhole, 0])
      cylinder(h = M3_nut_height*1.5, d = M3_nut_diameter, $fn=6);
 //privodni drat
-    translate([50, 67.5, 1])
+    translate([50, 67.5, chanelheight])
         rotate([0,0,90]){
             cube(size=[chanellength,chanelwidth, chanelheight], center = true);
                         }
