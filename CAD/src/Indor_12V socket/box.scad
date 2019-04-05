@@ -1,5 +1,4 @@
 //include  <Parameters.scad>;
-//upravit velikost vyrezu, zapustit matky do dna, vkladani matek z venku, uprava pro tisk bez podpor
 
 //velikost boxu
 boxlength = 150;
@@ -51,6 +50,7 @@ difference(){
   //vyrezem pro zasuvku 12V
   translate([0,0,-boxheight/2+thicknesswall])
   cube(size=[cutoutheight,cutoutwidth,thicknesswall+5],center=true);
+
   //generovani otvoru pro pripojeni 12 V zasuvky
   screwhole();
   mirror(v=[1,0,0]){
@@ -85,25 +85,6 @@ mirror(v=[0,1,0]){
   nutbox();
 }
 
-//generovani vika
-difference(){
-  translate([0,0,posunutivika+(M3_screw_head_height+4)/2])
-  cube(size=[boxlength-thicknesswall-1,boxwidth-thicknesswall-1,M3_screw_head_height+4],center=true);
-  //zapusteni hlavicek sroubu do vika
-  pruchozisezapusti();
-  mirror(v=[1,0,0]){
-    pruchozisezapusti();
-  }
-  mirror(v=[1,0,0]){
-    mirror(v=[0,1,0]){
-      pruchozisezapusti();
-    }
-  }
-  mirror(v=[0,1,0]){
-    pruchozisezapusti();
-  }
-}
-
 //generovani ukotveni privodnich kabelu
 translate(([-boxlength/2+thicknesswall+sleevewidth/4,0,-7]))
 rotate([0,0,90]){
@@ -114,11 +95,11 @@ rotate([180,180,90]){
   anchorwiring();
 }
 
-//module ulozeni matek pro viko
+//module ulozeni matek pro pripevneni vika
 module nutbox (){
   difference(){
     hull(){
-      translate([boxlength/2-thicknesswall-embeddingdiameter/4,boxwidth/2-thicknesswall-embeddingdiameter/4,boxheight/2-embeddingheight])
+      translate([boxlength/2-thicknesswall-embeddingdiameter/4,boxwidth/2-thicknesswall-embeddingdiameter/4-2,boxheight/2-embeddingheight])
       cube(size=[embeddingdiameter,embeddingdiameter,embeddingheight],center=true);
       //podpora pro tisk
       translate([boxlength/2-thicknesswall+embeddingdiameter/3,boxwidth/2-thicknesswall+embeddingdiameter/3,boxheight/2-embeddingheight*2])
@@ -132,7 +113,7 @@ module nutbox (){
     cylinder(h = M3_nut_height*1.2, d = M3_nut_diameter, $fn=6);
     //vyrez pro vlozeni matky
     translate([boxlength/2-thicknesswall/2-1,boxwidth/2-thicknesswall-embeddingdiameter/4,boxheight/2-embeddingheight-M3_nut_height/2.5])
-    cube(size=[4,M3_nut_diameter*0.9,M3_nut_height*1.2],center=true);
+    cube(size=[6,M3_nut_diameter*0.9,M3_nut_height*1.2],center=true);
   }
 }
 
@@ -146,8 +127,8 @@ module screwhole(){
   cylinder(h=M3_nut_height,d=M3_nut_diameter*1.1,$fn=6);
 
   //otvor pro vlozeni matky z vnejsi strany
-  translate([boxlength/2-1,boxwidth/2-thicknesswall-embeddingdiameter/4,boxheight/2-embeddingheight-M3_nut_height/2.5])
-  cube(size=[6,M3_nut_diameter*0.9,M3_nut_height*1.2],center=true);
+  translate([boxlength/2-3,boxwidth/2-thicknesswall-embeddingdiameter/4,boxheight/2-embeddingheight-M3_nut_height/2.5])
+  cube(size=[9,M3_nut_diameter*0.9,M3_nut_height*1.2],center=true);
 }
 
 //modul-ukoveni privodnich dratu
@@ -193,39 +174,4 @@ module anchorwiring(){
       cylinder(h=M3_nut_height+8,d=M3_nut_diameter,$fn=6,center=true);
     }
   }
-
-
-  //horni pritlacna deska pro ukotveni vodicu
-  difference(){
-    translate([0,0,12])
-    cube(size=[sleevelength,sleevewidth,sleeveheightupper],center=true);
-    translate([10,0,12-sleeveheightupper/2])
-    rotate([0,0,90])
-    {
-      cylinder(h=sleeveheightupper*4,d=M3_screw_diameter,$fn=100);
-    }
-    translate([-10,0,12-sleeveheightupper/2])
-    rotate([0,0,90])
-    {
-      cylinder(h=sleeveheightupper*4,d=M3_screw_diameter,$fn=100);
-    }
-
-    // vyrez pro ulozeni vodicu
-    translate([-3,0,12-sleevewidth/4])
-    rotate([90,0,0]){
-      cylinder(h=sleevewidth,d=wirediameter,$fn=100,center=true);
-    }
-    translate([3,0,12-sleevewidth/4])
-    rotate([90,0,0]){
-      cylinder(h=sleevewidth,d=wirediameter,$fn=100,center=true);
-    }
-  }
-}
-
-//modul pro diry ve viku
-module pruchozisezapusti(){
-  translate([boxlength/2-thicknesswall-embeddingdiameter/4,boxwidth/2-thicknesswall-embeddingdiameter/4,posunutivika])
-  cylinder(h=M3_screw_head_height+4,d=M3_screw_diameter,$fn=100);
-  translate([boxlength/2-thicknesswall-embeddingdiameter/4,boxwidth/2-thicknesswall-embeddingdiameter/4,posunutivika])
-  cylinder(h=M3_screw_head_height,d=M3_screw_diameter+2,$fn=100);
 }
