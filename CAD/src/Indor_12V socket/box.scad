@@ -97,24 +97,24 @@ rotate([180,180,90]){
 
 //module ulozeni matek pro pripevneni vika
 module nutbox (){
-  difference(){
-    hull(){
-      translate([boxlength/2-thicknesswall-embeddingdiameter/4,boxwidth/2-thicknesswall-embeddingdiameter/4-2,boxheight/2-embeddingheight])
-      cube(size=[embeddingdiameter,embeddingdiameter,embeddingheight],center=true);
-      //podpora pro tisk
-      translate([boxlength/2-thicknesswall+embeddingdiameter/3,boxwidth/2-thicknesswall+embeddingdiameter/3,boxheight/2-embeddingheight*2])
-      cylinder(h=15,d=1,fn=4, center=true);
+    difference(){
+        hull(){
+            translate([boxlength/2-thicknesswall-embeddingdiameter/4,boxwidth/2-thicknesswall-embeddingdiameter/4-2,boxheight/2-embeddingheight])
+                cube(size=[embeddingdiameter,embeddingdiameter,embeddingheight],center=true);
+            //podpora pro tisk
+            translate([boxlength/2 - thicknesswall + embeddingdiameter/3, boxwidth/2 - thicknesswall + embeddingdiameter/3, boxheight/2 - embeddingheight*2])
+                cylinder(h = 15, d = 1, $fn = 4, center=true);
+        }
+        //pruchozi dira pro sroub
+        translate([boxlength/2-thicknesswall-embeddingdiameter/4,boxwidth/2-thicknesswall-embeddingdiameter/4,boxheight/2-embeddingheight-8])
+            cylinder(h = 17, d = M3_screw_diameter, $fn=100);
+        //ulozeni matky sestihran
+        translate([boxlength/2-thicknesswall-embeddingdiameter/4,boxwidth/2-thicknesswall-embeddingdiameter/4,boxheight/2-embeddingheight-M3_nut_height])
+            cylinder(h = M3_nut_height*1.2, d = M3_nut_diameter, $fn=6);
+        //vyrez pro vlozeni matky
+        translate([boxlength/2-thicknesswall/2-1,boxwidth/2-thicknesswall-embeddingdiameter/4,boxheight/2-embeddingheight-M3_nut_height/2.5])
+            cube(size=[6,M3_nut_diameter*0.9,M3_nut_height*1.2],center=true);
     }
-    //pruchozi dira pro sroub
-    translate([boxlength/2-thicknesswall-embeddingdiameter/4,boxwidth/2-thicknesswall-embeddingdiameter/4,boxheight/2-embeddingheight-8])
-    cylinder(h = 17, d = M3_screw_diameter, $fn=100);
-    //ulozeni matky sestihran
-    translate([boxlength/2-thicknesswall-embeddingdiameter/4,boxwidth/2-thicknesswall-embeddingdiameter/4,boxheight/2-embeddingheight-M3_nut_height])
-    cylinder(h = M3_nut_height*1.2, d = M3_nut_diameter, $fn=6);
-    //vyrez pro vlozeni matky
-    translate([boxlength/2-thicknesswall/2-1,boxwidth/2-thicknesswall-embeddingdiameter/4,boxheight/2-embeddingheight-M3_nut_height/2.5])
-    cube(size=[6,M3_nut_diameter*0.9,M3_nut_height*1.2],center=true);
-  }
 }
 
 //module pro diry pro pripojeni 12 V
