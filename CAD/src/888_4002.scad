@@ -11,7 +11,7 @@ bearing_diameter=10;
 bearing_ball_height=9-1;
 bottom_height=3;
 hole_pozition=4;//pozice diry pro pripevneni vytisku k pistu
-insert_nut_connecting_pozition = connecting_height-hole_pozition-M6_screw_diameter/2+bottom_height;
+insert_nut_connecting_pozition = connecting_height-hole_pozition-M5_screw_diameter/2+bottom_height;
 
 difference(){
     //cast ktera se pripevni na pist
@@ -31,7 +31,7 @@ difference(){
     //vyrez pro pripevneni na pist
     rotate([90,0,0]){
         translate([0,insert_nut_connecting_pozition,0])
-            cylinder(h=connecting_diameter,d=M6_screw_diameter,$fn=100,center=true);
+            cylinder(h=connecting_diameter,d=M5_screw_diameter,$fn=100,center=true);
     }
 }
 //zkoseni dna
@@ -41,7 +41,7 @@ difference(){
             cylinder(h=0.1,d=connecting_diameter,$fn=100);
         cylinder(h=0.1,d=bearing_diameter,$fn=100);
     }
-    cylinder(h=bottom_height+1,d=M5_screw_diameter+0.25,$fn=100);
+    cylinder(h=bottom_height+1,d=M5_screw_diameter,$fn=100);
 }
 
 //cast ktera prochazi loziskem
@@ -52,5 +52,5 @@ difference() {
 
     //vnitrni povrch
     translate([0,0,-bearing_ball_height])
-        cylinder(h=bearing_ball_height,d=M5_screw_diameter+0.25,$fn=100);
+        cylinder(h=bearing_ball_height,d=M5_screw_diameter,$fn=100);
 }
