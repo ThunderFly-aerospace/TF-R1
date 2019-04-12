@@ -402,6 +402,21 @@ bearing_efsm_17_n = M6_screw_diameter;
 bearing_efsm_17_a1 = 10;
 bearing_efsm_17_B = 17; // ball height
 
+//limcove lozisko
+bearing_EFOM_10_L=26; //celkova sirka zakladny
+bearing_EFOM_10_d1=9.9;//diametr otvoru real=10 mm
+bearing_EFOM_10_dB=22;//diametr vystupku pro ulozeni lozika
+bearing_EFOM_10_H=52;//celková delka zakladny
+bearing_EFOM_10_J=36;// hole pitch
+bearing_EFOM_10_A1=6.5;//vyska pouzdra
+bearing_EFOM_10_Ag=12;//celkova vyska
+bearing_EFOM_10_N1=5;//sirka otvoru pro sroub
+bearing_EFOM_10_N2=8;//delka otvoru pro sroub
+bearing_EFOM_10_m=36;//roztec der pro sroub
+bearing_EFOM_10_h=9;//vyska lozika
+
+
+
 
 // 20 KG servo parameters
 
