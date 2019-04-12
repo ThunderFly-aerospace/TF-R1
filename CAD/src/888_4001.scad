@@ -3,7 +3,7 @@
 
 include <../src/Parameters.scad>
 outer_diameter = 10;
-inner_diameter = M8_screw_diameter+0.25;//9+0,25
+inner_diameter = M8_screw_diameter;//+0.25;
 rim_outer_diameter=12;
 module 888_3016(draft = true){
 
