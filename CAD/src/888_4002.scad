@@ -1,18 +1,20 @@
 include <../src/Parameters.scad>
-// sroub pro propojení pistu k 3D vytisku je M6
+//sroub pro propojení pistu k 3D vytisku je M6
 //dno je tluste 3 mm
-//sroub pro prřipojení 3d vytisku k lozisku je M5, hlava soubu je ulozena  blize k pistu.
+//sroub pro prřipojení 3D vytisku k lozisku je M6, hlava soubu je ulozena  blize k pistu.
 
-connecting_height=13+M5_head_height;
+connecting_height=13+M6_head_height;
 connecting_diameter=20;
 piston_thread_height=13;
 piston_thread_diameter=16+0.2;
+piston_cutout=12.1;
 bearing_diameter=bearing_EFOM_10_d1;
 bearing_ball_height=bearing_EFOM_10_h-0.8;
 bottom_height=3;
-hole_pozition=4;//pozice diry pro pripevneni vytisku k pistu
-insert_nut_connecting_pozition = connecting_height-hole_pozition-M5_screw_diameter/2+bottom_height;
+hole_pozition=4;//posunuti diry pro pripevneni vytisku k pistu měřeno od širší části.
+insert_nut_connecting_pozition = connecting_height-hole_pozition-M6_screw_diameter/2+bottom_height;
 tolerance=global_clearance;
+blank_for_printing=0.2;
 
 difference(){
     //cast ktera se pripevni na pist
@@ -20,30 +22,41 @@ difference(){
         cylinder(h=connecting_height,d=connecting_diameter,$fn=100);
 
     //vyrez pro nasazeni
-    translate([0,0,M5_head_height+bottom_height])
-        cylinder(h=piston_thread_height,d=piston_thread_diameter,$fn=100);
+    difference(){
+         translate([0,0,bottom_height+M6_head_height])
+            cylinder(h=piston_thread_height,d=piston_thread_diameter,$fn=100);
 
-    //vyrez pro ulozeni hlavy sroubu M5
+        translate([0,piston_cutout/2+5/2,bottom_height+M6_head_height+piston_thread_height/2])
+            cube([piston_thread_diameter,5,piston_thread_height],center=true);
+        translate([0,-piston_cutout/2-5/2,bottom_height+M6_head_height+piston_thread_height/2])
+            cube([piston_thread_diameter,5,piston_thread_height],center=true);
+    }
+    //vyrez pro ulozeni hlavy sroubu M6 do dna
     translate([0,0,bottom_height])
-        cylinder(h=M5_head_height,d=M5_head_diameter,$fn=6);
+        cylinder(h=M6_head_height,d=M6_head_diameter,$fn=6);
 
-    cylinder(h=bottom_height,d=M5_screw_diameter,$fn=100);
+    //pruchod pro sroub
+    cylinder(h=bottom_height,d=M6_screw_diameter,$fn=100);
 
-    //vyrez pro pripevneni na pist
+    //vyrez pro pripevneni na pist pomoci sroubu
     rotate([90,0,0]){
         translate([0,insert_nut_connecting_pozition,0])
-            cylinder(h=connecting_diameter,d=M5_screw_diameter,$fn=100,center=true);
+            cylinder(h=connecting_diameter,d=M6_screw_diameter,$fn=100,center=true);
     }
 }
+//zaslepka pro tisk
+translate([0,0,bottom_height+M6_head_height])
+    cylinder(h=blank_for_printing,d=connecting_diameter);
+
 //zkoseni dna
 difference(){
     hull(){
         translate([0,0,bottom_height])
             cylinder(h=0.1,d=connecting_diameter,$fn=100);
-
-        cylinder(h=0.1,d=bearing_diameter,$fn=100);
+            
+        cylinder(h=0.1,d=bearing_diameter+2,$fn=100);
     }
-    cylinder(h=bottom_height+1,d=M5_screw_diameter,$fn=100);
+    cylinder(h=bottom_height+1,d=M6_screw_diameter,$fn=100);
 }
 
 //cast ktera prochazi loziskem
@@ -54,5 +67,5 @@ difference() {
 
     //vnitrni povrch
     translate([0,0,-bearing_ball_height])
-        cylinder(h=bearing_ball_height,d=M5_screw_diameter,$fn=100);
+        cylinder(h=bearing_ball_height,d=M6_screw_diameter,$fn=100);
 }
