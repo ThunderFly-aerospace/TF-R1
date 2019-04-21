@@ -1,4 +1,4 @@
-include <Parameters.scad>
+include <../parameters.scad>
 $fn=90;
 switch_diameter = 58;
 switch_mounting_screws_distance = (31+43.5)/2;

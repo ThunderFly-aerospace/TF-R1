@@ -3,8 +3,8 @@
 // June 2015
 // commercial use prohibited
 
- use <shortcuts.scad>  // see: http://www.thingiverse.com/thing:644830
- use <naca4.scad>
+ use <lib/shortcuts.scad>  // see: http://www.thingiverse.com/thing:644830
+ use <lib/naca4.scad>
  
 place_in_rect(110, 70) // arange that stuff in a grid
 {

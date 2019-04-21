@@ -1,4 +1,4 @@
-include <Parameters.scad>
+include <../parameters.scad>
 
 //podlozka
 
