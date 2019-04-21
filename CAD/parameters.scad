@@ -52,7 +52,7 @@ M10_nut_diameter = 25.5;
 M10_nut_pocket = 22.3;
 
 //Screw diameter for M8 [mm]
-M8_screw_diameter = 8 + 1;
+M8_screw_diameter = 8.6;
 M8_head_height = 8;
 M8_head_diameter = 13.5;
 M8_nut_height = 7.5;
@@ -401,6 +401,21 @@ bearing_efsm_17_ag = 18;
 bearing_efsm_17_n = M6_screw_diameter;
 bearing_efsm_17_a1 = 10;
 bearing_efsm_17_B = 17; // ball height
+
+//limcove lozisko
+bearing_EFOM_10_L=26; //celkova sirka zakladny
+bearing_EFOM_10_d1=10.3;//diametr otvoru real=10 mm
+bearing_EFOM_10_dB=22;//diametr vystupku pro ulozeni lozika
+bearing_EFOM_10_H=52;//celková delka zakladny
+bearing_EFOM_10_J=36;// hole pitch
+bearing_EFOM_10_A1=6.5;//vyska pouzdra
+bearing_EFOM_10_Ag=12;//celkova vyska
+bearing_EFOM_10_N1=5;//sirka otvoru pro sroub
+bearing_EFOM_10_N2=8;//delka otvoru pro sroub
+bearing_EFOM_10_m=36;//roztec der pro sroub
+bearing_EFOM_10_h=9;//vyska lozika
+
+
 
 
 // 20 KG servo parameters
