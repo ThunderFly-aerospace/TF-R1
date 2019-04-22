@@ -3,7 +3,7 @@ use <../lib/ALU_profile_holder.scad>
 
 
 module 888_5001() {
-    wall_thickness = 2;
+    wall_thickness = ALU_profile_holder_wall_thickness;
     
     difference() {
         ALU_profile_holder();

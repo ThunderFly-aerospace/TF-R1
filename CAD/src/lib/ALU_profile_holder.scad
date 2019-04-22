@@ -3,7 +3,7 @@ include <../../parameters.scad>
 
 
 module ALU_profile_holder() {
-    wall_thickness = 2;
+    wall_thickness = ALU_profile_holder_wall_thickness;
     
     //díry na přišroubování k Al profilům
     module screws_holes(diameter) {

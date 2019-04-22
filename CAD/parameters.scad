@@ -522,3 +522,9 @@ strain_gauge_screw_distance = 10;
 
 //ALU profile
 ALU_profile_width = 30;
+ALU_profile_holder_wall_thickness = 2;
+
+//ložisko
+bearing_outer_diameter = 22;
+bearing_inner_diameter = 8;
+bearing_height = 7;
