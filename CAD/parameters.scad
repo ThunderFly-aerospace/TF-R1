@@ -519,3 +519,6 @@ servo_20kg_height = 42;  //výška otvoru pro servo
 strain_gauge_width = 12.7;
 strain_gauge_length = 75.1;
 strain_gauge_screw_distance = 10;
+
+//ALU profile
+ALU_profile_width = 30;
