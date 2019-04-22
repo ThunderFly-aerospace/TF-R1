@@ -2,7 +2,7 @@ include <../../parameters.scad>
 
 
 
-module ALU_profile_holder() {
+module ALU_profile_holder_side() {
     wall_thickness = ALU_profile_holder_wall_thickness;
     
     //díry na přišroubování k Al profilům
@@ -31,4 +31,4 @@ module ALU_profile_holder() {
     }
 }
 
-ALU_profile_holder();
+ALU_profile_holder_side();
