@@ -514,3 +514,8 @@ g3_9_height = 145;
 
 servo_20kg_width = 21;   //šřka otvoru pro servo
 servo_20kg_height = 42;  //výška otvoru pro servo
+
+//strain gauge
+strain_gauge_width = 12.7;
+strain_gauge_length = 75.1;
+strain_gauge_screw_distance = 10;
