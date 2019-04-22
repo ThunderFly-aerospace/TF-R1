@@ -36,6 +36,7 @@ coupling_wall_thickness_undercarriage = tube_for_undercarriage_outer_diameter/3;
 thickness_between_tubes_undercarriage = tube_for_undercarriage_outer_diameter/10;
 
 608_bearing_outer_diameter = 22.3;
+608_bearing_inner_diameter = 16;
 608_bearing_thickness = 7.1;
 
 
@@ -524,7 +525,3 @@ strain_gauge_screw_distance = 10;
 ALU_profile_width = 30;
 ALU_profile_holder_wall_thickness = 2;
 
-//ložisko
-bearing_outer_diameter = 22;
-bearing_inner_diameter = 8;
-bearing_height = 7;
