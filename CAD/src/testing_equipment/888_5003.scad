@@ -20,7 +20,7 @@ module 888_5003() {
             
             translate([-0.1, 20, (strain_gauge_screw_distance+20)/2])
                     rotate([0, 90, 0])
-                        #cylinder(d=bearing_inner_diameter+8, h=bearing_height+2, $fn=60);
+                        cylinder(d=bearing_inner_diameter+8, h=bearing_height+2, $fn=60);
         }
     }
     
