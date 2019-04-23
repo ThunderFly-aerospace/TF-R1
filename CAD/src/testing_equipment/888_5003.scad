@@ -26,8 +26,8 @@ module 888_5003() {
     
     bearing_holder();
     translate([ALU_profile_width+ALU_profile_holder_wall_thickness*2, 0, 0])
-    mirror([1, 0, 0])
-        bearing_holder();
+        mirror([1, 0, 0])
+            bearing_holder();
 }
 
 888_5003();

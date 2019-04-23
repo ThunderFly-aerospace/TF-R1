@@ -15,7 +15,7 @@ module 888_5002() {
                 }
                 translate([0, strain_gauge_screw_distance/2+5, 15])
                     rotate([0, 90, 0])
-                        cylinder(d=M5_screw_diameter, h=(strain_gauge_width-joint_width)/2, $fn=20);
+                        cylinder(d = M5_screw_diameter, h=(strain_gauge_width-joint_width)/2, $fn=20);
             }
         }
     }

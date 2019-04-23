@@ -20,13 +20,13 @@ module ALU_profile_holder_side() {
         cube([ALU_profile_width+wall_thickness*2, ALU_profile_width+wall_thickness*2, strain_gauge_screw_distance+20]);
 
         translate([wall_thickness, 0, 0])
-        cube([ALU_profile_width, ALU_profile_width, strain_gauge_screw_distance+20]);
+            cube([ALU_profile_width, ALU_profile_width, strain_gauge_screw_distance+20]);
         
         translate([wall_thickness*0.5, ALU_profile_width/2, 0]) {
+            screws_holes(M6_screw_diameter);
+            translate([ALU_profile_width+wall_thickness, 0, 0]) {
                 screws_holes(M6_screw_diameter);
-                translate([ALU_profile_width+wall_thickness, 0, 0]) {
-                    screws_holes(M6_screw_diameter);
-                }
+            }
         }
     }
 }
