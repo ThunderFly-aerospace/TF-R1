@@ -8,11 +8,11 @@ module ALU_profile_holder_top() {
     module screw_holes() {
         translate([wall_thickness/2, 8, ALU_profile_width/2]) {
             rotate([0, 90, 0]) 
-                cylinder(d=M5_screw_diameter, h=wall_thickness*2, center=true, $fn=20);
+                cylinder(d=M6_screw_diameter, h=wall_thickness*2, center=true, $fn=20);
             
             translate([0, 15, 0])
                 rotate([0, 90, 0])
-                cylinder(d=M5_screw_diameter, h=wall_thickness*2, center=true, $fn=20);
+                cylinder(d=M6_screw_diameter, h=wall_thickness*2, center=true, $fn=20);
             
         }
     }
