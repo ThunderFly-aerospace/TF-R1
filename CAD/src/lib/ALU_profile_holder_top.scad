@@ -19,8 +19,8 @@ module ALU_profile_holder_top() {
     
     difference() {
         cube([ALU_profile_width+wall_thickness*2, ALU_profile_width+wall_thickness*2, ALU_profile_width]);
-        translate([wall_thickness, 0, 0])
-            cube([ALU_profile_width, ALU_profile_width, ALU_profile_width]);
+        translate([wall_thickness, -0.1, -0.1])
+            cube([ALU_profile_width, ALU_profile_width+0.1, ALU_profile_width+0.2]);
         
         screw_holes();
         translate([ALU_profile_width+wall_thickness, 0, 0])
