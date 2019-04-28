@@ -33,7 +33,7 @@ difference(){
     }
     //vyrez pro ulozeni hlavy sroubu M6 do dna
     translate([0,0,bottom_height])
-        cylinder(h=M6_head_height,d=M6_head_diameter,$fn=6);
+        cylinder(h=M6_head_height,d=M6_nut_diameter,$fn=6);
 
     //pruchod pro sroub
     cylinder(h=bottom_height,d=M6_screw_diameter,$fn=100);
@@ -53,7 +53,7 @@ difference(){
     hull(){
         translate([0,0,bottom_height])
             cylinder(h=0.1,d=connecting_diameter,$fn=100);
-            
+
         cylinder(h=0.1,d=bearing_diameter+2,$fn=100);
     }
     cylinder(h=bottom_height+1,d=M6_screw_diameter,$fn=100);
