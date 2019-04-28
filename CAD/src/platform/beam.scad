@@ -33,17 +33,7 @@ pad_bearing_height = M5_head_height+10;
 difference(){
     //spojovaci cast mezi loziskem a pripojovaci casti
     translate([0,-leg_width/2,0])
-        cube([distance-35,leg_width,center_height]);
-
-    // vyřez pro vloženi sroubu pro pripojeni ke stredove casti
-    translate([0,15,center_height])
-        rotate([0,90,0]){
-        cylinder(h=8,d=M4_screw_head_diameter,$fn=draft?50:100);
-    }
-    translate([0,-15,center_height])
-        rotate([0,90,0]){
-        cylinder(h=8,d=M4_screw_head_diameter,$fn=draft?50:100);
-    }
+        cube([distance-35,leg_width,center_height/2]);
 }
 
 //pripojovací část
@@ -68,12 +58,12 @@ difference(){
     //naklon
     rotate([bearing_angle_side,bearing_angle_inner,0]){
         translate([distance+35-70,-leg_width/2,M5_head_height+2])
-            cube([70+2,leg_width/2,center_height]);
+            cube([70+2,leg_width/2+5,center_height]);
     }
     //naklon
     rotate([-bearing_angle_side,bearing_angle_inner,0]){
         translate([distance-70+35,0,M5_head_height+2])
-            cube([70+2,leg_width/2,center_height]);
+            cube([70+2,leg_width/2+5,center_height]);
     }
     connecting_bearing_hole();
 }
@@ -85,12 +75,12 @@ module connecting_bearing_hole(y){
         translate([distance-18,pitch_bearing,0])
             cylinder(h=center_height,d=M5_screw_diameter,$fn=draft?50:100);
         translate([distance-18,pitch_bearing,-1])
-            cylinder(h=M5_head_height+1,d=M5_head_diameter,$fn=draft?50:100);
+            cylinder(h=M5_head_height,d=M5_head_diameter,$fn=6);
 
         translate([distance+18,pitch_bearing,0])
             cylinder(h=center_height,d=M5_screw_diameter,$fn=draft?50:100);
         translate([distance+18,pitch_bearing,-3])
-            cylinder(h=M5_head_height,d=M5_head_diameter,$fn=draft?50:100);
+            cylinder(h=M5_head_height,d=M5_head_diameter,$fn=6);
 
     }
     //druha strana
@@ -98,10 +88,10 @@ module connecting_bearing_hole(y){
         translate([distance-18,-pitch_bearing,0])
             cylinder(h=center_height,d=M5_screw_diameter,$fn=draft?50:100);
         translate([distance-18,-pitch_bearing,-1])
-            cylinder(h=M5_head_height,d=M5_head_diameter,$fn=draft?50:100);
+            cylinder(h=M5_head_height,d=M5_head_diameter,$fn=6);
 
         translate([distance+18,-pitch_bearing,-3])
-            cylinder(h=M5_head_height,d=M5_head_diameter,$fn=draft?50:100);
+            cylinder(h=M5_head_height,d=M5_head_diameter,$fn=6);
         translate([distance+18,-pitch_bearing,0])
             cylinder(h=center_height,d=M5_screw_diameter,$fn=draft?50:100);
     }
