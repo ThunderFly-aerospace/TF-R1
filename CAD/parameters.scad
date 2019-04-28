@@ -1,4 +1,3 @@
-﻿
 //Main tube diameter - hole [mm]
 main_tube_outer_diameter = 25.4;
 main_tube_inner_diameter = 23.05;
