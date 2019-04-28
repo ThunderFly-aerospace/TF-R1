@@ -6,7 +6,7 @@ module 888_5005() {
     wall_thickness = ALU_profile_holder_wall_thickness;
     
     translate([0, -ALU_profile_width-ALU_profile_holder_wall_thickness*2, 0])
-        ALU_profile_holder_side();
+        ALU_profile_holder_side(ALU_profile_width);
     
     module holder() {
         difference() {
