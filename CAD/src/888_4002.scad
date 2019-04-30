@@ -4,17 +4,16 @@ include <../parameters.scad>
 //sroub pro prřipojení 3D vytisku k lozisku je M6, hlava soubu je ulozena  blize k pistu.
 
 connecting_height=13+M6_head_height;
+//velikost vnejsiho prumeru soucastky
 connecting_diameter=20;
 piston_thread_height=13;
 piston_thread_diameter=16+0.2;
+//seriznuti valce
 piston_cutout=12.1;
-bearing_diameter=bearing_EFOM_10_d1;
 bearing_ball_height=bearing_EFOM_10_h-0.8;
 bottom_height=3;
 hole_pozition=4;//posunuti diry pro pripevneni vytisku k pistu měřeno od širší části.
 insert_nut_connecting_pozition = connecting_height-hole_pozition-M6_screw_diameter/2+bottom_height;
-tolerance=global_clearance;
-blank_for_printing=0.2;
 
 difference(){
     //cast ktera se pripevni na pist
@@ -46,7 +45,7 @@ difference(){
 }
 //zaslepka pro tisk
 translate([0,0,bottom_height+M6_head_height])
-    cylinder(h=blank_for_printing,d=connecting_diameter);
+    cylinder(h=layer_thickness,d=connecting_diameter);
 
 //zkoseni dna
 difference(){
@@ -54,7 +53,7 @@ difference(){
         translate([0,0,bottom_height])
             cylinder(h=0.1,d=connecting_diameter,$fn=100);
 
-        cylinder(h=0.1,d=bearing_diameter+2,$fn=100);
+        cylinder(h=0.1,d=bearing_EFOM_10_d1+2,$fn=100);
     }
     cylinder(h=bottom_height+1,d=M6_screw_diameter,$fn=100);
 }
@@ -63,7 +62,7 @@ difference(){
 difference() {
     //vnejsi povrch
     translate([0,0,-bearing_ball_height])
-        cylinder(h=bearing_ball_height,d=bearing_diameter,$fn=100);
+        cylinder(h=bearing_ball_height,d=bearing_EFOM_10_d1,$fn=100);
 
     //vnitrni povrch
     translate([0,0,-bearing_ball_height])

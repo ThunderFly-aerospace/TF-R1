@@ -1,4 +1,4 @@
-
+include <../../parameters.scad>
 draft = false;
 center_diameter = 140;
 center_height = 10;
@@ -7,24 +7,6 @@ leg_length = 5;
 leg_width = 60;
 pitch_bearing = 15;
 bearing_angle=5;
-
-//Screw diameter and nut for M6 [mm]
-M6_screw_diameter=6.5;
-M6_head_diameter = 10+0.5;
-M6_head_height = 6;
-M6_nut_height = 4.9;
-M6_nut_diameter = 11.8;
-M6_nut_pocket = 10.4;
-
-//Screw diameter and nut for M4 [mm]
-M4_screw_diameter=4.5;
-M4_screw_head_height = 4;
-M4_nut_height = 3.2;
-M4_nut_diameter = 8.4;
-M4_nut_pocket = 7.5;
-
-g3_0_srcew_dist = 55;
-
 
  //tvorba noh
 module connectingpart(){
