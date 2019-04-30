@@ -1,12 +1,12 @@
-include <../parameters.scad>
+﻿include <../parameters.scad>
 //sroub pro propojení pistu k 3D vytisku je M6
 //dno je tluste 3 mm
 //sroub pro prřipojení 3D vytisku k lozisku je M6, hlava soubu je ulozena  blize k pistu.
 
-connecting_height=13+M6_head_height;
+piston_thread_height=13+1;
+connecting_height=piston_thread_height+M6_head_height;
 //velikost vnejsiho prumeru soucastky
 connecting_diameter=20;
-piston_thread_height=13;
 piston_thread_diameter=16+0.2;
 //seriznuti valce
 piston_cutout=12.1;
@@ -44,7 +44,7 @@ difference(){
     }
 }
 //zaslepka pro tisk
-translate([0,0,bottom_height+M6_head_height])
+translate([0,0,bottom_height])
     cylinder(h=layer_thickness,d=connecting_diameter);
 
 //zkoseni dna
