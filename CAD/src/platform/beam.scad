@@ -3,16 +3,17 @@ draft = false;
 center_diameter = 140;
 center_height = 10;
 connecting_module_length = 17;
-distance_bearing = 180;
-distance = distance_bearing-center_diameter/2 - connecting_module_length*2 -7;
+//distance_bearing = 180;
+
 leg_width = 60;
 pitch_bearing = 15;
-bearing_angle_side=5;
-bearing_angle_inner=-2;
+//bearing_angle_side=5;
+//bearing_angle_inner=-2;
 pad_bearing_height = M5_head_height+10;
 
-module beam(distance_bearing,bearing_angle_side,bearing_angle_inner){
+module beam_module(distance_bearing,bearing_angle_side,bearing_angle_inner){
     //spojovaci cast mezi loziskem a pripojovaci casti
+    distance = distance_bearing-center_diameter/2 - connecting_module_length*2 -7;
     translate([0,-leg_width/2,0])
         cube([distance-35,leg_width,center_height/2]);
 
@@ -82,4 +83,4 @@ module beam(distance_bearing,bearing_angle_side,bearing_angle_inner){
         }
     }
 }
-beam(180,5,-2);
+beam_module(180,5,-2);
