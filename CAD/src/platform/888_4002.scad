@@ -1,4 +1,4 @@
-﻿include <../parameters.scad>
+include <../../parameters.scad>
 //sroub pro propojení pistu k 3D vytisku je M6
 //dno je tluste 3 mm
 //sroub pro prřipojení 3D vytisku k lozisku je M6, hlava soubu je ulozena  blize k pistu.

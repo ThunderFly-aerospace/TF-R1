@@ -1,7 +1,7 @@
 //prumer loziska 10 mm
 //pocinato se sroubem M8 o min delce 20 mm
 
-include <../parameters.scad>
+include <../../parameters.scad>
 inner_diameter = M8_screw_diameter;
 rim_outer_diameter=12;
 rim_height = 2;
