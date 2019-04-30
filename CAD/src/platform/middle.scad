@@ -8,10 +8,9 @@ leg_width = 60;
 pitch_bearing = 15;
 bearing_angle=5;
 
- //tvorba noh
+ //tvorba připojovacích částí ramen
 module connectingpart(){
      for(y=[0:120:240]){
-         //připojovací část
          rotate([0,0,y]){
              translate([center_diameter/2-7,-leg_width/2,0])
                  cube([connecting_module_length,leg_width,center_height*2]);
@@ -19,13 +18,14 @@ module connectingpart(){
      }
  }
 
-//vytvareni der a stredu
+//vytvareni otvoru pro pripojeni ramen a stredu
 difference(){
     union()
     {
         cylinder(h=center_height,d=center_diameter,$fn=draft?50:100);
         connectingpart();
     }
+//generovani otvoru pro pripojeni ramen
     for(y=[0:120:240]){
         rotate([0,90,y]){
             translate([-center_height,-15,center_diameter/2-7])
@@ -46,8 +46,7 @@ difference(){
 
     mounting_hole();
 }
-
-//diry pro pripevneni na strop auta
+//otvory pro pripevneni na strop auta
 module mounting_hole()
 {
     for (i = [0:3]){
