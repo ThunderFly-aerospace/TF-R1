@@ -11,7 +11,7 @@ module 888_5001() {
     difference() {
         union() {
             translate([0, -ALU_profile_width-wall_thickness*2, 0])
-                ALU_profile_holder_side(strain_gauge_screw_distance+20);
+                ALU_profile_holder_side(strain_gauge_screw_distance+30);
             
             translate([(ALU_profile_width+wall_thickness*2)/2-strain_gauge_width/2, 0, 0])
                 cube([strain_gauge_width, m4_head_height, strain_gauge_screw_distance+20]);
