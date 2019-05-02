@@ -61,10 +61,10 @@ difference(){
 //cast ktera prochazi loziskem
 difference() {
     //vnejsi povrch
-    translate([0,0,-bearing_ball_height])
-        cylinder(h=bearing_ball_height,d=bearing_EFOM_10_d1,$fn=100);
+    translate([0,0,-((bearing_EFOM_10_h/2)-0.5)])
+        cylinder(h=(bearing_EFOM_10_h/2)-0.5,d=bearing_EFOM_10_d1,$fn=100);
 
     //vnitrni povrch
-    translate([0,0,-bearing_ball_height])
-        cylinder(h=bearing_ball_height,d=M6_screw_diameter,$fn=100);
+    translate([0,0,-((bearing_EFOM_10_h/2)-0.5)])
+        cylinder(h=(bearing_EFOM_10_h/2)-0.5,d=M6_screw_diameter,$fn=100);
 }
