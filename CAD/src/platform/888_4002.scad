@@ -41,11 +41,17 @@ difference(){
     rotate([90,0,0]){
         translate([0,insert_nut_connecting_pozition,0])
             cylinder(h=connecting_diameter,d=M6_screw_diameter,$fn=100,center=true);
+    //zplosteni pro zaseknuti matky pri montazi
+        translate([0,insert_nut_connecting_pozition,connecting_diameter/2-M6_nut_height/2])
+            cylinder(h=M6_nut_height/2,d=M6_nut_diameter,$fn=6);
+        translate([0,insert_nut_connecting_pozition,-connecting_diameter/2])
+            cylinder(h=M6_nut_height/2,d=M6_nut_diameter,$fn=6);
     }
 }
 //zaslepka pro tisk
 translate([0,0,bottom_height])
     cylinder(h=layer_thickness,d=connecting_diameter);
+
 
 //zkoseni dna
 difference(){
