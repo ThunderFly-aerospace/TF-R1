@@ -1,4 +1,4 @@
-include <../../parameters.scad>
+﻿include <../../parameters.scad>
 draft = false;
 center_diameter = 140;
 center_height = 10;
@@ -82,4 +82,4 @@ module beam_module(distance_bearing,bearing_angle_side,bearing_angle_inner,min_p
         }
     }
 }
-beam_module(180,5,-2);
+beam_module(180,5,-2,3);
