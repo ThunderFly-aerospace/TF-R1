@@ -67,6 +67,8 @@ M6_head_height = 6;
 M6_nut_height = 4.9;
 M6_nut_diameter = 11.8;
 M6_nut_pocket = 10.4;
+M6_square_nut_height = 3;
+M6_square_nut_diameter = 10;
 
 //Screw diameter and nut for M5 [mm]
 M5_screw_diameter=5.5;
@@ -522,5 +524,6 @@ strain_gauge_length = 75.1;
 strain_gauge_screw_distance = 10;
 
 //ALU profile
-ALU_profile_width = 30;
-ALU_profile_holder_wall_thickness = 2;
+ALU_profile_width = 30.1;
+ALU_profile_holder_wall_thickness = 3;
+ALU_profile_groove_width = 8;

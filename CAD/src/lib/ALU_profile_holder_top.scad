@@ -2,15 +2,15 @@ include <../../parameters.scad>
 
 
 
-module ALU_profile_holder_top() {
+module ALU_profile_holder_top(deep=35) {
     wall_thickness = ALU_profile_holder_wall_thickness;
     
     module screw_holes() {
         translate([wall_thickness/2, 8, ALU_profile_width/2]) {
             rotate([0, 90, 0]) 
                 cylinder(d=M5_screw_diameter, h=wall_thickness*2, center=true, $fn=20);
-            
-            translate([0, 15, 0])
+        }
+        translate([wall_thickness/2, deep-10, ALU_profile_width/2]) {
                 rotate([0, 90, 0])
                 cylinder(d=M5_screw_diameter, h=wall_thickness*2, center=true, $fn=20);
             
@@ -18,9 +18,9 @@ module ALU_profile_holder_top() {
     }
     
     difference() {
-        cube([ALU_profile_width+wall_thickness*2, ALU_profile_width+wall_thickness*2, ALU_profile_width]);
+        cube([ALU_profile_width+wall_thickness*2, deep+wall_thickness*2, ALU_profile_width]);
         translate([wall_thickness, -0.1, -0.1])
-            cube([ALU_profile_width, ALU_profile_width+0.1, ALU_profile_width+0.2]);
+            cube([ALU_profile_width, deep+0.1, ALU_profile_width+0.2]);
         
         screw_holes();
         translate([ALU_profile_width+wall_thickness, 0, 0])
@@ -28,4 +28,4 @@ module ALU_profile_holder_top() {
     }
 }
 
-ALU_profile_holder_top();
+ALU_profile_holder_top(35);
