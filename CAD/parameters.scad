@@ -527,3 +527,13 @@ strain_gauge_screw_distance = 10;
 ALU_profile_width = 30.1;
 ALU_profile_holder_wall_thickness = 3;
 ALU_profile_groove_width = 8;
+
+//pillow block bearing
+//https://www.igus.eu/product/372
+//Part no. KSTM-08
+KSTM08_screws_distance = 33;         //m
+KSTM08_screws_holes_diameter = 4.5;  //d2
+KSTM08_flange_thickness = 6;         //h3
+KSTM08_case_width = 9;               //C1
+KSTM08_case_length = 47;             //a
+KSTM08_ball_width = 12;              //B
