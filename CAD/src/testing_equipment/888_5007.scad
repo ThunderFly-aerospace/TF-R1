@@ -22,10 +22,18 @@ module 888_5007() {
                 translate([0, 0, M4_nut_height*3/2+ALU_profile_holder_wall_thickness*2])
                     cube([KSTM08_case_length, KSTM08_case_width*1.5, M4_nut_height*3], center=true);
             }
-            translate([KSTM08_screws_distance/2, 0, M4_nut_height*3/2+ALU_profile_holder_wall_thickness*2])
-                cylinder(d=M4_screw_diameter, h=M4_nut_height*3+0.1, $fn=20, center=true);
-            translate([-KSTM08_screws_distance/2, 0, M4_nut_height*3/2+ALU_profile_holder_wall_thickness*2])
-                cylinder(d=M4_screw_diameter, h=M4_nut_height*3+0.1, $fn=20, center=true);
+            difference() {
+                translate([KSTM08_screws_distance/2, 0, M4_nut_height*3/2+ALU_profile_holder_wall_thickness*2])
+                    cylinder(d=M4_screw_diameter, h=M4_nut_height*3+0.1, $fn=20, center=true);
+                translate([KSTM08_screws_distance/2, 0, M4_nut_height*3/2+ALU_profile_holder_wall_thickness*2+M4_nut_height/2])
+                    cylinder(d=M4_screw_diameter, h=1, $fn=20);
+            }
+            difference() {
+                translate([-KSTM08_screws_distance/2, 0, M4_nut_height*3/2+ALU_profile_holder_wall_thickness*2])
+                    cylinder(d=M4_screw_diameter, h=M4_nut_height*3+0.1, $fn=20, center=true);
+                translate([-KSTM08_screws_distance/2, 0, M4_nut_height*3/2+ALU_profile_holder_wall_thickness*2+M4_nut_height/2])
+                    cylinder(d=M4_screw_diameter, h=1, $fn=20);
+            }
 
             translate([KSTM08_screws_distance/2, 0, M4_nut_height*3/2+ALU_profile_holder_wall_thickness*2])
                 nut_hole();
