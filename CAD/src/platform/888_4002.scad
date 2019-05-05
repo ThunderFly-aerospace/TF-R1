@@ -12,8 +12,8 @@ piston_thread_diameter=16+0.2;
 piston_cutout=12.1;
 bearing_ball_height=bearing_EFOM_10_h-0.8;
 bottom_height=3;
-hole_pozition=4;//posunuti diry pro pripevneni vytisku k pistu měřeno od širší části.
-insert_nut_connecting_pozition = connecting_height-hole_pozition-M6_screw_diameter/2+bottom_height;
+hole_pozition=7;//posunuti diry pro pripevneni vytisku k pistu měřeno od širší části.
+insert_nut_connecting_pozition = connecting_height-hole_pozition+bottom_height;
 
 difference(){
     //cast ktera se pripevni na pist
