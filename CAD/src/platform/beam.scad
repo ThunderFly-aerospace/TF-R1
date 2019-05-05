@@ -1,4 +1,4 @@
-﻿include <../../parameters.scad>
+include <../../parameters.scad>
 draft = false;
 center_diameter = 140;
 center_height = 10;
