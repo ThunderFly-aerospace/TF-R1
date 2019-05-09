@@ -3,8 +3,8 @@ use <../lib/ALU_joint_B.scad>
 use <../lib/rotor_joint.scad>
 
 module 888_5008() {
-    translate([0, 0, -M4_nut_height*3/2])
-    rotor_joint();
+    translate([0, 0, -12/2])
+    rotor_joint(1, 12);
 
     difference() {
         translate([0, 0, 35])
