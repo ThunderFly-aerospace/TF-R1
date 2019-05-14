@@ -10,42 +10,15 @@ bearing_angle=5;
 
  //tvorba připojovacích částí ramen
 module connectingpart(){
-     for(y=[0:120:240]){
-         rotate([0,0,y]){
-             translate([center_diameter/2-7,-leg_width/2,0])
-                 cube([connecting_module_length,leg_width,center_height*2]);
-         }
-     }
- }
-
-//vytvareni otvoru pro pripojeni ramen a stredu
-difference(){
-    union()
-    {
-        cylinder(h=center_height,d=center_diameter,$fn=draft?50:100);
-        connectingpart();
-    }
-//generovani otvoru pro pripojeni ramen
     for(y=[0:120:240]){
-        rotate([0,90,y]){
-            translate([-center_height,-15,center_diameter/2-7])
-                cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
-            translate([-center_height,-15,center_diameter/2+connecting_module_length/2+1])
-                cylinder(h=connecting_module_length*2,d=M4_screw_diameter,center=true,$fn=draft?50:100);
-            translate([-center_height,-15,center_diameter/2-7-M4_nut_height])
-                cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
-
-            translate([-center_height,+15,center_diameter/2-7])
-                cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
-            translate([-center_height,+15,center_diameter/2+connecting_module_length/2+1])
-                cylinder(h=connecting_module_length*2,d=M4_screw_diameter,center=true,$fn=draft?50:100);
-            translate([-center_height,15,center_diameter/2-7-M4_nut_height])
-                cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
+        rotate([0,0,y]){
+            translate([center_diameter/2-7,-leg_width/2,0])
+                cube([connecting_module_length,leg_width,center_height*2]);
         }
     }
-
-    mounting_hole();
 }
+
+
 //otvory pro pripevneni na strop auta
 module mounting_hole()
 {
@@ -59,6 +32,41 @@ module mounting_hole()
         rotate([0, 0, i*90])
             translate([g3_0_srcew_dist, 0, 30-18-5])
                 rotate([0,0,30])
-                    cylinder(h=20, d=M6_nut_diameter, $fn=6, $fn=6);
+                    cylinder(h=20, d=M6_nut_diameter, $fn=6);
     }
 }
+
+
+module 888_4004(){
+    //vytvareni otvoru pro pripojeni ramen a stredu
+    difference(){
+        union()
+        {
+            cylinder(h=center_height,d=center_diameter,$fn=draft?50:100);
+            connectingpart();
+        }
+
+    //generovani otvoru pro pripojeni ramen
+        for(y=[0:120:240]){
+            rotate([0,90,y]){
+                translate([-center_height,-15,center_diameter/2-7])
+                    cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
+                translate([-center_height,-15,center_diameter/2+connecting_module_length/2+1])
+                    cylinder(h=connecting_module_length*2,d=M4_screw_diameter,center=true,$fn=draft?50:100);
+                translate([-center_height,-15,center_diameter/2-7-M4_nut_height])
+                    cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
+
+                translate([-center_height,+15,center_diameter/2-7])
+                    cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
+                translate([-center_height,+15,center_diameter/2+connecting_module_length/2+1])
+                    cylinder(h=connecting_module_length*2,d=M4_screw_diameter,center=true,$fn=draft?50:100);
+                translate([-center_height,15,center_diameter/2-7-M4_nut_height])
+                    cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
+            }
+        }
+
+        mounting_hole();
+    }
+}
+
+888_4004();

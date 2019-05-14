@@ -11,7 +11,7 @@ pitch_bearing = 15;
 //bearing_angle_inner=-2;
 pad_bearing_height = M5_head_height+10;
 
-module beam_module(distance_bearing,bearing_angle_side,bearing_angle_inner,min_pad_bearing_height){
+module 888_4003(distance_bearing,bearing_angle_side,bearing_angle_inner,min_pad_bearing_height){
     //spojovaci cast mezi loziskem a pripojovaci casti
     distance = distance_bearing-center_diameter/2 - connecting_module_length*2 -7;
     translate([0,-leg_width/2,0])
@@ -82,4 +82,5 @@ module beam_module(distance_bearing,bearing_angle_side,bearing_angle_inner,min_p
         }
     }
 }
-beam_module(180,5,-2,3);
+
+888_4003(180,5,-2,3);
