@@ -63,7 +63,7 @@ module 888_4003(distance_bearing,bearing_angle_side,bearing_angle_inner,min_pad_
                 cylinder(h=M5_head_height+min_pad_bearing_height/2,d=M5_nut_diameter,$fn=6);
                 //zde upravit na základě prohlubně pro pripojovaci sroub z pistu
             translate([distance,pitch_bearing,M5_head_height+min_pad_bearing_height-6])
-                cylinder(h = 6, d = M6_nut_diameter+3,$fn=draft?50:100);
+                cylinder(h = 2*center_height, d = M6_nut_diameter+3,$fn=draft?50:100, center = true);
         }
         //druha strana
         rotate([bearing_angle_side,bearing_angle_inner,0]){
@@ -78,7 +78,7 @@ module 888_4003(distance_bearing,bearing_angle_side,bearing_angle_inner,min_pad_
                 cylinder(h=center_height*10,d=M5_screw_diameter,$fn=draft?50:100);
         //zde upravit na základě prohlubně pro pripojovaci sroub z pistu
             translate([distance,-pitch_bearing,M5_head_height+min_pad_bearing_height-6])
-                cylinder(h = 6, d = M6_nut_diameter+3,$fn=draft?50:100);
+                cylinder(h = 2*center_height, d = M6_nut_diameter+3,$fn=draft?50:100, center = true);
         }
     }
 }
