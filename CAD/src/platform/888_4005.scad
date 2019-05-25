@@ -39,22 +39,22 @@ module 888_4005(draft){
                 cylinder(h = 100, d = 8, $fn = 50);
 
         // srouby pri pripevneni pneumatickych valcu
-        for (i = [0:2]){
+       % for (i = [0:2]){
             rotate([0, 0, i*120])
-                translate([g3_0_srcew_dist, 0, -global_clearance])
+                translate([magnet_d * 1.5, 0, -global_clearance])
                     cylinder(h = 100, d = M6_screw_diameter, $fn = 50);
             rotate([0, 0, i*120])
-                translate([g3_0_srcew_dist, 0, 30-18-5])
+                translate([magnet_d * 1.5, 0, 30-18-5])
                     rotate([0,0,30])
-                        cylinder(h=20, d=M6_nut_diameter, $fn=6);
+                        cylinder(h=50, d=M6_nut_diameter, $fn=6);
         }
 
-        for (i = [0:2]){
+       % for (i = [0:2]){
             rotate([0, 0, i*120 + piston_mount_distance])
-                translate([g3_0_srcew_dist, 0, -global_clearance])
+                translate([magnet_d * 1.5, 0, -global_clearance])
                     cylinder(h = 100, d = M6_screw_diameter, $fn = 50);
             rotate([0, 0, i*120])
-                translate([g3_0_srcew_dist, 0, 30-18-5])
+                translate([magnet_d * 1.5, 0, 30-18-5])
                     rotate([0,0,30])
                         cylinder(h=20, d=M6_nut_diameter, $fn=6);
         }

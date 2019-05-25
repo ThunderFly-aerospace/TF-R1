@@ -1,10 +1,15 @@
 maximum_printable_size = 150;
 
-//Tube for undercarriage - rendered hole [mm]
-tube_for_undercarriage_outer_diameter = 10.6;
-tube_for_undercarriage_inner_diameter = 6;
 layer_thickness = 0.3;
 global_clearance = 0.5;
+
+platform_base_radius = 200; // Radius ukotvení válců spodní platformy
+platform_base_thickness = 20;
+platform_cilinder_medium_length = 250;  // délka pneumatického válce s pístem vysunutým do poloviny rozsahu
+platform_base_cilinder_spacing = 38;    //rozestupy spodního a horního ukotvení válců. 
+platform_top_cilinder_spacing = 30;
+platform_top_radius = 75;   // rádius horní základny (vdálenost od středu základny do středu kulového kloubu ke kterému je uchycen pneumatický válec)
+
 
 // screw length step - minimum difference in length between two types of screws
 basic_screw_length = 5;
