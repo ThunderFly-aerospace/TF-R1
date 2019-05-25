@@ -8,7 +8,7 @@ module 888_5003() {
     
     
     translate([5, 0, 0])
-    ALU_joint_A();
+    ALU_joint_A(ALU_profile_width+ALU_profile_holder_wall_thickness*2-10);
 }
 
 888_5003();
