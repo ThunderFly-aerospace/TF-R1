@@ -1,72 +1,69 @@
 include <../../parameters.scad>
-draft = false;
-center_diameter = 140;
-center_height = 10;
-connecting_module_length = 17;
-leg_length = 5;
-leg_width = 60;
-pitch_bearing = 15;
-bearing_angle=5;
+include <./calculations.scad>
+use <../lib/copyFunctions.scad>
+use <./888_4003.scad>
+use <./888_4005.scad>
+use <./888_4006.scad>
 
- //tvorba připojovacích částí ramen
-module connectingpart(){
-    for(y=[0:120:240]){
-        rotate([0,0,y]){
-            translate([center_diameter/2-7,-leg_width/2,0])
-                cube([connecting_module_length,leg_width,center_height*2]);
-        }
-    }
-}
+draft = true;
+$fn = draft ? 20 : 100;
 
-
-//otvory pro pripevneni na strop auta
-module mounting_hole()
+module round_base(draft = true)
 {
-    for (i = [0:3]){
-        rotate([0, 0, i*90])
-            translate([g3_0_srcew_dist, 0,0])
-                cylinder(h = 100, d = M6_screw_diameter, $fn = 50);
-        rotate([0, 0, i*90])
-            translate([g3_0_srcew_dist, 0,0])
-                cylinder(h=1, d1=M6_screw_diameter+2, d2=M6_screw_diameter, $fn=draft?50:100);
-        rotate([0, 0, i*90])
-            translate([g3_0_srcew_dist, 0, 30-18-5])
-                rotate([0,0,30])
-                    cylinder(h=20, d=M6_nut_diameter, $fn=6);
-    }
-}
-
-
-module 888_4004(){
-    //vytvareni otvoru pro pripojeni ramen a stredu
-    difference(){
-        union()
-        {
-            cylinder(h=center_height,d=center_diameter,$fn=draft?50:100);
-            connectingpart();
-        }
-
-    //generovani otvoru pro pripojeni ramen
-        for(y=[0:120:240]){
-            rotate([0,90,y]){
-                translate([-center_height,-15,center_diameter/2-7])
-                    cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
-                translate([-center_height,-15,center_diameter/2+connecting_module_length/2+1])
-                    cylinder(h=connecting_module_length*2,d=M4_screw_diameter,center=true,$fn=draft?50:100);
-                translate([-center_height,-15,center_diameter/2-7-M4_nut_height])
-                    cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
-
-                translate([-center_height,+15,center_diameter/2-7])
-                    cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
-                translate([-center_height,+15,center_diameter/2+connecting_module_length/2+1])
-                    cylinder(h=connecting_module_length*2,d=M4_screw_diameter,center=true,$fn=draft?50:100);
-                translate([-center_height,15,center_diameter/2-7-M4_nut_height])
-                    cylinder(h=M4_nut_height,d=M4_nut_diameter,$fn=6);
+    difference()
+    {
+        translate([0, 0, -platform_height/2])
+            difference()
+            {
+                cylinder(h = platform_height/2, d = platform_top_diameter);
+                // M6 bolts between round base and car roof platform
+                for (i = [1:4])
+                {
+                    rotate([0, 0, i*90 + 15])
+                    {
+                        translate([g3_0_srcew_dist, 0, 2 * M6_nut_height])
+                            cylinder(h = platform_height, d = M6_nut_diameter, $fn = 6);
+                        translate([g3_0_srcew_dist, 0, 0])
+                            cylinder(h = platform_height, d = M6_screw_diameter);
+                    }
+                }
             }
-        }
-
-        mounting_hole();
+        connecting_holes();
     }
 }
 
-888_4004();
+difference()
+{
+    // If not draft -> move to print position.
+    if (!draft)
+        translate([0, 0, platform_height/2])
+            rotate([0, 0, 0])
+            {
+                round_base(false);
+            }
+    else
+    {
+        round_base();
+    }
+    // Cut-out cube
+    if (draft)
+        translate([0, 0, -platform_height/4])
+            cube([platform_base_diameter*2, platform_base_diameter*2, platform_height]);
+}
+    // Draft only - top platform visualisation
+    #if (draft)
+        translate([0, 0, vertical_distance_of_plaftorms - platform_height/2])
+            cylinder(h = platform_height, d = platform_top_diameter);
+    // Draft only - piston holder visualisation
+    #if (draft)
+        rotate_copy([0, 0, 120])
+            rotate_copy([0, 0, 120])
+                beam();
+    // Draft only - piston holder visualisation
+    #if (draft)
+        rotate_copy([0, 0, 120])
+            rotate_copy([0, 0, 120])
+                piston_holder();
+    // Draft only - piston and bearing visualisation
+    #if (draft)
+        pistons_and_bearing();

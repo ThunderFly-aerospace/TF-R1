@@ -3,12 +3,12 @@ maximum_printable_size = 150;
 layer_thickness = 0.3;
 global_clearance = 0.5;
 
-platform_base_radius = 200; // Radius ukotvení válců spodní platformy
+platform_base_diameter = 400; // Průměr ukotvení válců spodní platformy
 platform_base_thickness = 20;
-platform_cilinder_medium_length = 250;  // délka pneumatického válce s pístem vysunutým do poloviny rozsahu
-platform_base_cilinder_spacing = 38;    //rozestupy spodního a horního ukotvení válců. 
-platform_top_cilinder_spacing = 30;
-platform_top_radius = 75;   // rádius horní základny (vdálenost od středu základny do středu kulového kloubu ke kterému je uchycen pneumatický válec)
+platform_cylinder_medium_length = 250;  // délka pneumatického válce s pístem vysunutým do poloviny rozsahu
+platform_base_cylinder_spacing = 38;    //rozestupy spodního a horního ukotvení válců.
+platform_top_cylinder_spacing = 30;
+platform_top_diameter = 150;   // Průměr horní základny (vdálenost od středu základny do středu kulového kloubu ke kterému je uchycen pneumatický válec)
 
 
 // screw length step - minimum difference in length between two types of screws
@@ -16,7 +16,7 @@ basic_screw_length = 5;
 
 
 //Screw diameter and nut for M10 [mm]
-M10_screw_diameter=10.4;
+M10_screw_diameter = 10.4;
 M10_head_height = 10;
 M10_head_diameter = 16+0.5;
 M10_nut_height = 10.5;
