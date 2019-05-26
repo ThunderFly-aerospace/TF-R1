@@ -41,6 +41,9 @@ module piston_base_cut_out(draft = true)
                         cube([platform_base_cylinder_spacing*3,
                               platform_base_cylinder_spacing*3,
                               platform_cylinder_medium_length/3]);
+                    // Piston bolt
+                    translate([0, 0, -bearing_length])
+                        cylinder(h = 2*bearing_length, d = M6_nut_diameter + 3);
                     // M4 Bearing bolts
                     mirror_copy([0, 1, 0])
                     {
@@ -74,7 +77,7 @@ module piston_holder(draft = true)
                       platform_height]);
         piston_base_cut_out();
         connecting_holes();
-        cylinder(h = platform_height, d = platform_base_diameter);
+        cylinder(h = platform_height, d = platform_base_diameter - piston_holder_size/2);
     }
 }
 
