@@ -123,8 +123,13 @@ bearing_EFOM_10_N2=8;//delka otvoru pro sroub
 bearing_EFOM_10_m=36;//roztec der pro sroub
 bearing_EFOM_10_h=9;//vyska lozika
 
-// 20 KG servo parameters
 
+608_bearing_outer_diameter = 22.3;
+608_bearing_inner_diameter = 16;
+608_bearing_thickness = 7.1;
+
+
+// 20 KG servo parameters
 
 servo_20kg_axis_offset = 9.375; // jak je osa mimo stredu
 servo_20kg_body_x = 42;
