@@ -8,43 +8,43 @@ use <./888_4005.scad>
 draft = true;
 $fn = draft ? 20 : 100;
 
-module M8x60(draft = true)
+module M4x35(draft = true)
 {
     // bolt
-    cylinder(h = 60 + M8_head_height + 10, d = M8_screw_diameter);
+    cylinder(h = 35 + 2*M4_nut_height, d = M4_screw_diameter);
     // head with pocket
-    translate([0, 0, -platform_base_diameter/2])
-        cylinder(h = platform_base_diameter/2 + M8_head_height, d = M8_head_diameter);
+    translate([0, 0, -70/2])
+        cylinder(h = 70/2 + M4_nut_height, d = M4_nut_diameter);
     // nut
-    translate([0, 0, 60 + M8_head_height - M8_nut_height - global_clearance])
-        cylinder(h = M8_nut_height + global_clearance, d = M8_nut_diameter, $fn=6);
+    translate([0, 0, 35 + M4_nut_height - M4_nut_height - global_clearance])
+        cylinder(h = M4_nut_height + global_clearance, d = M4_nut_diameter, $fn=6);
     // nut pocket
-    translate([-platform_height, -M8_nut_pocket/2,
-               60 + M8_head_height - M8_nut_height - global_clearance])
-        cube([platform_height, M8_nut_pocket, M8_nut_height + global_clearance]);
+    translate([-platform_height, -M4_nut_pocket/2,
+               35 + M4_nut_height - M4_nut_height - global_clearance])
+        cube([platform_height, M4_nut_pocket, M4_nut_height + global_clearance]);
 }
 
 module connecting_holes(draft = true)
 {
     for (i = [1:3])
     {
-        // M8x60 bolt between round base and beams
+        // M4x35 bolt between round base and beams
         rotate([0, 0, i*120])
-            translate([0,
-                        platform_top_diameter/2 - (60 + M8_head_height)/2,
-                        -platform_height/4])
-                rotate([90, 90, 180])
-                {
-                    M8x60();
-                }
-        // M8x60 bolt between beams and piston holders
+            mirror_copy()
+            translate([-platform_base_cylinder_spacing + M4_nut_diameter,
+                        platform_top_diameter/2 - (35 + M4_nut_height)/2,
+                        -2*M4_nut_height])
+                rotate([180 + acos((platform_height/2 - 1.5*M4_nut_diameter) / 35), 0, 0])
+                    M4x35();
+        // M4x35 bolt between beams and piston holders
         rotate([0, 0, i*120])
-            translate([0, platform_base_diameter/2,
-                       -platform_height/4])
-                rotate([90, 90, 0])
-                {
-                    M8x60();
-                }
+            mirror_copy()
+            translate([-platform_base_cylinder_spacing + M4_nut_diameter,
+                        platform_base_diameter/2 + bearing_length/2 - piston_holder_size
+                        -(sqrt(35*35 - pow(platform_height/2 - 1.5*M4_nut_diameter, 2)))/2,
+                        -2*M4_nut_height])
+                rotate([180 + acos((platform_height/2 - 1.5*M4_nut_diameter) / 35), 0, 0])
+                    M4x35();
     }
 }
 
