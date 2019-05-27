@@ -2,7 +2,7 @@
 
 ALU_profile(height=100, size=30);
 
-module ALU_profile(size=30, height=10, radius=1.5, step=0) {
+module ALU_profile(size=30, height=10, radius=1.5, step=0.5) {
 
 	linear_extrude(height=height) {
 		union() {

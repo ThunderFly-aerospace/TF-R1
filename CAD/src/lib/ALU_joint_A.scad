@@ -23,4 +23,4 @@ module ALU_joint_A(width) {
     }
 }
 
-ALU_joint_A();
+ALU_joint_A(20);

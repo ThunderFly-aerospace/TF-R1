@@ -47,7 +47,7 @@ module 888_5007() {
             ALU_profile_holder_top(height);
 
     translate([5, ALU_profile_width+4, 0])
-        ALU_joint_A();
+        ALU_joint_A(ALU_profile_width+ALU_profile_holder_wall_thickness*2-10);
 
     translate([0, ALU_profile_width, 0])
         cube([ALU_profile_width+ALU_profile_holder_wall_thickness*2, 4, height+ALU_profile_holder_wall_thickness*2]);

@@ -5,26 +5,19 @@ use <888_5002.scad>
 use <888_5003.scad>
 use <888_5004.scad>
 use <888_5005.scad>
+use <888_5010.scad>
+use <888_5011.scad>
 
-module joint() {
-    rotate([90, 0, 90])
-    translate([-ALU_profile_width/2-ALU_profile_holder_wall_thickness, ALU_profile_width/2+ALU_profile_holder_wall_thickness*2, -(608_bearing_outer_diameter+10)/2]) {
-        888_5003();
-        translate([0, 608_bearing_outer_diameter*2-7, (608_bearing_outer_diameter+10)/2-ALU_profile_width/2])
-            mirror([0, 1, 0])
-                888_5004();
-    }
-}
 module tenzometr() {
     translate([-strain_gauge_screw_distance/2-10, -ALU_profile_width/2-ALU_profile_holder_wall_thickness, ALU_profile_width/2+ALU_profile_holder_wall_thickness*2])
     rotate([90, 0, 90])
     color([1, 0, 0]) 888_5001();
 
 
-    translate([-strain_gauge_screw_distance/2-10, strain_gauge_width/-2, ALU_profile_width/2+7])
+    translate([-strain_gauge_screw_distance/2-10, strain_gauge_width/-2, ALU_profile_width/2+ALU_profile_holder_wall_thickness*2+3])
     color([0, 0, 1]) cube([strain_gauge_length, strain_gauge_width, strain_gauge_width]);
 
-    translate([(10+strain_gauge_length-strain_gauge_screw_distance*3)-strain_gauge_screw_distance/2-10, strain_gauge_width/2, ALU_profile_width/2+7+strain_gauge_width])
+    translate([(10+strain_gauge_length-strain_gauge_screw_distance*3)-strain_gauge_screw_distance/2-10, strain_gauge_width/2, ALU_profile_width/2+strain_gauge_width+ALU_profile_holder_wall_thickness*2+3])
     rotate([0, 0, -90])
     color([1, 0, 0]) 888_5002();
 }
@@ -33,41 +26,53 @@ module tenzometr_opak() {
     translate([-ALU_profile_width/2-ALU_profile_holder_wall_thickness, ALU_profile_width/2+ALU_profile_holder_wall_thickness*2, -ALU_profile_width/2])
     888_5005();
 }
+rotate([90, 0, 90])
+translate([-ALU_profile_width/2-ALU_profile_holder_wall_thickness-3, ALU_profile_holder_wall_thickness*2+ALU_profile_width/2, (608_bearing_outer_diameter+10)/-2])
+color([1, 0, 0]) 888_5010();
 
-translate([-ALU_profile_width/2, 0, 0])
+translate([-80, 0, 0])
 rotate([0, 90, 0])
-ALU_profile(size=ALU_profile_width, height=400);
+ALU_profile(height=200);
 
-translate([0, 0, ALU_profile_width/2])
-ALU_profile(height=230, size=ALU_profile_width);
-
-translate([200, 0, ALU_profile_width/2])
-ALU_profile(height=75, size=ALU_profile_width);
-
-translate([200, 0, 75+75.5])
-color([1, 0, 0]) mirror([0, 0, 1]) joint();
-
-translate([100, 0, 75+75.5])
+translate([-200, 0, -182-ALU_profile_width/2])
 rotate([0, 90, 0])
-ALU_profile(height=300, size=ALU_profile_width);
+ALU_profile(height=500);
 
-translate([300, 0, 75+75.5])
-color([1, 0, 0]) joint();
+translate([0, 0, -182])
+ALU_profile(height=150);
 
-translate([300, 0, 75+75.5*2-ALU_profile_width/2])
-ALU_profile(height=150, size=ALU_profile_width);
+translate([608_bearing_outer_diameter+12, 0, 65.5])
+ALU_profile(height=160);
 
-translate([320, 0, 0])
-tenzometr();
+translate([-160, 0, -182])
+ALU_profile(height=300);
 
-mirror([1, 0, 0])
-translate([0, 0, 230])
+translate([ALU_profile_width/-2, 0, ALU_profile_width/-2-5])
+rotate([90, 0, 90])
+translate([0, 0, 0])
+color([1, 0, 0]) 888_5011();
+
+translate([608_bearing_outer_diameter+12, 0, 0])
+rotate([90, 0, 90])
+translate([ALU_profile_width/-2-ALU_profile_holder_wall_thickness, ALU_profile_width/2+ALU_profile_holder_wall_thickness*2, 608_bearing_outer_diameter/-2-5])
+color([1, 0 ,0]) 888_5003();
+
+translate([608_bearing_outer_diameter+12, 0, 80])
+rotate([-90, 0, 90])
+translate([ALU_profile_width/-2-ALU_profile_holder_wall_thickness, ALU_profile_width/2+ALU_profile_holder_wall_thickness*2, -ALU_profile_width/2])
+color([1, 0, 0]) 888_5004();
+
+rotate([180, 0, 0])
+translate([105, 0, 0])
+color([1, 0, 0]) tenzometr_opak();
+
+translate([608_bearing_outer_diameter+12, 0, 125])
 rotate([0, -90, 0])
+color([1, 0, 0]) tenzometr_opak();
+
+translate([50, 0, -182-ALU_profile_width/2])
 tenzometr();
 
-translate([375, 0, 75+75.5])
-color([1, 0, 0]) mirror([0, 0, 1]) tenzometr_opak();
-
-
-translate([300, 0, (75+75.5*2-ALU_profile_width/2)+70])
-color([1, 0, 0]) rotate([0, -90, 0]) tenzometr_opak();
+translate([-160, 0, 75])
+rotate([180, -90, 0])
+tenzometr();
