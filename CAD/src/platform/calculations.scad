@@ -55,3 +55,34 @@ echo("Vertical angle of piston is ", vertical_piston_angle);
 vertical_distance_of_plaftorms = 
     sqrt(platform_cylinder_medium_length*platform_cylinder_medium_length - c*c);
 echo("Vertical distance of platforms is ",vertical_distance_of_plaftorms);
+
+module pistons_and_bearing(draft = true)
+{
+    rotate_copy([0, 0, 120])
+    rotate_copy([0, 0, 120])
+    mirror_copy()
+    rotate([0, 0, -piston_base_offset_angle])
+        translate([0, platform_base_diameter/2, 0])
+            rotate([90 - vertical_piston_angle, 0,
+                    horizontal_piston_angle])
+                union()
+                {
+                    cylinder(h = platform_cylinder_medium_length,
+                             d = 5);
+                    translate([0, 0, platform_cylinder_medium_length])
+                        rotate([90, -40, 300])
+                            {
+                            // Upper piston holder bolt
+                            cylinder(h = 50, d = M8_screw_diameter);
+                            cylinder(h = M8_washer_thickness*3, d = M8_washer_diameter);
+                            // Nut pocket in top platform
+                            translate([-M8_nut_pocket/2, -M8_nut_pocket/2, 10])
+                                    cube([M8_nut_pocket, 30,
+                                          M8_nut_height + global_clearance]);
+                            }
+                    translate([-bearing_width/2,
+                               -bearing_length/2, 0])
+                        cube([bearing_width, bearing_length,
+                              bearing_height]);
+                }
+}

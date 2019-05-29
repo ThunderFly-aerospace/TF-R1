@@ -8,26 +8,6 @@ use <./888_4006.scad>
 draft = true;
 $fn = draft ? 20 : 100;
 
-module pistons_and_bearing(draft = true)
-{
-    rotate_copy([0, 0, 120])
-    rotate_copy([0, 0, 120])
-    mirror_copy()
-    rotate([0, 0, -piston_base_offset_angle])
-        translate([0, platform_base_diameter/2, 0])
-            rotate([90 - vertical_piston_angle, 0,
-                    horizontal_piston_angle])
-                union()
-                {
-                    cylinder(h = platform_cylinder_medium_length,
-                             d = 20);
-                    translate([-bearing_width/2,
-                               -bearing_length/2, 0])
-                        cube([bearing_width, bearing_length,
-                              bearing_height]);
-                }
-}
-
 module piston_base_cut_out(draft = true)
 {
     mirror_copy()
