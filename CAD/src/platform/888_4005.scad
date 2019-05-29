@@ -45,7 +45,11 @@ module 888_4005(draft){
             rotate([0, 0, i*120])
                 translate([platform_top_diameter/2, 0, -global_clearance])
                     rotate([vertical_piston_angle , 0, horizontal_piston_angle + 90])
-                        cylinder(h = 100, d = M8_screw_diameter, $fn = 50);
+                    {
+                        cylinder(h = 100, d = M8_screw_diameter, $fn = 50, center = true);
+                        cylinder(h = M8_washer_thickness, d = M8_washer_diameter, $fn = 50, center = true);
+                    }
+
             rotate([0, 0, i*120])
                 translate([platform_top_diameter/2, 0, -global_clearance])
                     rotate([-vertical_piston_angle , 0, -horizontal_piston_angle])
@@ -56,7 +60,11 @@ module 888_4005(draft){
             rotate([0, 0, i*120 + fixing_distance])
                 translate([platform_top_diameter/2, 0, -global_clearance])
                     rotate([vertical_piston_angle , 0, -horizontal_piston_angle + 90])
-                        cylinder(h = 100, d = M8_screw_diameter, $fn = 50);
+                    {
+                        cylinder(h = 100, d = M8_screw_diameter, $fn = 50, center = true);
+                        cylinder(h = M8_washer_thickness, d = M8_washer_diameter, $fn = 50, center = true);
+                    }
+                    
             rotate([0, 0, i*120])
                 translate([platform_top_diameter/2, 0, -global_clearance])
                     rotate([vertical_piston_angle , 0, -horizontal_piston_angle])

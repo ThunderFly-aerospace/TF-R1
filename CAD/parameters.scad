@@ -30,6 +30,9 @@ M8_head_diameter = 13.5;
 M8_nut_height = 7.5;
 M8_nut_diameter = 14.4 + 0.5;
 M8_nut_pocket = 13 + 0.5;
+M8_washer_diameter = 16;
+M8_washer_thickness = 1.5;
+
 
 //Screw diameter and nut for M6 [mm]
 M6_screw_diameter=6.5;
