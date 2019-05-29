@@ -1,5 +1,6 @@
 use <../lib/naca4.scad>
 include <../../parameters.scad>
+include <./calculations.scad>
 draft = true;
 $fs =  draft ? 50 :100;
 
@@ -9,12 +10,13 @@ module 888_4005(draft){
     magnet_d = 80;
     cylinder_height = magnet_d/2;
     magnet_offset = 0;
-    piston_mount_distance = 20;
+    fixing_distance = 20; 
+
 
     difference(){
         union(){
             hull(){
-                cylinder( d1 = magnet_d * 1.8, d2 = magnet_d * 1.5, h = 20, $fn = draft?50:100);
+                cylinder( d1 = platform_top_diameter, d2 = platform_top_diameter - 10, h = 20, $fn = draft?50:100); // válec zkosit o úhel odpovídající správnému úhlu šroubu kulového kloubu
                 translate([magnet_offset,0, height - 5])
                     cylinder(d = magnet_d , h = 5, $fn=draft?50:100);
             }
@@ -41,22 +43,24 @@ module 888_4005(draft){
         // srouby pri pripevneni pneumatickych valcu
        % for (i = [0:2]){
             rotate([0, 0, i*120])
-                translate([magnet_d * 1.5, 0, -global_clearance])
-                    cylinder(h = 100, d = M6_screw_diameter, $fn = 50);
+                translate([platform_top_diameter/2, 0, -global_clearance])
+                    rotate([vertical_piston_angle , 0, horizontal_piston_angle + 90])
+                        cylinder(h = 100, d = M8_screw_diameter, $fn = 50);
             rotate([0, 0, i*120])
-                translate([magnet_d * 1.5, 0, 30-18-5])
-                    rotate([0,0,30])
-                        cylinder(h=50, d=M6_nut_diameter, $fn=6);
+                translate([platform_top_diameter/2, 0, -global_clearance])
+                    rotate([-vertical_piston_angle , 0, -horizontal_piston_angle])
+                        cube([M8_nut_height,M8_nut_pocket, M8_nut_pocket*3]);
         }
 
        % for (i = [0:2]){
-            rotate([0, 0, i*120 + piston_mount_distance])
-                translate([magnet_d * 1.5, 0, -global_clearance])
-                    cylinder(h = 100, d = M6_screw_diameter, $fn = 50);
+            rotate([0, 0, i*120 + fixing_distance])
+                translate([platform_top_diameter/2, 0, -global_clearance])
+                    rotate([vertical_piston_angle , 0, -horizontal_piston_angle + 90])
+                        cylinder(h = 100, d = M8_screw_diameter, $fn = 50);
             rotate([0, 0, i*120])
-                translate([magnet_d * 1.5, 0, 30-18-5])
-                    rotate([0,0,30])
-                        cylinder(h=20, d=M6_nut_diameter, $fn=6);
+                translate([platform_top_diameter/2, 0, -global_clearance])
+                    rotate([vertical_piston_angle , 0, -horizontal_piston_angle])
+                        cube([M8_nut_height,M8_nut_pocket, M8_nut_pocket*3]);
         }
     }
 }
