@@ -173,3 +173,14 @@ bearing_outer_diameter = 10.2;    // Rozměr B1 v nákresu s přídavkem na tole
 bearing_thickness = 4;        // Rozměr B2 v nákresu
 //bearing_shaft_length = 19.5;    // Rozměr B3 v nákresu, Originalni hodnota 19.5
 bearing_shaft_length = 20;    // Rozměr B3 v nákresu
+
+
+//parametry víčka s telemetrickou anténou
+S01_sila_materialu=1.2;
+S01_vyska_horni_zavit=10;
+S01_hloubka_zavitu=4;
+S01_prumer_vnitrni=50;
+LO_spodni_prumer=17.2;
+LO_vyska_bez_krytu=15;
+S01_tolerance_zavit=1.5;
+R01_vyska_prekryti_statoru=10;
