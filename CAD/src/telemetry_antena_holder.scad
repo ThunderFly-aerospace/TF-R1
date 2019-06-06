@@ -43,7 +43,7 @@ module WINDGAUGE01A_S01(draft = true)
             cylinder(h = S01_vyska_horni_zavit + 0.01, r = (S01_prumer_vnitrni/2 - S01_hloubka_zavitu/2- S01_sila_materialu));
         //otvor na ložisko s vodiči
         translate([0, 0, S01_sila_materialu/2])
-            cylinder(h = S01_sila_materialu + 0.01, r = 6, center = true);
+            cylinder(h = S01_sila_materialu + 0.01, r = 6.25, center = true);
         }
     }
 }
