@@ -95,10 +95,10 @@ module connecting_holes(draft = true)
         // M4x35 bolt between round base and beams
         rotate([0, 0, i*120])
             mirror_copy()
-            translate([-platform_base_cylinder_spacing + M4_nut_diameter,
+            translate([-platform_base_cylinder_spacing/2 + M4_nut_diameter,
                         platform_top_diameter/2 - (35 + M4_nut_height)/2,
-                        -2*M4_nut_height])
-                rotate([180 + acos((platform_height/2 - 1.5*M4_nut_diameter) / 35), 0, 0])
+                        -platform_height/2 + 1.5*M4_nut_diameter - 2*M4_nut_height])
+                rotate([225 + acos((platform_height/2 - 1.5*M4_nut_diameter) / 35), 0, 0])
                     bolt(4, 35);
         // M4x35 bolt between beams and piston holders
         rotate([0, 0, i*120])

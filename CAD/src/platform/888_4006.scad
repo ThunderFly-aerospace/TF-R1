@@ -25,8 +25,8 @@ module beam(draft = true)
                 translate([0, 0, -platform_height/2])
                     cylinder(h = platform_height, d = platform_top_diameter);
             }
-            piston_base_cut_out();
-            connecting_holes();
+        piston_base_cut_out();
+        connecting_holes();
     }
 }
 
