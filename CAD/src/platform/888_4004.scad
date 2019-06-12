@@ -19,7 +19,7 @@ module round_base(draft = true)
                 // M6 bolts between round base and car roof platform
                 for (i = [1:4])
                 {
-                    rotate([0, 0, i*90 + 15])
+                    rotate([0, 0, i*90])
                     {
                         translate([g3_0_srcew_dist, 0, 2 * M6_nut_height])
                             cylinder(h = platform_height, d = M6_nut_diameter, $fn = 6);
@@ -54,7 +54,7 @@ difference()
     #if (draft)
         translate([0, 0, vertical_distance_of_plaftorms - platform_height/2])
             cylinder(h = platform_height, d = platform_top_diameter);
-    // Draft only - piston holder visualisation
+    // Draft only - beams visualisation
     #if (draft)
         rotate_copy([0, 0, 120])
             rotate_copy([0, 0, 120])
