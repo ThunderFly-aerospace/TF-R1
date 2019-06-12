@@ -11,11 +11,14 @@ class aspd_reader():
     def start(self):
         while True:
             try:
-                roll = self.vehicle.attitude.roll
-                roll = math.degrees(roll)
-                roll = round(roll, 1)
-                print("Roll: {}".format(roll))
-                self.tts.say("{}".format(roll))
+                #airspeed = self.vehicle.attitude.roll
+                #airspeed = math.degrees(airspeed)
+
+                airspeed = self.airspeed
+                airspeed = round(airspeed, 1)
+
+                print("Aspd: {}".format(airspeed))
+                self.tts.say("{}".format(airspeed))
                 self.tts.runAndWait()
                 time.sleep(2)
             except Exception as e:
