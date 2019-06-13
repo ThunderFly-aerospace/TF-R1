@@ -14,6 +14,8 @@ from kivy import uix
 from kivy.clock import Clock
 from kivy.logger import Logger
 
+from widgets.range import Range
+
 import pyttsx3
 from dronekit import connect
 import math
@@ -160,13 +162,14 @@ class dashboard(App):
         if self.target_airspeed: vspd = self.vehicle.airspeed
         else: vspd = self.vehicle.groundspeed
         offset = self.target_speed - vspd
-        if abs(offset)>5:
+        if abs(offset)>8:
             color = 'ff0000'
-        elif abs(offset)>1.5:
+        elif abs(offset)>3:
             color = 'ffff00'
         else:
             color = '00ff00'
-        self.w_spd_offset.text = """[size=30]Spd[/size][b] {:=+007.2f}[/b] [size=30]m/s[/size]\n\n[b][size=30]Err[/size][size=80][color={}] {:=+007.2f}[/color][/size][/b] [size=30]m/s[/size]""".format(vspd, color, offset)
+        self.w_spd_offset.text = """[size=20]Spd [/size][b]{:=+007.2f}[/b][size=20] m/s[/size]\n\n[size=20]Err [/size][b][color={}][size=70]{:=+007.2f}[/color][/size][/b][size=20] m/s[/size]""".format(vspd, color, offset)
+        self.w_spd_range.set_value(50-offset*2)
 
     def cb_set_speed_source(self, instance, value):
         print(instance, value, instance.id)
@@ -218,9 +221,11 @@ class dashboard(App):
         self.w_spd_offset = Label(text = "Err", font_size = "50sp", markup=True)
         data_offset.add_widget(self.w_spd_offset)
 
+        self.w_spd_range = Range()
 
         data.add_widget(data_actual)
         data.add_widget(data_offset)
+        data.add_widget(self.w_spd_range)
 
         canvas.add_widget(setup)
         canvas.add_widget(data)
