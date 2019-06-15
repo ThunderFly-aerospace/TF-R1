@@ -1,7 +1,7 @@
 #!/bin/bash
 
 station='center-rear-cam'
-camera='10.42.0.123'
+camera='10.42.0.144'
 today=`date '+%Y_%m_%d-%H_%M_%S-%N'`;
 filename="./$station-$today.mp4"
 echo "$camera"
