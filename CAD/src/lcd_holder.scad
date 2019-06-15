@@ -1,5 +1,5 @@
 $fn = 100;
-include <Parameters.scad>
+include <../parameters.scad>
 
 box_width = 185;
 box_height = 135;
