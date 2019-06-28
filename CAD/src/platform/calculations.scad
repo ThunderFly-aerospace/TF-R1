@@ -75,11 +75,12 @@ module pistons_and_bearing(draft = true)
                             {
                             // Upper piston holder bolt
                             cylinder(h = 50, d = M8_screw_diameter);
-                            cylinder(h = M8_washer_thickness*3, d = M8_washer_diameter);
+                            translate([0, 0, -M8_washer_thickness*5])
+                            cylinder(h = M8_washer_thickness*8, d = M8_washer_diameter);
                             // Nut pocket in top platform
                             translate([-M8_nut_pocket/2, -M8_nut_pocket/2, 10])
                                     cube([M8_nut_pocket, 30,
-                                          M8_nut_height + global_clearance]);
+                                          M8_square_nut_thin_height + global_clearance]);
                             }
                     translate([-bearing_width/2,
                                -bearing_length/2, 0])
