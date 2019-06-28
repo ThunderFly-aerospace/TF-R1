@@ -21,14 +21,8 @@ class Range(ProgressBar):
     def __init__(self, **kwargs):
         super(Range, self).__init__(**kwargs)
 
-        # Set constant for the bar thickness
         self.thickness = 40
-
-        #self.label = CoreLabel(text="0%", font_size=self.thickness)
-
         self.texture_size = None
-
-        # Refresh the text
         self.refresh_text()
 
         # Redraw on innit
@@ -42,19 +36,17 @@ class Range(ProgressBar):
             Color(0.26, 0.26, 0.26)
             Rectangle(size=self.size, pos=self.pos)
 
-            if abs(0.5-self.value_normalized)>0.16:
-                Color(1, 0, 0)
-            elif abs(0.5-self.value_normalized)>0.06:
-                Color(1, 1, 0)
-            else:
-                Color(0, 1, 0)
+            r = self.value_normalized*2-0.5 if self.value_normalized > 0.5 else 0
+            g = (1-abs(0.5-self.value_normalized)*2)
+            b = 1-self.value_normalized*2 if self.value_normalized < 0.5 else 0
+
+            #print(r, g, b)
+            Color(r, g, b, 1)
             Rectangle(size=(self.size[0]-30, self.size[1]*(self.value_normalized)), pos=(self.pos[0]+15, self.pos[1]))
 
             # Center and draw the progress text
             Color(0.5, 0.5, 1, 0.7)
             Line(points=[self.pos[0]+3, self.pos[1]+self.size[1]/2, self.pos[0]+self.size[0]-3, self.pos[1]+self.size[1]/2], width=3)
-            #Rectangle(texture=self.label.texture, size=self.texture_size,
-            #          pos=(self.size[0]/2 - self.texture_size[0]/2, self.size[1]/2 - self.texture_size[1]/2))
 
     def refresh_text(self):
         pass
@@ -63,8 +55,48 @@ class Range(ProgressBar):
 
     def set_value(self, value):
         self.value = value
-
-        #self.label.text = str(int(self.value_normalized*100)) + "%"
         self.refresh_text()
 
+        self.draw()
+
+
+
+
+class SimpleRange(ProgressBar):
+
+    def __init__(self, **kwargs):
+        super(SimpleRange, self).__init__(**kwargs)
+
+        self.thickness = 40
+        self.texture_size = None
+        self.refresh_text()
+
+        # Redraw on innit
+        self.draw()
+
+    def draw(self):
+
+        with self.canvas:
+            self.canvas.clear()
+
+            Color(0.26, 0.26, 0.26)
+            Rectangle(size=self.size, pos=self.pos)
+
+            #print(r, g, b)
+            #Color(r, g, b, 1)
+            Color(100, 100, 100, 1)
+            Rectangle(size=(self.size[0]-30, self.size[1]*(self.value_normalized)), pos=(self.pos[0]+15, self.pos[1]))
+
+            # Center and draw the progress text
+            Color(0.5, 0.5, 0.5, 0.5)
+            Line(points=[self.pos[0]+3, self.pos[1]+self.size[1]/2, self.pos[0]+self.size[0]-3, self.pos[1]+self.size[1]/2], width=1)
+
+    def refresh_text(self):
+        pass
+        #self.label.refresh()
+        #self.texture_size = list(self.label.texture.size)
+
+    def set_value(self, value):
+        self.value = value
+        self.refresh_text()
         self.draw()

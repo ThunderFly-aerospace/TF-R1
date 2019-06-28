@@ -13,11 +13,13 @@ from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelHeader, TabbedPanelItem
 from kivy import uix
 from kivy.clock import Clock
 from kivy.logger import Logger
+from kivy.core.audio import SoundLoader
 
 from widgets.range import Range
 
 import pyttsx3
 from dronekit import connect
+from widgets.TrimTab import TrimTab
 import math
 import time
 
@@ -28,8 +30,6 @@ class wValue(Widget):
 
     def __init__(self, **kwargs):
         super(wValue, self).__init__(**kwargs)
-        self.add_widget(Label(text = "Name"))
-
 
     def on_touch_down(self, touch):
         if self.collide_point(*touch.pos):
@@ -42,23 +42,18 @@ class wValue(Widget):
         print ('pressed at {pos}'.format(pos=pos))
 
 
-class LoginScreen(GridLayout):
-
-    def __init__(self, **kwargs):
-        super(LoginScreen, self).__init__(**kwargs)
-        self.cols = 2
-        self.add_widget(Label(text='User Name'))
-        self.username = TextInput(multiline=False)
-        self.add_widget(self.username)
-        self.add_widget(Label(text='password'))
-        self.password = TextInput(password=True, multiline=False)
-        self.add_widget(self.password)
 
 class dashboard(App):
     def build(self):
+
         self.connect()
+
+
+        self.trim_tab = TrimTab(self.vehicle)
+
         self.update_tab_callbacks()
         self.prepare()
+        self.load_sounds()
 
         self.main_tab = TabbedPanel()
         self.main_tab.default_tab_text = "Basic"
@@ -68,8 +63,30 @@ class dashboard(App):
         th.content = self.dashboard_speed_tab()
         self.main_tab.add_widget(th)
 
-        print(self.main_tab.tab_list)
-        return self.main_tab
+
+        th = TabbedPanelHeader(text = "Trim")
+        th.content = self.trim_tab.content()
+        self.main_tab.add_widget(th)
+        #self.main_tab.add_widget(self.draw_bottom_line())
+
+        self.status_release = -9
+
+
+        self.status_bar = BoxLayout(orientation="horizontal")
+        self.last_update = Label()
+        self.last_update.text = "Test..."
+        self.status_bar.add_widget(self.last_update)
+        self.status_bar.size_hint = (None, 0.1)
+
+        self.window = BoxLayout(orientation="vertical")
+        self.window.add_widget(self.main_tab)
+        self.window.add_widget(self.status_bar)
+        return self.window
+
+
+    def load_sounds(self):
+        self.sound_ping = SoundLoader.load('media/sounds/short-ping.flac')
+        self.sound_pop = SoundLoader.load('media/sounds/pop.flac')
 
     def prepare(self):
         self.target_speed = 10.0
@@ -80,12 +97,20 @@ class dashboard(App):
 
     def update_tab_callbacks(self):
         Logger.info("Nastavuji callbacky")
+        self.callback_global = Clock.schedule_interval(self.cb_global, 1/10)
         self.callback_base = Clock.schedule_interval(self.cb_base, 1/10)
         self.callback_base = Clock.schedule_interval(self.cb_speed_asistent, 1/10)
+        self.callback_trim = Clock.schedule_interval(self.trim_tab.update, 1/10)
 
     def connect(self, ip = "0.0.0.0", port = 11000):
-        self.vehicle = connect("127.0.0.1:11000", status_printer = self.alert)
+        self.vehicle = connect("0.0.0.0:11000", status_printer = self.alert)
+        #self.vehicle = connect("0.0.0.0:14550", status_printer = self.alert)
+        self.vehicle.initialize()
         Logger.info('Connected to vehicle')
+        self.tts = pyttsx3.init()
+
+    def cb_global(self, time):
+        self.last_update.text = "Last update in: {:.2f}".format(self.vehicle.last_heartbeat)
 
     def cb_base(self, time):
 
@@ -147,32 +172,50 @@ class dashboard(App):
         l.add_widget(self.w_base_gps_value)
         canvas.add_widget(l)
 
-        canvas.add_widget(Label(text = 'Ahoj!'))
-        canvas.add_widget(Label(text = 'Ahoj!'))
         canvas.add_widget(wValue())
 
         return canvas
 
     def cb_speed_asistent(self, time):
-        self.w_spd_airspeed.text = "Aspd: {:=6.3f}".format(self.vehicle.airspeed)
-        self.w_spd_groundspeed.text = "Gspd: {:=6.3f}".format(self.vehicle.groundspeed)
-        self.w_spd_targetspeed.text = "{}".format(self.target_speed)
+        #self.w_spd_release_status.text = "Aspd: {:=6.3f}".format(self.vehicle.airspeed)
+        #self.w_spd_speed_info.text = "Gspd: {:=6.3f}".format(self.vehicle.groundspeed)
+        #self.w_spd_targetspeed.text = "{}m\s ({})".format(self.target_speed, self.target_speed*3.6)
 
+        if self.status_release != round((self.vehicle.channels.get('9', 0)-1500)/500.0):
+            self.status_release = round((self.vehicle.channels.get('9', 0)-1500)/500.0)
+            self.sound_ping.play()
+
+            if self.status_release == -1:
+                text = "Připojeno"
+                color = "00ff00"
+            elif self.status_release == 1:
+                text = "Odpojeno"
+                color = "ff0000"
+            else:
+                text = "--neznám--"
+                color = "FFA500"
+
+            text = "[b][color={}][size=50]{}[/size][/color][/b]".format(color, text)
+            self.w_spd_release_status.text = text
+
+        self.w_spd_speed_info.text = "Airspeed:[size=24]\n{:.2f}[/size]\n".format(self.vehicle.airspeed*3.6)
+        self.w_spd_speed_info.text+= "Groundspeed: \n [size=24]{:.2f}[/size] \n".format(self.vehicle.groundspeed*3.6)
+        self.w_spd_speed_info.text+= "Delta: \n [size=24]{:.2f}[/size] \n".format((self.vehicle.groundspeed-self.vehicle.airspeed)*3.6)
 
         if self.target_airspeed: vspd = self.vehicle.airspeed
         else: vspd = self.vehicle.groundspeed
         offset = self.target_speed - vspd
+
         if abs(offset)>8:
             color = 'ff0000'
         elif abs(offset)>3:
             color = 'ffff00'
         else:
             color = '00ff00'
-        self.w_spd_offset.text = """[size=20]Spd [/size][b]{:=+007.2f}[/b][size=20] m/s[/size]\n\n[size=20]Err [/size][b][color={}][size=70]{:=+007.2f}[/color][/size][/b][size=20] m/s[/size]""".format(vspd, color, offset)
-        self.w_spd_range.set_value(50-offset*2)
+        self.w_spd_offset.text = """[/size][b][color={}][size=70]{:=+5.0f}[/color][/size][/b]""".format(color, offset*3.6)
+        self.w_spd_range.set_value(50 - offset*100/14)
 
     def cb_set_speed_source(self, instance, value):
-        print(instance, value, instance.id)
         if value == 'down':
             if instance.id == 'plus':
                 self.target_speed += 1
@@ -182,6 +225,10 @@ class dashboard(App):
                 self.target_airspeed = False
             elif instance.id == 'aspd':
                 self.target_airspeed = True
+
+            self.w_spd_targetspeed.text = "{}m\s ({})".format(self.target_speed, self.target_speed*3.6)
+
+
 
     def dashboard_speed_tab(self):
         canvas = BoxLayout(orientation='vertical')
@@ -199,12 +246,14 @@ class dashboard(App):
         btnGspd.bind(state=self.cb_set_speed_source)
         btnPlus.bind(state=self.cb_set_speed_source)
         btnMinus.bind(state=self.cb_set_speed_source)
+        swRead = Switch(active=False)
+        swRead.bind(active=self.toggle_reading)
         setup.add_widget(btnPlus)
         setup.add_widget(self.w_spd_targetspeed)
         setup.add_widget(btnMinus)
         setup.add_widget(btnAspd)
         setup.add_widget(btnGspd)
-
+        setup.add_widget(swRead)
 
         # zaskrtavatko - hlas, tón, pipani
         # Ukazatel
@@ -212,10 +261,10 @@ class dashboard(App):
         data = BoxLayout(orientation='horizontal')
 
         data_actual = BoxLayout(orientation='vertical')
-        self.w_spd_airspeed = Label(text = "Airspeed")
-        self.w_spd_groundspeed = Label(text = "Goundspeed")
-        data_actual.add_widget(self.w_spd_airspeed)
-        data_actual.add_widget(self.w_spd_groundspeed)
+        self.w_spd_release_status = Label(text = "--Release--", markup=True)
+        self.w_spd_speed_info = Label(text = "info", markup=True, halign = "center")
+        data_actual.add_widget(self.w_spd_release_status)
+        data_actual.add_widget(self.w_spd_speed_info)
 
         data_offset = BoxLayout(orientation='vertical')
         self.w_spd_offset = Label(text = "Err", font_size = "50sp", markup=True)
@@ -230,6 +279,18 @@ class dashboard(App):
         canvas.add_widget(setup)
         canvas.add_widget(data)
         return canvas
+
+    def toggle_reading(self, widget, state):
+        if state:
+            self.reading_timer = Clock.schedule_interval(self.read_velocity, 1.5)
+        else:
+            self.reading_timer.cancel()
+
+    def read_velocity(self, time):
+        print("Rychlost je", self.vehicle.groundspeed*3.6)
+        self.tts.say("{}".format(round(self.vehicle.groundspeed*3.6)))
+        self.tts.runAndWait()
+
 
 
 if __name__ == '__main__':
