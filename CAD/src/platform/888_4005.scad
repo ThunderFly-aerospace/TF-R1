@@ -10,7 +10,7 @@ module 888_4005(draft = true){
     height = 30;
     magnet_d = 80;
     cylinder_height = magnet_d/2;
-    magnet_offset = 0;
+    magnet_offset = 35;
     fixing_distance = 20; 
 
     difference()
@@ -27,23 +27,24 @@ module 888_4005(draft = true){
                         cylinder(d1 = platform_top_diameter,
                                  d2 = platform_top_diameter - 10,
                                  h = 20);
-                        translate([magnet_offset,0, height - 5])
-                            cylinder(d = magnet_d , h = 5);
+                        rotate([0,0,30])        // otočení do přední části platformy
+                            translate([magnet_offset,0, height - 5])
+                                cylinder(d = magnet_d , h = 5);
                     }
-
-                    translate([magnet_offset,0, height/2])
-                        cylinder(r = magnet_d/2 , h = height/2);
+                    rotate([0,0,30])        // otočení do přední části platformy
+                        translate([magnet_offset,0, height/2])
+                            cylinder(r = magnet_d/2 , h = height/2);
                 }
+                rotate([0,0,30])        // otočení do přední části platformy
+                    translate([magnet_offset,0,0])
+                        rotate([0,0,45])
+                            for (i=[0:3]) rotate([0, 0, 90*i]){
+                                translate([0, 70/2, 0])
+                                    cylinder(h = 2*cylinder_height, d = M4_screw_diameter);
 
-                translate([magnet_offset,0,0])
-                    rotate([0,0,45])
-                        for (i=[0:3]) rotate([0, 0, 90*i]){
-                            translate([0, 70/2, 0])
-                                cylinder(h = 2*cylinder_height, d = M4_screw_diameter);
-
-                            translate([0, 70/2, 0])
-                               cylinder(h = height - 10, d = M4_nut_diameter, $fn = 6);
-                        }
+                                translate([0, 70/2, 0])
+                                   cylinder(h = height - 10, d = M4_nut_diameter, $fn = 6);
+                            }
 
                 // otvor pro vývody
                 translate([magnet_offset,0,0])

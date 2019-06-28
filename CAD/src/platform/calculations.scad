@@ -79,7 +79,7 @@ module pistons_and_bearing(draft = true)
                             // Nut pocket in top platform
                             translate([-M8_nut_pocket/2, -M8_nut_pocket/2, 10])
                                     cube([M8_nut_pocket, 30,
-                                          M8_nut_height + global_clearance]);
+                                          M8_square_nut_thin_height + global_clearance]);
                             }
                     translate([-bearing_width/2,
                                -bearing_length/2, 0])
