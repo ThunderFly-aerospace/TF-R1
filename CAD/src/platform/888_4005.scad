@@ -10,7 +10,7 @@ module 888_4005(draft = true){
     height = 30;
     magnet_d = 80;
     cylinder_height = magnet_d/2;
-    magnet_offset = 35;
+    magnet_offset = 38;
     fixing_distance = 20; 
 
     difference()
