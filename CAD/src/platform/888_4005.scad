@@ -2,7 +2,7 @@ include <../../parameters.scad>
 include <./calculations.scad>
 use <../lib/copyFunctions.scad>
 
-draft = true;
+draft = false;
 $fn = draft ? 20 : 100;
 
 module 888_4005(draft = true){
