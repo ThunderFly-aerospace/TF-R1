@@ -1,0 +1,1 @@
+std{access=file{no-append,no-format,no-overwrite},mux='mp4',dst='/home/roman/Videos/vlc-record-2019-06-29-18h02m34s-rtsp___10.42.0.123_user=admin&password=&channel=1&stream=0-.mp4'}
