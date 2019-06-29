@@ -9,6 +9,8 @@ Application is dividen in several screens.
 ## Basic
 
 ## Tow launch
+This tab is focused for taking-off from the rope behind the car. Here you can set target airspeed and (car) driver should hold this speed. The right tri-color column shows offset from target speed. The best one is in the middle. 
+
 ![Tow launch](https://user-images.githubusercontent.com/5196729/60383096-022b0f80-9a6d-11e9-9676-529db8eb5006.png)
 
 ## PWM outputs and trimm
