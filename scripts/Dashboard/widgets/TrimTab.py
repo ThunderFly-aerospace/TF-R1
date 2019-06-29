@@ -20,10 +20,13 @@ from functools import partial
 
 
 class TrimTab():
-    def __init__(self, vehicle):
+
+    def __init__(self, vehicle, tabs):
         super(TrimTab, self).__init__()
         self.vehicle = vehicle
+        self.tabs = tabs
         self.channels = 16
+        self.active = False
 
     def content(self):
         layout = BoxLayout(orientation='horizontal')
@@ -36,14 +39,13 @@ class TrimTab():
             chnum = i+1
             channel_box = BoxLayout(orientation='vertical')
 
-            channel_box.add_widget(Label(text="{}{}".format("M" if i<8 else "A", chnum), size_hint=(1, .2)))
+            channel_box.add_widget(Label(text="{}{}".format("M" if i<8 else "A", chnum), size_hint=(1, .1)))
             setattr(self, "btn_trim_{}_p".format(chnum), Button(text = "+", size_hint=(1, .15)))
             setattr(self, "val_trim_{}".format(chnum), Label(text = "0", size_hint=(1, .2)))
             setattr(self, "btn_trim_{}_m".format(chnum), Button(text = "-", size_hint=(1, .15)))
             setattr(self, "val_out_{}".format(chnum), Label(text = "0", size_hint=(1, .2)))
             setattr(self, "range_out_{}".format(chnum), SimpleRange())
 
-            d = {"pwm": chnum, "op": 1}
             getattr(self, "btn_trim_{}_p".format(chnum)).bind(on_press = partial(self.change_offset, chnum, +1))
             getattr(self, "btn_trim_{}_m".format(chnum)).bind(on_press = partial(self.change_offset, chnum, -1))
 
@@ -54,9 +56,10 @@ class TrimTab():
             channel_box.add_widget(getattr(self, "range_out_{}".format(chnum)))
 
             layout.add_widget(channel_box)
-
-
         return layout
+
+    def set_active(self, active):
+        self.active = active
 
     def change_offset(self, pwm, operation, data):
         if pwm < 9:
@@ -80,8 +83,9 @@ class TrimTab():
             getattr(self, 'val_trim_{}'.format(i+8)).text = "{:0.2f}".format(self.vehicle.parameters.get("PWM_AUX_TRIM{}".format(i), -10))
 
 
-
     def update(self, time):
+        if self.active:
+            print("Update trim", time)
         for i in range(self.channels):
             getattr(self, 'val_out_{}'.format(i+1)).text = "{}".format(self.vehicle.outputs.get(str(i+1), -999))
             getattr(self, "range_out_{}".format(i+1)).set_value((self.vehicle.outputs.get(str(i+1), -999)-1000)/10.0)

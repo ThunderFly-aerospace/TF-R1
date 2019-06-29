@@ -47,15 +47,17 @@ class dashboard(App):
     def build(self):
 
         self.connect()
-
-
-        self.trim_tab = TrimTab(self.vehicle)
-
-        self.update_tab_callbacks()
-        self.prepare()
         self.load_sounds()
 
         self.main_tab = TabbedPanel()
+        self.trim_tab = TrimTab(self.vehicle, self.main_tab)
+
+        #self.main_tab.bind(children=self.on_switch)
+        self.main_tab.bind(current_tab=self.on_switch)
+
+        self.update_tab_callbacks()
+        self.prepare()
+
         self.main_tab.default_tab_text = "Basic"
         self.main_tab.default_tab_content = self.dashboard_base_tab()
 
@@ -83,6 +85,13 @@ class dashboard(App):
         self.window.add_widget(self.status_bar)
         return self.window
 
+    def on_switch(self, widget, tab):
+        print("Switch to", tab.content.children, self.trim_tab.content)
+        self.trim_tab.set_active(False)
+
+        if tab.content == self.trim_tab.content:
+            print("Zapinam TrimTab")
+            self.trim_tab.set_active(True)
 
     def load_sounds(self):
         self.sound_ping = SoundLoader.load('media/sounds/short-ping.flac')
@@ -99,7 +108,7 @@ class dashboard(App):
         Logger.info("Nastavuji callbacky")
         self.callback_global = Clock.schedule_interval(self.cb_global, 1/10)
         self.callback_base = Clock.schedule_interval(self.cb_base, 1/10)
-        self.callback_base = Clock.schedule_interval(self.cb_speed_asistent, 1/10)
+        self.callback_speed = Clock.schedule_interval(self.cb_speed_asistent, 1/10)
         self.callback_trim = Clock.schedule_interval(self.trim_tab.update, 1/10)
 
     def connect(self, ip = "0.0.0.0", port = 11000):
