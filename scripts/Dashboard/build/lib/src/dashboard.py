@@ -15,11 +15,11 @@ from kivy.clock import Clock
 from kivy.logger import Logger
 from kivy.core.audio import SoundLoader
 
-from widgets.range import Range
+from src.widgets.range import Range
 
 import pyttsx3
 from dronekit import connect
-from widgets.TrimTab import TrimTab
+from src.widgets.TrimTab import TrimTab
 import math
 import time
 
@@ -52,6 +52,7 @@ class dashboard(App):
         self.main_tab = TabbedPanel()
         self.trim_tab = TrimTab(self.vehicle, self.main_tab)
 
+        #self.main_tab.bind(children=self.on_switch)
         self.main_tab.bind(current_tab=self.on_switch)
 
         self.update_tab_callbacks()
@@ -64,10 +65,14 @@ class dashboard(App):
         th.content = self.dashboard_speed_tab()
         self.main_tab.add_widget(th)
 
+
         th = TabbedPanelHeader(text = "Trim")
         th.content = self.trim_tab.content()
         self.main_tab.add_widget(th)
         #self.main_tab.add_widget(self.draw_bottom_line())
+
+        self.status_release = -9
+
 
         self.status_bar = BoxLayout(orientation="horizontal")
         self.last_update = Label()
@@ -95,7 +100,6 @@ class dashboard(App):
     def prepare(self):
         self.target_speed = 10.0
         self.target_airspeed = True
-        self.status_release = -9
 
     def alert(self, alert):
         Logger.info('ALERT:' + alert)
