@@ -28,6 +28,7 @@ M8_screw_diameter = 8.6;
 M8_head_height = 8;
 M8_head_diameter = 13.5;
 M8_nut_height = 7.5;
+M8_square_nut_thin_height = 4.5;
 M8_nut_diameter = 14.4 + 0.5;
 M8_nut_pocket = 13 + 0.5;
 M8_washer_diameter = 16;
@@ -63,6 +64,7 @@ M4_nut_pocket = 7.5;
 M3_screw_diameter = 3.2;
 M3_nut_height = 2.7;
 M3_nut_diameter = 6.6;
+M3_nut_pocket = 5.6;
 M3_screw_head_height = 3;
 
 //Screw diameter and nut for M2,5 [mm]
