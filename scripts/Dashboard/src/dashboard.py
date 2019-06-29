@@ -44,6 +44,12 @@ class wValue(Widget):
 
 
 class dashboard(App):
+    def __init__(self, arg = None):
+        super(dashboard, self).__init__()
+        self.arg = arg
+        self.run()
+
+
     def build(self):
 
         self.connect()
@@ -304,7 +310,6 @@ class dashboard(App):
 
 def main():
     db = dashboard()
-    db.run()
 
 if __name__ == '__main__':
     main()
