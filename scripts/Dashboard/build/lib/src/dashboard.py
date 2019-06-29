@@ -309,9 +309,7 @@ class dashboard(App):
 
 
 def main():
-    print("Main function")
     db = dashboard()
-
 
 if __name__ == '__main__':
     main()
