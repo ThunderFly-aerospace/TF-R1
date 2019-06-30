@@ -92,7 +92,7 @@ class dashboard(App):
         return self.window
 
     def on_switch(self, widget, tab):
-        print("Switch to", tab.content.children, self.trim_tab.content)
+        #print("Switch to", tab.content.children, self.trim_tab.content)
         self.trim_tab.set_active(False)
 
         if tab.content == self.trim_tab.content:
@@ -119,13 +119,14 @@ class dashboard(App):
 
     def connect(self, ip = "0.0.0.0", port = 11000):
         self.vehicle = connect("0.0.0.0:11000", status_printer = self.alert)
+        #self.vehicle = connect("10.42.0.1:14550", status_printer = self.alert)
         #self.vehicle = connect("0.0.0.0:14550", status_printer = self.alert)
         self.vehicle.initialize()
         Logger.info('Connected to vehicle')
         self.tts = pyttsx3.init()
 
     def cb_global(self, time):
-        self.last_update.text = "Last update in: {:.2f}".format(self.vehicle.last_heartbeat)
+        self.last_update.text = "  Last update in: {:.2f}".format(self.vehicle.last_heartbeat)
 
     def cb_base(self, time):
 
@@ -196,8 +197,8 @@ class dashboard(App):
         #self.w_spd_speed_info.text = "Gspd: {:=6.3f}".format(self.vehicle.groundspeed)
         #self.w_spd_targetspeed.text = "{}m\s ({})".format(self.target_speed, self.target_speed*3.6)
 
-        if self.status_release != round((self.vehicle.channels.get('9', 0)-1500)/500.0):
-            self.status_release = round((self.vehicle.channels.get('9', 0)-1500)/500.0)
+        if self.status_release != round((self.vehicle.channels.get('16', 0)-1500)/500.0):
+            self.status_release = round((self.vehicle.channels.get('16', 0)-1500)/500.0)
             self.sound_ping.play()
 
             if self.status_release == -1:
@@ -302,8 +303,8 @@ class dashboard(App):
             self.reading_timer.cancel()
 
     def read_velocity(self, time):
-        print("Rychlost je", self.vehicle.groundspeed*3.6)
-        self.tts.say("{}".format(round(self.vehicle.groundspeed*3.6)))
+        print("Rychlost je", self.vehicle.airspeed*3.6)
+        self.tts.say("{}".format(round(self.vehicle.airspeed*3.6)))
         self.tts.runAndWait()
 
 

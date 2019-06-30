@@ -89,7 +89,7 @@ class TrimTab():
             value = self.vehicle.parameters.get(param.format(pwm), -10)
             if value == 0:
                 tval = "{:.0f}"
-            else
+            else:
                 tval = "[b]{:.2f}[/b]"
             getattr(self, 'val_trim_{}'.format(i)).text = tval.format(value)
 
@@ -98,5 +98,8 @@ class TrimTab():
         if self.active:
             print("Update trim", time)
         for i in range(self.channels):
-            getattr(self, 'val_out_{}'.format(i+1)).text = "{}".format(self.vehicle.outputs.get(str(i+1), -999))
-            getattr(self, "range_out_{}".format(i+1)).set_value((self.vehicle.outputs.get(str(i+1), -999)-1000)/10.0)
+            try:
+                getattr(self, 'val_out_{}'.format(i+1)).text = "{}".format(self.vehicle.outputs.get(str(i+1), -999))
+                getattr(self, "range_out_{}".format(i+1)).set_value((self.vehicle.outputs.get(str(i+1), -999)-1000)/10.0)
+            except Exception as e:
+                print("Err", e)
