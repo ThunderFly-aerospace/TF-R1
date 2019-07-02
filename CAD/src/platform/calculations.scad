@@ -53,7 +53,7 @@ vertical_piston_angle = acos(c / platform_cylinder_medium_length);
 echo("Vertical angle of piston is ", vertical_piston_angle);
 
 // Calculate vertical distance between platforms:
-vertical_distance_of_plaftorms = 
+vertical_distance_of_plaftorms =
     sqrt(platform_cylinder_medium_length*platform_cylinder_medium_length - c*c);
 echo("Vertical distance of platforms is ",vertical_distance_of_plaftorms);
 
@@ -79,7 +79,7 @@ module pistons_and_bearing(draft = true)
                             cylinder(h = M8_washer_thickness*8, d = M8_washer_diameter);
                             // Nut pocket in top platform
                             translate([-M8_nut_pocket/2, -M8_nut_pocket/2, 10])
-                                    cube([M8_nut_pocket, 30,
+                                    cube([M8_nut_pocket, 50,
                                           M8_square_nut_thin_height + global_clearance]);
                             }
                     translate([-bearing_width/2,
