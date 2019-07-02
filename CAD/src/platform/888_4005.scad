@@ -11,7 +11,7 @@ module 888_4005(draft = true){
     magnet_d = 80;
     cylinder_height = magnet_d/2;
     magnet_offset = 38;
-    fixing_distance = 20; 
+    fixing_distance = 20;
 
     difference()
     {
@@ -20,20 +20,27 @@ module 888_4005(draft = true){
             {
                 union()
                 {
+                    // válec zkosit o úhel odpovídající správnému
+                    // úhlu šroubu kulového kloubu
+                    cylinder(d1 = platform_top_diameter,
+                             d2 = platform_top_diameter - 10,
+                             h = 20);
+
                     hull()
                     {
                         // válec zkosit o úhel odpovídající správnému
                         // úhlu šroubu kulového kloubu
-                        cylinder(d1 = platform_top_diameter,
+                        translate([0, 0, 5])
+                        cylinder(d1 = platform_top_diameter - 10,
                                  d2 = platform_top_diameter - 10,
-                                 h = 20);
+                                 h = 15);
                         rotate([0,0,30])        // otočení do přední části platformy
-                            translate([magnet_offset,0, height - 5])
-                                cylinder(d = magnet_d , h = 5);
+                            translate([magnet_offset,0, height - 1])
+                                cylinder(d = magnet_d , h = 1);
                     }
-                    rotate([0,0,30])        // otočení do přední části platformy
-                        translate([magnet_offset,0, height/2])
-                            cylinder(r = magnet_d/2 , h = height/2);
+                    //rotate([0,0,30])        // otočení do přední části platformy
+                    //    translate([magnet_offset,0, height/2])
+                    //        #cylinder(r = magnet_d/2 , h = height/2);
                 }
                 rotate([0,0,30])        // otočení do přední části platformy
                     translate([magnet_offset,0,0])
