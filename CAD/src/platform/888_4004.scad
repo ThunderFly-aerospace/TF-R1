@@ -21,8 +21,13 @@ module round_base(draft = true)
                 {
                     rotate([0, 0, i*90])
                     {
-                        translate([g3_0_srcew_dist, 0, 2 * M6_nut_height])
-                            cylinder(h = platform_height, d = M6_nut_diameter, $fn = 6);
+                        // Washer
+                        translate([g3_0_srcew_dist, 0, 0])
+                            cylinder(h = 2, d = 19);
+                        // Nut hole
+                        translate([g3_0_srcew_dist, 0, 2])
+                            cylinder(h = M6_nut_height, d = M6_nut_diameter);
+                        // Bolt hole
                         translate([g3_0_srcew_dist, 0, 0])
                             cylinder(h = platform_height, d = M6_screw_diameter);
                     }
