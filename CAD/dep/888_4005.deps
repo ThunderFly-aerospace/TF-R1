@@ -1,0 +1,6 @@
+../../STL/888_4005.stl: \
+	/Users/jkt/playground/OpenSCAD/kaklik/TF-R1/CAD/src/lib/copyFunctions.scad \
+	/Users/jkt/playground/OpenSCAD/kaklik/TF-R1/CAD/src/lib/bolts.scad \
+	calculations.scad \
+	/Users/jkt/playground/OpenSCAD/kaklik/TF-R1/CAD/parameters.scad \
+	888_4005.scad

@@ -10,27 +10,16 @@ draft = true;
 
 difference()
 {
-    if (!draft)
+    union()
     {
-        round_base(false);
+        round_base(draft);
         rotate_copy([0, 0, 120])
             rotate_copy([0, 0, 120])
             {
-                piston_holder(false);
-                beam(false);
-                888_4005(false);
+                piston_holder(draft);
+                beam(draft);
             }
-    }
-    else
-    {
-        round_base();
-        rotate_copy([0, 0, 120])
-            rotate_copy([0, 0, 120])
-            {
-                piston_holder();
-                beam();
-            }
-        888_4005();
+        888_4005(false);
     }
     // Cut-out cube
     if (draft)
