@@ -46,7 +46,7 @@ module 888_4005(draft = true){
                     translate([magnet_offset,0,0])
                         rotate([0,0,45])
                             for (i=[0:3]) rotate([0, 0, 90*i]){
-                                translate([0, 70/2, 0])
+                                translate([0, 70/2, height - 10 + layer_thickness])
                                     cylinder(h = 2*cylinder_height, d = M4_screw_diameter);
 
                                 translate([0, 70/2, 0])
