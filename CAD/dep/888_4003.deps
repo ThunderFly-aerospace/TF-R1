@@ -1,12 +1,11 @@
 ../../STL/888_4003.stl: \
-	../../../CAD/src/lib/print.scad \
+	888_4003.scad \
+	../../../CAD/src/platform/calculations.scad \
 	../../../CAD/src/platform/888_4006.scad \
+	../../../CAD/src/platform/888_4005.scad \
 	../../../CAD/src/platform/888_4004.scad \
+	../../../CAD/src/platform/888_4003.scad \
+	../../../CAD/src/lib/print.scad \
 	../../../CAD/src/lib/copyFunctions.scad \
 	../../../CAD/src/lib/bolts.scad \
-	../../../CAD/src/platform/calculations.scad \
-	../../../CAD/src/platform/888_4003.scad \
-	../../../CAD/src/platform/888_4005.scad \
 	../../../CAD/parameters.scad \
-	../../../CAD/src/platform/888_4003.scad
-

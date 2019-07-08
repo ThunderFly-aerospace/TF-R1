@@ -1,6 +1,6 @@
 ../../STL/888_4005.stl: \
+	888_4005.scad \
+	../../../CAD/src/platform/calculations.scad \
 	../../../CAD/src/lib/copyFunctions.scad \
 	../../../CAD/src/lib/bolts.scad \
-	calculations.scad \
 	../../../CAD/parameters.scad \
-	888_4005.scad

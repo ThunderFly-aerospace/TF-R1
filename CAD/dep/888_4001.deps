@@ -1,3 +1,3 @@
 ../../STL/888_4001.stl: \
-	../../../CAD/parameters.scad \
 	888_4001.scad \
+	../../../CAD/parameters.scad \
