@@ -1,4 +1,4 @@
-include  <../Parameters.scad>;
+include  <../../Parameters.scad>;
 //parametry
 
 
@@ -29,12 +29,12 @@ difference(){
   translate([10,0,0])
   rotate([0,0,90])
   {
-      cylinder(h=M3_screw_head_height,d=M3_screw_diameter*1.5,$fn=100);
+      cylinder(h=M3_screw_head_height,d=M3_nut_diameter,$fn=100);
   }
   translate([-10,0,0])
   rotate([0,0,90])
   {
-    cylinder(h=M3_screw_head_height,d=M3_screw_diameter*1.5,$fn=100);
+    cylinder(h=M3_screw_head_height,d=M3_nut_diameter,$fn=100);
   }
 
 
