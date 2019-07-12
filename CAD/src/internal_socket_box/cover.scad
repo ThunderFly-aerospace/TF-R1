@@ -1,10 +1,10 @@
 include  <../../parameters.scad>;
-//velikost boxu
+
 //velikost boxu
 boxlength = 150;
 boxwidth = 90;
 boxheight = 85;
-thicknesswall = 4;
+thicknesswall = 2;
 
 
 //zapust sroubu
@@ -14,8 +14,8 @@ embeddingdiameter = 10;
 
 //generovani vika
 difference(){
-  translate([0,0,thicknesswall/2])
-   cube(size=[boxlength-thicknesswall/2-0.1,boxwidth-thicknesswall/2-0.1,thicknesswall],center=true);
+  translate([0,0,thicknesswall])
+   cube(size=[boxlength-thicknesswall/2-0.1,boxwidth-thicknesswall/2-0.1,thicknesswall*2],center=true);
 
   //zapusteni hlavicek sroubu do vika
   coverhole();
@@ -35,6 +35,6 @@ difference(){
 module coverhole(){
   translate([boxlength/2-thicknesswall/2-embeddingdiameter/2,boxwidth/2-thicknesswall/2-embeddingdiameter/2,0])
     cylinder(h=M3_screw_head_height+4,d=M3_screw_diameter,$fn=100);
-  translate([boxlength/2-thicknesswall/2-embeddingdiameter/2,boxwidth/2-thicknesswall/2-embeddingdiameter/2,thicknesswall-M3_nut_height])
+  translate([boxlength/2-thicknesswall/2-embeddingdiameter/2,boxwidth/2-thicknesswall/2-embeddingdiameter/2,thicknesswall*2-M3_nut_height])
     cylinder(h=M3_nut_height,d=M3_nut_diameter,$fn=100);
 }
