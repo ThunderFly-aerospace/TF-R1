@@ -7,6 +7,7 @@ use <./888_4005.scad>
 use <./888_4006.scad>
 
 draft = true;
+cut = false;
 
 difference()
 {
@@ -22,7 +23,7 @@ difference()
         888_4005(false);
     }
     // Cut-out cube
-    if (draft)
+    if (cut)
         translate([0, 0, -platform_height/4])
             cube(platform_base_diameter*2);
 }
