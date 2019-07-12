@@ -1,6 +1,4 @@
-include  <../../Parameters.scad>;
-//parametry
-
+include  <../../parameters.scad>;
 
 //nutno nastavit!!!
 wirediameter = 5.4;

@@ -1,4 +1,4 @@
-include  <../Parameters.scad>;
+include  <../../Parameters.scad>;
 //Na konci souboru jsou 4 moduly. Jeden je pro ulozeni matek(kvadr v hodni casti pro matky), dalsi modul je pro ukotveni vodicu, dalsi dva tvori moduly s otvory do dna a do vika. Tyto moduly jsou nasledně zrcadleny.
 
 //velikost boxu

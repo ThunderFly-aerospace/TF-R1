@@ -1,9 +1,11 @@
-include  <../../Parameters.scad>;
+include  <../../parameters.scad>;
+//velikost boxu
 //velikost boxu
 boxlength = 150;
-boxwidth = 85;
+boxwidth = 90;
 boxheight = 85;
 thicknesswall = 4;
+
 
 //zapust sroubu
 embeddingheight = 10;

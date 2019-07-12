@@ -1,8 +1,8 @@
-include  <../../Parameters.scad>;
+include  <../../parameters.scad>;
 
 //velikost boxu
 boxlength = 150;
-boxwidth = 85;
+boxwidth = 90;
 boxheight = 85;
 thicknesswall=2;
 
@@ -28,11 +28,11 @@ sleeveheight=7;
 sleeveheightupper=5;
 
 //podpory
-supportlength=20;
+supportlength=15;
 supportwidth=5;
 supportheight=15;
 supportquantity=2;
-supportpitch=15;
+supportpitch=28;
 
 // krabice
 difference(){
@@ -45,12 +45,12 @@ difference(){
     cube(size=[boxlength-(thicknesswall/2),boxwidth-(thicknesswall/2),thicknesswall*2],center=true);
 
   //vyrezem pro zasuvku 12V
-  translate([0,0,-boxheight/2+thicknesswall])
+  translate([0,-boxwidth/5,-boxheight/2+thicknesswall])
     cube(size=[cutoutheight,cutoutwidth,thicknesswall+5],center=true);
 
 //vyrez pro voltmetr
-translate([0,boxwidth/2,0])
-cube([45.12,thicknesswall,25.9],center=true);
+translate([0,boxwidth/5,-boxheight/2])
+cube([45.12,25.9,thicknesswall+5],center=true);
 
   //generovani otvoru pro pripojeni 12 V zasuvky
   screwhole();
@@ -65,6 +65,30 @@ cube([45.12,thicknesswall,25.9],center=true);
   mirror(v=[0,1,0]){
     screwhole();
   }
+  //diry pro srouby-pripojeni 12 V zasuvky do dna
+  translate([xscrewposition,yscrewposition-boxwidth/5,-boxheight/2])
+    cylinder(h=thicknesswall,d=M3_screw_diameter,$fn=100);
+  //zapusteni setihranu pro lepsi pripojeni 12 V panelu
+  translate([xscrewposition,yscrewposition-boxwidth/5,-boxheight/2+M3_nut_height/2-0.5])
+    cylinder(h=M3_nut_height,d=M3_nut_diameter,$fn=6);
+
+      translate([-xscrewposition,yscrewposition-boxwidth/5,-boxheight/2])
+        cylinder(h=thicknesswall,d=M3_screw_diameter,$fn=100);
+      //zapusteni setihranu pro lepsi pripojeni 12 V panelu
+      translate([-xscrewposition,yscrewposition-boxwidth/5,-boxheight/2+M3_nut_height/2-0.5])
+        cylinder(h=M3_nut_height,d=M3_nut_diameter,$fn=6);
+
+        translate([xscrewposition,-yscrewposition-boxwidth/5,-boxheight/2])
+          cylinder(h=thicknesswall,d=M3_screw_diameter,$fn=100);
+        //zapusteni setihranu pro lepsi pripojeni 12 V panelu
+        translate([xscrewposition,-yscrewposition-boxwidth/5,-boxheight/2+M3_nut_height/2-0.5])
+          cylinder(h=M3_nut_height,d=M3_nut_diameter,$fn=6);
+
+          translate([-xscrewposition,-yscrewposition-boxwidth/5,-boxheight/2])
+            cylinder(h=thicknesswall,d=M3_screw_diameter,$fn=100);
+          //zapusteni setihranu pro lepsi pripojeni 12 V panelu
+          translate([-xscrewposition,-yscrewposition-boxwidth/5,-boxheight/2+M3_nut_height/2-0.5])
+            cylinder(h=M3_nut_height,d=M3_nut_diameter,$fn=6);
 
   //otvor pro vstup napajecich vodicu
   rotate([0,90,0]){
@@ -130,12 +154,6 @@ module nutbox (){
 
 //module pro diry pro pripojeni 12 V
 module screwhole(){
-  //diry pro srouby-pripojeni 12 V zasuvky do dna
-  translate([xscrewposition,yscrewposition,-boxheight/2])
-    cylinder(h=thicknesswall,d=M3_screw_diameter,$fn=100);
-  //zapusteni setihranu pro lepsi pripojeni 12 V panelu
-  translate([xscrewposition,yscrewposition,-boxheight/2+M3_nut_height/2-0.5])
-    cylinder(h=M3_nut_height,d=M3_nut_diameter,$fn=6);
 
   //otvor pro vlozeni matky z vnejsi strany
   translate([boxlength/2-thicknesswall/2,boxwidth/2-thicknesswall/2-(embeddingdiameter)/2,boxheight/2-embeddingheight/2-M3_nut_height/2-thicknesswall*2])
