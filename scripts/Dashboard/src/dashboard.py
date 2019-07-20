@@ -100,8 +100,10 @@ class dashboard(App):
             self.trim_tab.set_active(True)
 
     def load_sounds(self):
-        self.sound_ping = SoundLoader.load('media/sounds/short-ping.flac')
-        self.sound_pop = SoundLoader.load('media/sounds/pop.flac')
+        print("Nahravam zvuky")
+        print(__file__)
+        self.sound_ping = SoundLoader.load('media/sounds/short-ping.wav')
+        self.sound_pop = SoundLoader.load('media/sounds/pop.wav')
 
     def prepare(self):
         self.target_speed = 10.0
@@ -271,7 +273,7 @@ class dashboard(App):
         setup.add_widget(btnGspd)
         setup.add_widget(swRead)
 
-        # zaskrtavatko - hlas, tón, pipani
+        # zaskrtavatko - hlas, ton, pipani
         # Ukazatel
 
         data = BoxLayout(orientation='horizontal')

@@ -25,7 +25,7 @@ class TrimTab():
         super(TrimTab, self).__init__()
         self.vehicle = vehicle
         self.tabs = tabs
-        self.channels = 16
+        self.channels = 14
         self.active = False
 
     def content(self):
@@ -41,9 +41,9 @@ class TrimTab():
 
             channel_box.add_widget(Label(text="{}{}".format("M" if i<8 else "A", chnum), size_hint=(1, .1)))
             setattr(self, "btn_trim_{}_p".format(chnum), Button(text = "+", size_hint=(1, .15)))
-            setattr(self, "val_trim_{}".format(chnum), Label(text = "0", size_hint=(1, .2)))
+            setattr(self, "val_trim_{}".format(chnum), Label(text = "0", size_hint=(1, .2), markup=True))
             setattr(self, "btn_trim_{}_m".format(chnum), Button(text = "-", size_hint=(1, .15)))
-            setattr(self, "val_out_{}".format(chnum), Label(text = "0", size_hint=(1, .2)))
+            setattr(self, "val_out_{}".format(chnum), Label(text = "0", size_hint=(1, .2), markup=True))
             setattr(self, "range_out_{}".format(chnum), SimpleRange())
 
             getattr(self, "btn_trim_{}_p".format(chnum)).bind(on_press = partial(self.change_offset, chnum, +1))
@@ -63,29 +63,44 @@ class TrimTab():
 
     def change_offset(self, pwm, operation, data):
         if pwm < 9:
-            trim = self.vehicle.parameters.get("PWM_MAIN_TRIM{}".format(pwm), 0)
-            trim = round(trim, 2)
-            self.vehicle.parameters.set("PWM_MAIN_TRIM{}".format(pwm), trim+operation*0.01)
-
+            param = "PWM_MAIN_TRIM{}"
         else:
-            trim = self.vehicle.parameters.get("PWM_AUX_TRIM{}".format(pwm-8), 0)
-            trim = round(trim, 2)
-            self.vehicle.parameters.set("PWM_AUX_TRIM{}".format(pwm-8), trim+operation*0.01)
+            param = "PWM_AUX_TRIM{}"
+            pwm -= 8
+
+        trim = self.vehicle.parameters.get(param.format(pwm), 0)
+        trim = round(trim, 2)+operation*0.01
+        if trim > 1: trim = 1
+        if trim < -1: trim = -1
+        self.vehicle.parameters.set(param.format(pwm), trim)
+
         self.update_params()
 
 
-
     def update_params(self, btn = None):
-        for i in range(1, 8+1):
-            getattr(self, 'val_trim_{}'.format(i)).text = "{:0.2f}".format(self.vehicle.parameters.get("PWM_MAIN_TRIM{}".format(i), -10))
+        for i in range(1, self.channels):
 
-        for i in range(1, 6+1):
-            getattr(self, 'val_trim_{}'.format(i+8)).text = "{:0.2f}".format(self.vehicle.parameters.get("PWM_AUX_TRIM{}".format(i), -10))
+            if i < 9:
+                param = "PWM_MAIN_TRIM{}"
+                pwm = i
+            else:
+                param = "PWM_AUX_TRIM{}"
+                pwm = i- 8
+            value = self.vehicle.parameters.get(param.format(pwm), -10)
+            if value == 0:
+                tval = "{:.0f}"
+            else:
+                tval = "[b]{:.2f}[/b]"
+            getattr(self, 'val_trim_{}'.format(i)).text = tval.format(value)
 
 
     def update(self, time):
         if self.active:
             print("Update trim", time)
         for i in range(self.channels):
-            getattr(self, 'val_out_{}'.format(i+1)).text = "{}".format(self.vehicle.outputs.get(str(i+1), -999))
-            getattr(self, "range_out_{}".format(i+1)).set_value((self.vehicle.outputs.get(str(i+1), -999)-1000)/10.0)
+            try:
+                pass
+                #getattr(self, 'val_out_{}'.format(i+1)).text = "{}".format(self.vehicle.outputs.get(str(i+1), -999))
+                #getattr(self, "range_out_{}".format(i+1)).set_value((self.vehicle.outputs.get(str(i+1), -999)-1000)/10.0)
+            except Exception as e:
+                print("Err", e)
