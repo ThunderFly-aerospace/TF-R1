@@ -1,6 +1,3 @@
-[submodule "scripts/dashboard/static/roslibjs"]
-	path = scripts/dashboard/static/roslibjs
-	url = git@github.com:RobotWebTools/roslibjs.git
 [submodule "CAD/src/lib/stdlib"]
 	path = CAD/src/lib/stdlib
 	url = git@github.com:ThunderFly-aerospace/Openscad_stdlib.git
