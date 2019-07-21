@@ -1,5 +1,5 @@
 include <../../parameters.scad>
-use <../lib/bolts.scad>
+use <../lib/stdlib/bolts.scad>
 
 // EFOM-10 Flange bearing
 bearing_length = 52;
