@@ -18,8 +18,8 @@ xscrewposition=41;
 yscrewposition=11;
 
 //vyrez pro voltmetr
-voltmetr_cutoutwidth = 22.3;
-voltmetr_cutoutlength = 46.08;
+voltmetr_cutoutwidth = 25.8 + 1.5;
+voltmetr_cutoutlength = 45.08 + 1.5;
 //zapust sroubu (domecek pro matky)
 embeddingheight= 10;
 embeddingdiameter= 10;
