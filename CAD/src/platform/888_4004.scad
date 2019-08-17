@@ -5,11 +5,44 @@ use <./888_4003.scad>
 use <./888_4005.scad>
 use <./888_4006.scad>
 
-draft = true;
+draft = false;
 $fn = draft ? 20 : 100;
+
+module camera(camera_xsize = 26, camera_ysize = 26)
+{
+camera_height = 15; // montážní výška kamery včetně USB konektoru
+camera_thickness = 5;   // tloušťka PCB a objektivu kamery
+camera_lens_diameter = 16;
+camera_screw_lenght = 10;
+camera_cable_diameter = 5;
+
+    translate([-camera_xsize/2, -camera_ysize/2,-camera_height])
+        cube([camera_xsize, camera_ysize, camera_height]);
+
+    rotate([0,0,180-30])
+        translate([0,0,-camera_height])
+            cube([platform_top_diameter, camera_cable_diameter, camera_cable_diameter]);
+
+    // otvory pro šrouby kamery
+    translate([21/2, 21/2, -camera_thickness])
+        bolt(2,length = camera_screw_lenght , pocket = false);
+    translate([21/2, -21/2, -camera_thickness])
+        bolt(2,length = camera_screw_lenght , pocket = false);
+    translate([-21/2, 21/2, -camera_thickness])
+        bolt(2,length = camera_screw_lenght , pocket = false);
+    translate([-21/2, -21/2, -camera_thickness])
+        bolt(2,length = camera_screw_lenght , pocket = false);
+
+    translate([0,0, 0])
+        cylinder(d=camera_lens_diameter, h = platform_height);  // otvor pro objektiv
+
+
+}
 
 module round_base(draft = true)
 {
+
+
     difference()
     {
         translate([0, 0, -platform_height/2])
@@ -34,6 +67,9 @@ module round_base(draft = true)
                 }
             }
         connecting_holes();
+        translate([0, 0,-platform_height/2+15])
+            camera();
+
     }
 }
 
