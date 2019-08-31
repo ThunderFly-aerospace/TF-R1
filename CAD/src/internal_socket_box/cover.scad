@@ -4,7 +4,7 @@ include  <../../parameters.scad>;
 boxlength = 150;
 boxwidth = 90;
 boxheight = 85;
-thicknesswall = 2;
+thicknesswall = 4;
 
 
 //zapust sroubu
@@ -15,7 +15,7 @@ embeddingdiameter = 10;
 //generovani vika
 difference(){
   translate([0,0,thicknesswall])
-   cube(size=[boxlength-thicknesswall/2-0.1,boxwidth-thicknesswall/2-0.1,thicknesswall*2],center=true);
+   cube(size=[boxlength-thicknesswall/2-0.1,boxwidth-thicknesswall/2-0.1,thicknesswall],center=true);
 
   //zapusteni hlavicek sroubu do vika
   coverhole();
