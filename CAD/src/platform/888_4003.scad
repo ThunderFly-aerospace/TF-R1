@@ -16,11 +16,11 @@ module piston_base_cut_out(draft = true)
                 rotate([90 - vertical_piston_angle, 0,
                         horizontal_piston_angle])
                 {
-                    translate([-platform_base_cylinder_spacing,
-                               -bearing_length/2 - global_clearance, 0])
-                        cube([platform_base_cylinder_spacing*3,
-                              platform_base_cylinder_spacing*3,
-                              platform_cylinder_medium_length/3]);
+                        translate([-platform_base_cylinder_spacing*0.75,
+                                   -bearing_length/2 - global_clearance, 0])
+                            cube([platform_base_cylinder_spacing*3,
+                                  platform_base_cylinder_spacing*3,
+                                  platform_cylinder_medium_length/3]);
                     // Piston bolt
                     translate([0, 0, -bearing_length])
                         cylinder(h = 2*bearing_length, d = 19.5 + global_clearance);
@@ -55,7 +55,10 @@ module piston_holder(draft = true)
                 cube([platform_base_cylinder_spacing,
                       piston_holder_size,
                       platform_height]);
-        piston_base_cut_out();
+        difference(){
+            piston_base_cut_out();
+            translate([-5, platform_base_diameter/3, -platform_height/2]) cube([10, 100, platform_height/2]);
+        }
         connecting_holes();
         cylinder(h = platform_height, d = platform_base_diameter - piston_holder_size/2);
     }
@@ -77,7 +80,7 @@ difference()
                 piston_holder();
     }
     // Cut-out cube
-    if (draft)
+    #if (draft)
         translate([0, 0, -platform_height/4])
             cube([platform_base_diameter*2, platform_base_diameter*2, platform_height]);
 }

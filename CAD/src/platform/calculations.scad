@@ -105,10 +105,10 @@ module connecting_holes(draft = true)
         rotate([0, 0, i*120])
             mirror_copy()
             translate([-platform_base_cylinder_spacing + M4_nut_diameter,
-                        platform_base_diameter/2 + bearing_length/2 - piston_holder_size
+                        platform_base_diameter/2 + bearing_length/2 - piston_holder_size-5
                         -(sqrt(35*35 - pow(platform_height/2 - 1.5*M4_nut_diameter, 2)))/2,
-                        -2*M4_nut_height])
-                rotate([180 + acos((platform_height/2 - 1.5*M4_nut_diameter) / 35), 0, 0])
-                    bolt(4, 35);
+                        -6.6*M4_nut_height])
+                rotate([-180/10*8 + acos((platform_height/2 - 1.5*M4_nut_diameter) / 35), 0, 0])
+                    bolt(4, 35, 1, pocket_size = 10);
     }
 }

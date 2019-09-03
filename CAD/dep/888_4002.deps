@@ -1,3 +1,0 @@
-../../STL/888_4002.stl: \
-	888_4002.scad \
-	../../../CAD/parameters.scad \
