@@ -4,7 +4,7 @@ station='rear-cam'
 camera='10.42.0.123'
 today=`date '+%Y_%m_%d_%H%M%S%N'`;
 filename="$station-$today.mp4"
-filename = "aaa"
+#filename = "aaa"
 
 echo "$camera"
 #rtsp://10.42.0.66/user=admin&password=&channel=1&stream=0
