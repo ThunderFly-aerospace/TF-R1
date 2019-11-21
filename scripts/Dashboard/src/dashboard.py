@@ -52,8 +52,10 @@ class dashboard(App):
 
     def build(self):
 
-        self.connect()
+        self.vehicle_connected = False
+        self.vehicle = None
         self.load_sounds()
+        #self.connect()
 
         self.main_tab = TabbedPanel()
         self.trim_tab = TrimTab(self.vehicle, self.main_tab)
@@ -71,14 +73,12 @@ class dashboard(App):
         th.content = self.dashboard_speed_tab()
         self.main_tab.add_widget(th)
 
-
         th = TabbedPanelHeader(text = "Trim")
         th.content = self.trim_tab.content()
         self.main_tab.add_widget(th)
         #self.main_tab.add_widget(self.draw_bottom_line())
 
         self.status_release = -9
-
 
         self.status_bar = BoxLayout(orientation="horizontal")
         self.last_update = Label()
@@ -101,7 +101,7 @@ class dashboard(App):
 
     def load_sounds(self):
         print("Nahravam zvuky")
-        print(__file__)
+        self.tts = pyttsx3.init()
         self.sound_ping = SoundLoader.load('media/sounds/short-ping.wav')
         self.sound_pop = SoundLoader.load('media/sounds/pop.wav')
 
@@ -120,45 +120,75 @@ class dashboard(App):
         self.callback_trim = Clock.schedule_interval(self.trim_tab.update, 1/10)
 
     def connect(self, ip = "0.0.0.0", port = 11000):
-        self.vehicle = connect("0.0.0.0:11000", status_printer = self.alert)
-        #self.vehicle = connect("10.42.0.1:14550", status_printer = self.alert)
-        #self.vehicle = connect("0.0.0.0:14550", status_printer = self.alert)
+        self.vehicle = connect("0.0.0.0:11000", status_printer = self.alert, wait_ready=False, timeout = 5)
+
+        # connect(ip, _initialize=True, wait_ready=None, timeout=30, still_waiting_callback=<function default_still_waiting_callback at 0x7f4a3dd59d90>, still_waiting_interval=1, status_printer=None, vehicle_class=None, rate=4, baud=115200, heartbeat_timeout=30, source_system=255, source_component=0, use_native=False)
+
+        print("init")
         self.vehicle.initialize()
+        self.vehicle_connected = True
         Logger.info('Connected to vehicle')
-        self.tts = pyttsx3.init()
+
+    def cb_still_waiting(self, text = None):
+        print("Still still_waiting_interval", text)
+
+    def toggle_connection(self, id = None):
+        print("[toggle_connection]")
+        if not self.vehicle_connected:
+            self.last_update.text = "Pripojovani ..."
+
+            try:
+                #self.vehicle = connect("192.168.100.102:14550", status_printer = self.alert, still_waiting_callback=self.cb_still_waiting, _initialize = False)
+                self.vehicle = connect("0.0.0.0:14550", status_printer = self.alert, still_waiting_callback=self.cb_still_waiting, _initialize = False)
+                self.vehicle.initialize(rate=10, heartbeat_timeout=10)
+                self.vehicle_connected = True
+            except Exception as e:
+                print(e)
+                self.vehicle = None
+                self.vehicle_connected = False
+        else:
+            self.vehicle = None
+            self.vehicle_connected = False
+
 
     def cb_global(self, time):
-        self.last_update.text = "  Last update in: {:.2f}".format(self.vehicle.last_heartbeat)
+        if self.vehicle_connected:
+            self.last_update.text = "  Last update in: {:.2f}".format(self.vehicle.last_heartbeat)
+            #self.last_update.set_bgcolor(0, 0, 0, 1 )
+        else:
+            self.last_update.text = "  Dron odpojen"
+            #self.last_update.set_bgcolor(1, 0, 0, 1 )
 
     def cb_base(self, time):
 
-        self.w_base_pitch_value.text = '''
-            Pitch:  {:=+8.2f}
-            Roll:     {:=+8.2f}
-            Yaw:     {:=+8.2f}
-            '''.format(math.degrees(self.vehicle.attitude.pitch),
-                       math.degrees(self.vehicle.attitude.roll),
-                       math.degrees(self.vehicle.attitude.yaw))
+        if self.vehicle_connected:
+            self.w_base_pitch_value.text = '''
+                Pitch:  {:=+8.2f}
+                Roll:     {:=+8.2f}
+                Yaw:     {:=+8.2f}
+                '''.format(math.degrees(self.vehicle.attitude.pitch),
+                           math.degrees(self.vehicle.attitude.roll),
+                           math.degrees(self.vehicle.attitude.yaw))
 
-        armed = "ARMed" if self.vehicle.armed else "DISARMed"
-        self.w_base_status_text.text = '''
-            {}
-            {}
-            {}
-            '''.format(self.vehicle.system_status.state,
-                self.vehicle.mode.name, armed)
+            armed = "ARMed" if self.vehicle.armed else "DISARMed"
+            self.w_base_status_text.text = '''
+                {}
+                {}
+                {}
+                '''.format(self.vehicle.system_status.state,
+                    self.vehicle.mode.name, armed)
 
-        self.w_base_spd_value.text = '''
-        Aspd: {:5.2f}
-        Gspd: {:5.2f}
-        '''.format(self.vehicle.airspeed, self.vehicle.groundspeed)
+            self.w_base_spd_value.text = '''
+            Aspd: {:5.2f}
+            Gspd: {:5.2f}
+            '''.format(self.vehicle.airspeed, self.vehicle.groundspeed)
 
-        self.w_base_gps_value.text = '''
-        FIX: {}
-        Count: {}
-        VHDOP: {}\{}
-        '''.format(self.vehicle.gps_0.fix_type, self.vehicle.gps_0.satellites_visible,
-            self.vehicle.gps_0.epv, self.vehicle.gps_0.eph)
+            self.w_base_gps_value.text = '''
+            FIX: {}
+            Count: {}
+            VHDOP: {}\{}
+            '''.format(self.vehicle.gps_0.fix_type, self.vehicle.gps_0.satellites_visible,
+                self.vehicle.gps_0.epv, self.vehicle.gps_0.eph)
 
 
 
@@ -190,6 +220,15 @@ class dashboard(App):
         l.add_widget(self.w_base_gps_value)
         canvas.add_widget(l)
 
+        l = BoxLayout(orientation='vertical')
+        #l.add_widget(Label(text = "Connection"))
+        self.t_connection = ToggleButton(text='Spojení', group='connected')
+        self.t_connection.bind(on_press = self.toggle_connection)
+        #l.add_widget(self.w_base_gps_value)
+        l.add_widget(self.t_connection)
+
+        canvas.add_widget(l)
+
         canvas.add_widget(wValue())
 
         return canvas
@@ -199,39 +238,40 @@ class dashboard(App):
         #self.w_spd_speed_info.text = "Gspd: {:=6.3f}".format(self.vehicle.groundspeed)
         #self.w_spd_targetspeed.text = "{}m\s ({})".format(self.target_speed, self.target_speed*3.6)
 
-        if self.status_release != round((self.vehicle.channels.get('16', 0)-1500)/500.0):
-            self.status_release = round((self.vehicle.channels.get('16', 0)-1500)/500.0)
-            self.sound_ping.play()
+        if self.vehicle_connected:
+            if self.status_release != round((self.vehicle.channels.get('16', 0)-1500)/500.0):
+                self.status_release = round((self.vehicle.channels.get('16', 0)-1500)/500.0)
+                self.sound_ping.play()
 
-            if self.status_release == -1:
-                text = "Připojeno"
-                color = "00ff00"
-            elif self.status_release == 1:
-                text = "Odpojeno"
-                color = "ff0000"
+                if self.status_release == -1:
+                    text = "Připojeno"
+                    color = "00ff00"
+                elif self.status_release == 1:
+                    text = "Odpojeno"
+                    color = "ff0000"
+                else:
+                    text = "--neznám--"
+                    color = "FFA500"
+
+                text = "[b][color={}][size=50]{}[/size][/color][/b]".format(color, text)
+                self.w_spd_release_status.text = text
+
+            self.w_spd_speed_info.text = "Airspeed:[size=24]\n{:.2f}[/size]\n".format(self.vehicle.airspeed*3.6)
+            self.w_spd_speed_info.text+= "Groundspeed: \n [size=24]{:.2f}[/size] \n".format(self.vehicle.groundspeed*3.6)
+            self.w_spd_speed_info.text+= "Delta: \n [size=24]{:.2f}[/size] \n".format((self.vehicle.groundspeed-self.vehicle.airspeed)*3.6)
+
+            if self.target_airspeed: vspd = self.vehicle.airspeed
+            else: vspd = self.vehicle.groundspeed
+            offset = self.target_speed - vspd
+
+            if abs(offset)>8:
+                color = 'ff0000'
+            elif abs(offset)>3:
+                color = 'ffff00'
             else:
-                text = "--neznám--"
-                color = "FFA500"
-
-            text = "[b][color={}][size=50]{}[/size][/color][/b]".format(color, text)
-            self.w_spd_release_status.text = text
-
-        self.w_spd_speed_info.text = "Airspeed:[size=24]\n{:.2f}[/size]\n".format(self.vehicle.airspeed*3.6)
-        self.w_spd_speed_info.text+= "Groundspeed: \n [size=24]{:.2f}[/size] \n".format(self.vehicle.groundspeed*3.6)
-        self.w_spd_speed_info.text+= "Delta: \n [size=24]{:.2f}[/size] \n".format((self.vehicle.groundspeed-self.vehicle.airspeed)*3.6)
-
-        if self.target_airspeed: vspd = self.vehicle.airspeed
-        else: vspd = self.vehicle.groundspeed
-        offset = self.target_speed - vspd
-
-        if abs(offset)>8:
-            color = 'ff0000'
-        elif abs(offset)>3:
-            color = 'ffff00'
-        else:
-            color = '00ff00'
-        self.w_spd_offset.text = """[/size][b][color={}][size=70]{:=+5.0f}[/color][/size][/b]""".format(color, offset*3.6)
-        self.w_spd_range.set_value(50 - offset*100/14)
+                color = '00ff00'
+            self.w_spd_offset.text = """[/size][b][color={}][size=70]{:=+5.0f}[/color][/size][/b]""".format(color, offset*3.6)
+            self.w_spd_range.set_value(50 - offset*100/14)
 
     def cb_set_speed_source(self, instance, value):
         if value == 'down':

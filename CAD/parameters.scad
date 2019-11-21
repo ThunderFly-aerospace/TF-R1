@@ -14,6 +14,8 @@ platform_top_diameter = 150;   // Průměr horní základny (vdálenost od stře
 // screw length step - minimum difference in length between two types of screws
 basic_screw_length = 5;
 
+carbon_pipe_10_outer_diameter = 10.4;
+
 
 //Screw diameter and nut for M10 [mm]
 M10_screw_diameter = 10.4;
