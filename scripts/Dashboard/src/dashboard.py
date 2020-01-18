@@ -18,12 +18,16 @@ from kivy.core.audio import SoundLoader
 from src.widgets.range import Range
 
 import pyttsx3
-from dronekit import connect
 from src.widgets.TrimTab import TrimTab
 import math
 import time
 
+import queue
+from threading import Thread
+import time
 
+from mavlink import mavlink
+from sounds import sounds
 
 class wValue(Widget):
     pressed = ListProperty([0, 0])
@@ -41,13 +45,67 @@ class wValue(Widget):
     def on_pressed(self, instance, pos):
         print ('pressed at {pos}'.format(pos=pos))
 
+class KivyQueue(queue.Queue):
+    '''
+    A Multithread safe class that calls a callback whenever an item is added
+    to the queue. Instead of having to poll or wait, you could wait to get
+    notified of additions.
+
+    >>> def callabck():
+    ...     print('Added')
+    >>> q = KivyQueue(notify_func=callabck)
+    >>> q.put('test', 55)
+    Added
+    >>> q.get()
+    ('test', 55)
+
+    :param notify_func: The function to call when adding to the queue
+    '''
+
+    notify_func = None
+
+    def __init__(self, notify_func, **kwargs):
+        queue.Queue.__init__(self, **kwargs)
+        self.notify_func = notify_func
+
+    def put(self, key, val):
+        '''
+        Adds a (key, value) tuple to the queue and calls the callback function.
+        '''
+        queue.Queue.put(self, (key, val), False)
+        self.notify_func()
+
+    def get(self):
+        '''
+        Returns the next items in the queue, if non-empty, otherwise a
+        :py:attr:`Queue.Empty` exception is raised.
+        '''
+        return queue.Queue.get(self, False)
 
 
 class dashboard(App):
     def __init__(self, arg = None):
         super(dashboard, self).__init__()
         self.arg = arg
+
+        self.values = {}
+
+        self.q_sound = queue.Queue(20)
+        #self.q_mavlink = queue.Queue(20)
+        self.q_mavlink = KivyQueue(notify_func = self.mavlink_data)
+
+        self.sound = sounds(self.q_sound)
+        self.sound.setDaemon(True)
+        self.sound.start()
+        self.mavlink = mavlink(self.q_mavlink, sound = self.q_sound)
+        self.mavlink.setDaemon(True)
+        self.mavlink.start()
+
         self.run()
+        print("UKONCUJI se...")
+        self.sound.stop()
+        self.mavlink.stop()
+
 
 
     def build(self):
@@ -112,6 +170,24 @@ class dashboard(App):
     def alert(self, alert):
         Logger.info('ALERT:' + alert)
 
+    def mavlink_data(self,):
+        data = self.q_mavlink.get()
+        if data[0] == 'vehicle':
+            self.vehicle = data[1]
+
+        if data[0] == 'connected':
+            self.vehicle_connected = data[1]
+
+        elif data[0] == 'attitude':
+            self.w_base_pitch_value.text = '''
+                Pitch:  {:=+8.2f}
+                Roll:     {:=+8.2f}
+                Yaw:     {:=+8.2f}
+                '''.format(math.degrees(data[1].pitch),
+                           math.degrees(data[1].roll),
+                           math.degrees(data[1].yaw))
+
+
     def update_tab_callbacks(self):
         Logger.info("Nastavuji callbacky")
         self.callback_global = Clock.schedule_interval(self.cb_global, 1/10)
@@ -119,39 +195,32 @@ class dashboard(App):
         self.callback_speed = Clock.schedule_interval(self.cb_speed_asistent, 1/10)
         self.callback_trim = Clock.schedule_interval(self.trim_tab.update, 1/10)
 
-    def connect(self, ip = "0.0.0.0", port = 11000):
-        self.vehicle = connect("0.0.0.0:11000", status_printer = self.alert, wait_ready=False, timeout = 5)
 
-        # connect(ip, _initialize=True, wait_ready=None, timeout=30, still_waiting_callback=<function default_still_waiting_callback at 0x7f4a3dd59d90>, still_waiting_interval=1, status_printer=None, vehicle_class=None, rate=4, baud=115200, heartbeat_timeout=30, source_system=255, source_component=0, use_native=False)
-
-        print("init")
-        self.vehicle.initialize()
-        self.vehicle_connected = True
-        Logger.info('Connected to vehicle')
 
     def cb_still_waiting(self, text = None):
         print("Still still_waiting_interval", text)
 
     def toggle_connection(self, id = None):
         print("[toggle_connection]")
-        if not self.vehicle_connected:
-            self.last_update.text = "Pripojovani ..."
+        # if not self.vehicle_connected:
+        #     self.last_update.text = "Pripojovani ..."
 
-            try:
-                #self.vehicle = connect("192.168.100.102:14550", status_printer = self.alert, still_waiting_callback=self.cb_still_waiting, _initialize = False)
-                self.vehicle = connect("0.0.0.0:14550", status_printer = self.alert, still_waiting_callback=self.cb_still_waiting, _initialize = False)
-                self.vehicle.initialize(rate=10, heartbeat_timeout=10)
-                self.vehicle_connected = True
-            except Exception as e:
-                print(e)
-                self.vehicle = None
-                self.vehicle_connected = False
-        else:
-            self.vehicle = None
-            self.vehicle_connected = False
+        #     try:
+        #         #self.vehicle = connect("192.168.100.102:14550", status_printer = self.alert, still_waiting_callback=self.cb_still_waiting, _initialize = False)
+        #         self.vehicle = connect("0.0.0.0:14550", status_printer = self.alert, still_waiting_callback=self.cb_still_waiting, _initialize = False)
+        #         self.vehicle.initialize(rate=10, heartbeat_timeout=10)
+        #         self.vehicle_connected = True
+        #     except Exception as e:
+        #         print(e)
+        #         self.vehicle = None
+        #         self.vehicle_connected = False
+        # else:
+        #     self.vehicle = None
+        #     self.vehicle_connected = False
 
 
     def cb_global(self, time):
+        #self.q_sound.put({'type': 'play', 'data': 'pop'})
         if self.vehicle_connected:
             self.last_update.text = "  Last update in: {:.2f}".format(self.vehicle.last_heartbeat)
             #self.last_update.set_bgcolor(0, 0, 0, 1 )
@@ -239,9 +308,10 @@ class dashboard(App):
         #self.w_spd_targetspeed.text = "{}m\s ({})".format(self.target_speed, self.target_speed*3.6)
 
         if self.vehicle_connected:
+            print("CB speed")
             if self.status_release != round((self.vehicle.channels.get('16', 0)-1500)/500.0):
-                self.status_release = round((self.vehicle.channels.get('16', 0)-1500)/500.0)
-                self.sound_ping.play()
+                self.status_release = round((self.vehicle.channels.get('16', 0)-1500)/500.0)                
+                self.q_sound.put({'type':'play', 'data': "ping"})
 
                 if self.status_release == -1:
                     text = "Připojeno"
@@ -345,9 +415,12 @@ class dashboard(App):
             self.reading_timer.cancel()
 
     def read_velocity(self, time):
-        print("Rychlost je", self.vehicle.airspeed*3.6)
-        self.tts.say("{}".format(round(self.vehicle.airspeed*3.6)))
-        self.tts.runAndWait()
+        if self.target_airspeed: vspd = self.vehicle.airspeed
+        else: vspd = self.vehicle.groundspeed
+
+        print("Rychlost je",vspd*3.6)
+        self.q_sound.put({'type':'tts', 'data': "{}".format(round(vspd*3.6))})
+
 
 
 

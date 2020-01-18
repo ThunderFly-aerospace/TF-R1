@@ -97,10 +97,12 @@ class TrimTab():
     def update(self, time):
         if self.active:
             print("Update trim", time)
+        print(self.vehicle)
         for i in range(self.channels):
             try:
                 pass
-                getattr(self, 'val_out_{}'.format(i+1)).text = "{}".format(self.vehicle.outputs.get(str(i+1), -999))
-                getattr(self, "range_out_{}".format(i+1)).set_value((self.vehicle.outputs.get(str(i+1), -999)-1000)/10.0)
+                getattr(self, 'val_out_{}'.format(i+1)).text = "{}".format(self.vehicle.channels.get(str(i+1), -999))
+                getattr(self, "range_out_{}".format(i+1)).set_value((self.vehicle.channels.get(str(i+1), -999)-1000)/10.0)
             except Exception as e:
-                print("Err", e)
+                pass
+                #print("Err", e)
