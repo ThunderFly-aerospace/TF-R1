@@ -42,7 +42,7 @@ sirka_matky=6.7;
 
 
 
-antenna_diameter = 12;
+antenna_diameter = 13.1;
 
 //Držák ložisek, rotoru, senzoru
 module WINDGAUGE01A_S01(draft = true)
@@ -82,7 +82,7 @@ module WINDGAUGE01A_S01(draft = true)
         //otvor na ložisko s vodiči
         translate([0, 0, S01_sila_materialu/2])
             cylinder(h = S01_sila_materialu + 0.01,
-                     r = (LO_spodni_prumer + 0.2)/2,
+                     d = antenna_diameter+7,
                      center = true);
         }
         //držák ložiska
