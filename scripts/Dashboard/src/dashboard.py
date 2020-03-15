@@ -1,3 +1,7 @@
+import os
+os.environ["KIVY_AUDIO"] = "avplayer"
+
+
 from kivy.app import App
 from kivy.properties import ListProperty, StringProperty
 from kivy.uix.widget import Widget

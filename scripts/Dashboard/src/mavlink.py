@@ -54,9 +54,12 @@ class mavlink (threading.Thread):
 
     def connect(self):
         try:
-            self.vehicle = connect("0.0.0.0:11000", status_printer = self.alert, wait_ready=True, timeout = 5, heartbeat_timeout = None, source_system = 56)
+            #self.vehicle = connect("192.168.1.10:14550", status_printer = self.alert, wait_ready=True, timeout = 5, heartbeat_timeout = None, source_system = 56)
             #self.vehicle.wait_ready(True, raise_exception=False)
-            self.vehicle.initialize()
+            #self.vehicle.initialize()
+            self.vehicle = connect("0.0.0.0:14550")
+            self.vehicle.wait_ready(True, raise_exception=False)
+            #time.sleep(0)
         except Exception as e:
             print("ERRROR>>>", e)
 
