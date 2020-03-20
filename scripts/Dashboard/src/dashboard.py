@@ -102,6 +102,7 @@ class dashboard(App):
         self.sound.setDaemon(True)
         self.sound.start()
         self.mavlink = mavlink(self.q_mavlink, sound = self.q_sound)
+        self.vehicle = self.mavlink.vehicle
         self.mavlink.setDaemon(True)
         self.mavlink.start()
 
@@ -314,7 +315,7 @@ class dashboard(App):
         if self.vehicle_connected:
             print("CB speed")
             if self.status_release != round((self.vehicle.channels.get('16', 0)-1500)/500.0):
-                self.status_release = round((self.vehicle.channels.get('16', 0)-1500)/500.0)                
+                self.status_release = round((self.vehicle.channels.get('16', 0)-1500)/500.0)
                 self.q_sound.put({'type':'play', 'data': "ping"})
 
                 if self.status_release == -1:

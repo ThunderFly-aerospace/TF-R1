@@ -14,6 +14,7 @@ class mavlink (threading.Thread):
         self.q = data_queue
         self.q_sound = sound
         self.connected = False
+        self.vehicle = None
 
     def run(self):
         print("START mavlink thread")
@@ -28,7 +29,7 @@ class mavlink (threading.Thread):
         while self.run:
             time.sleep(0.1)
             #print("Attitude: %s" % self.vehicle.attitude)
-            print(self.vehicle.last_heartbeat)
+            print("hb", self.vehicle.last_heartbeat)
             self.q.put('attitude', self.vehicle.attitude)
             self.q.put('arm', self.vehicle.armed)
             self.q.put('airspeed', self.vehicle.airspeed)
@@ -57,8 +58,13 @@ class mavlink (threading.Thread):
             #self.vehicle = connect("192.168.1.10:14550", status_printer = self.alert, wait_ready=True, timeout = 5, heartbeat_timeout = None, source_system = 56)
             #self.vehicle.wait_ready(True, raise_exception=False)
             #self.vehicle.initialize()
-            self.vehicle = connect("0.0.0.0:14550")
-            self.vehicle.wait_ready(True, raise_exception=False)
+            self.vehicle = connect("0.0.0.0:14550", wait_ready=False)
+            while self.vehicle.last_heartbeat > 1:
+                pass
+                time.sleep(0.1)
+                print("OUT")
+            time.sleep(2)
+            #self.vehicle.wait_ready(True, raise_exception=False)
             #time.sleep(0)
         except Exception as e:
             print("ERRROR>>>", e)
@@ -70,7 +76,6 @@ class mavlink (threading.Thread):
 
     def print_info(self):
         print("Autopilot Firmware version: %s" % self.vehicle.version)
-        print("Autopilot capabilities (supports ftp): %s" % self.vehicle.capabilities.ftp)
         print("Global Location: %s" % self.vehicle.location.global_frame)
         print("Global Location (relative altitude): %s" % self.vehicle.location.global_relative_frame)
         print("Local Location: %s" % self.vehicle.location.local_frame)    #NED

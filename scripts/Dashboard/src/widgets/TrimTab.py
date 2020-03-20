@@ -63,12 +63,13 @@ class TrimTab():
 
     def change_offset(self, pwm, operation, data):
         if pwm < 9:
-            param = "PWM_MAIN_TRIM{}"
+            param = "PWM_MAIN_TRIM{}".format(pwm)
         else:
-            param = "PWM_AUX_TRIM{}"
-            pwm -= 8
+            param = "PWM_AUX_TRIM{}".format(pwm-8)
 
-        trim = self.vehicle.parameters.get(param.format(pwm), 0)
+        print(param)
+
+        trim = self.vehicle.parameters.get(param, 0)
         trim = round(trim, 2)+operation*0.01
         if trim > 1: trim = 1
         if trim < -1: trim = -1
@@ -81,12 +82,10 @@ class TrimTab():
         for i in range(1, self.channels):
 
             if i < 9:
-                param = "PWM_MAIN_TRIM{}"
-                pwm = i
+                param = "PWM_MAIN_TRIM{}".format(i)
             else:
-                param = "PWM_AUX_TRIM{}"
-                pwm = i- 8
-            value = self.vehicle.parameters.get(param.format(pwm), -10)
+                param = "PWM_AUX_TRIM{}".format(i-8)
+            value = self.vehicle.parameters.get(param, -10)
             if value == 0:
                 tval = "{:.0f}"
             else:
