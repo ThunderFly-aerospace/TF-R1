@@ -17,6 +17,7 @@ lt = 15;  // total length of holder
   {
     cylinder(h = lt, d = h_o_d);
     screw_thread(h_i_d, 9, 25, lt*2, 1, 1);
+    cylinder(h = lt, d = h_i_d-10`);
   }
 }
 
