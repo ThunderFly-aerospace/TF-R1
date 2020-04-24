@@ -1,3 +1,6 @@
 [submodule "CAD/src/lib/stdlib"]
 	path = CAD/src/lib/stdlib
 	url = git@github.com:ThunderFly-aerospace/Openscad_stdlib.git
+[submodule "doc/anemometer"]
+	path = doc/anemometer
+	url = https://github.com/mlab-modules/WINDGAUGE03
