@@ -17,7 +17,7 @@ M4_nut_height = 4;
 lock_thickness = 8;
 lock_join_width = 30;
 lock_conection_width = 15;
-lock_clearence = 0.5;
+lock_clearence = 1;
 
 
 lock_around_wall = (holder_width-lock_join_width)/2;
@@ -108,14 +108,70 @@ module antenna_5g_holder(){
                 translate([0, 0, 0]) cylinder(d = 20, h=10, $fn=100);
                 translate([0, 0,10]) cylinder(d = 30, h=25, $fn=100);
                 translate([0, 0,35]) cylinder(d = 35, h=10, $fn=100);
+
+                translate([40, 0, 35/3]) rotate([90, 0, 0]) cylinder(d = 4.5, h=50, $fn=100, center = true);
             }
 
         }
 
 }
 
-translate([-40, 0, 0])
+module antenna_helix_holder(){
+
+        difference(){
+            union(){
+                translate([0, 0, 0]) cylinder(d = 16+5, h= 35, $fn=100);
+
+                translate([-lock_clearence, -(lock_conection_width-lock_clearence)/2, 0])
+                    cube([23, lock_conection_width-lock_clearence, 35]);
+                translate([23-lock_thickness, -(lock_join_width-lock_clearence)/2, 0])
+                    cube([lock_thickness-lock_clearence, lock_join_width-lock_clearence, 35]);
+            }
+
+            union(){
+                translate([0, 0, 0]) cylinder(d = 16-5, h=10, $fn=100);
+                translate([0, 0, 3]) cylinder(d = 16.2, h=50, $fn=100);
+
+                translate([23, 0, 35/3]) rotate([90, 0, 0]) cylinder(d = 4.5, h=50, $fn=100, center = true);
+            }
+        }
+}
+
+module 2_4_antenna(){
+
+        difference(){
+            union(){
+                translate([0, 0, 0]) cylinder(d = 13+5, h= 35, $fn=100);
+
+                translate([-lock_clearence, -(lock_conection_width-lock_clearence)/2, 0])
+                    cube([25, lock_conection_width-lock_clearence, 35]);
+                translate([25-lock_thickness, -(lock_join_width-lock_clearence)/2, 0])
+                    cube([lock_thickness-lock_clearence, lock_join_width-lock_clearence, 35]);
+            }
+            translate([-100, -50, 2]) cube(100);
+
+
+            for(z = [15, 27])
+              translate([0, 0, z])
+                difference(){
+                  cylinder(d = 13+5+3, h=4);
+                  cylinder(d = 13+5+0.5, h=4);
+                }
+
+            union(){
+                //translate([0, 0, 0]) cylinder(d = 16-5, h=10, $fn=100);
+                translate([0, 0, 2]) cylinder(d = 13.2, h=50, $fn=100);
+
+                translate([25, 0, 35/3]) rotate([90, 0, 0]) cylinder(d = 4.5, h=50, $fn=100, center = true);
+            }
+        }
+}
+
+translate([-40-20, 0, 0])
 antenna_5g_holder();
+
+translate([-20-20, 50, 0])
+antenna_helix_holder();
 
 bottom_part();
 
