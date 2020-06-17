@@ -4,3 +4,6 @@
 [submodule "doc/anemometer"]
 	path = doc/anemometer
 	url = https://github.com/mlab-modules/WINDGAUGE03
+[submodule "hw/TFMODEM01"]
+	path = hw/TFMODEM01
+	url = https://github.com/ThunderFly-aerospace/TFMODEM01.git
