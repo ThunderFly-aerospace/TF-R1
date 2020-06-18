@@ -1,5 +1,5 @@
 
-beam_top_width = 31;
+beam_top_width = 32;
 beam_bottom_width = 21;
 beam_height = 25;
 
@@ -10,7 +10,7 @@ below_beam = 6;
 min_wall = 4;
 
 M4_screw_diameter = 4.3;
-M4_nut_diameter = 10;
+M4_nut_diameter = 7;
 M4_nut_height = 4;
 
 lock_thickness = 8;
@@ -54,7 +54,7 @@ module bottom_part(){
 
     for(x = [3+M4_screw_diameter/2, 3*3+1.5*M4_screw_diameter+beam_top_width], y=[-holder_width/3*1, holder_width/3])
         translate([x, y, -below_beam]){
-            cylinder(d = M4_screw_diameter, h = 100, $fn = 30);
+            translate([0, 0, 3]) cylinder(d = M4_screw_diameter, h = 100, $fn = 30);
             rotate(30) translate([0, 0, -0.1])
             cylinder(d = M4_nut_diameter, h = 3, $fn = 6);
 
