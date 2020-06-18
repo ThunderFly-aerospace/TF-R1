@@ -1,14 +1,13 @@
 
-
 beam_top_width = 31;
 beam_bottom_width = 21;
 beam_height = 25;
 
 holder_width = 40;
-below_beam = 8;
+below_beam = 6;
 
 
-min_wall = 5;
+min_wall = 4;
 
 M4_screw_diameter = 4.3;
 M4_nut_diameter = 10;
@@ -20,7 +19,20 @@ lock_conection_width = 15;
 lock_clearence = 1;
 
 
-lock_around_wall = (holder_width-lock_join_width)/2;
+lock_around_wall = (holder_width-lock_join_width)/2-1;
+
+
+module join_fuse_hole(){
+    
+    translate([0, 0, 35/3])
+        rotate([90, 0, 0]){
+            cylinder(d = M4_screw_diameter, h = 50, center = true, $fn = 40);
+            translate([0, 0, holder_width/2-3])
+                cylinder(d = M4_nut_diameter, h = 20, $fn = 6);
+        }
+        
+}
+
 
 module bottom_part(){
 
@@ -43,22 +55,29 @@ module bottom_part(){
     for(x = [3+M4_screw_diameter/2, 3*3+1.5*M4_screw_diameter+beam_top_width], y=[-holder_width/3*1, holder_width/3])
         translate([x, y, -below_beam]){
             cylinder(d = M4_screw_diameter, h = 100, $fn = 30);
+            rotate(30) translate([0, 0, -0.1])
+            cylinder(d = M4_nut_diameter, h = 3, $fn = 6);
 
         }
+    
+        join_fuse_hole();
+
     }
 
 
 
     difference(){
         translate([-(lock_thickness+lock_around_wall), -holder_width/2, -below_beam])
-            cube([lock_thickness+lock_around_wall, holder_width, below_beam+beam_height]);
+            cube([lock_thickness+lock_around_wall, holder_width, below_beam+beam_height + 6]);
 
         translate(){
             translate([-(lock_thickness), -lock_join_width/2, 0])
-                cube([lock_thickness, lock_join_width, below_beam+beam_height+1]);
+                cube([lock_thickness, lock_join_width, below_beam+beam_height+11]);
             translate([-(lock_thickness)-20, -lock_conection_width/2, 0])
-                cube([lock_thickness+20, lock_conection_width, below_beam+beam_height+1]);
+                cube([lock_thickness+20, lock_conection_width, below_beam+beam_height+11]);
         }
+        
+    join_fuse_hole();
 
     }
 
@@ -67,15 +86,15 @@ module bottom_part(){
 module top_part(){
 
     difference(){
-        translate([0, -holder_width/2, 0])
-            cube([beam_top_width + 2*M4_screw_diameter + 4*3, holder_width, 10]);
+        translate([1, -holder_width/2, 0])
+            cube([beam_top_width + 2*M4_screw_diameter + 4*3 - 1, holder_width, 6]);
 
         for(x = [3+M4_screw_diameter/2, 3*3+1.5*M4_screw_diameter+beam_top_width], y=[-holder_width/3*1, holder_width/3])
             translate([x, y, -0.1]){
                 cylinder(d = M4_screw_diameter, h = 100, $fn = 30);
             }
     }
-    difference(){
+    /*difference(){
         translate([-(lock_thickness+lock_around_wall), -holder_width/2, 0])
             cube([lock_thickness+lock_around_wall, holder_width, 10]);
 
@@ -85,7 +104,8 @@ module top_part(){
             translate([-(lock_thickness)-20, -lock_conection_width/2, 0])
                 cube([lock_thickness+20, lock_conection_width, below_beam+beam_height+1]);
         }
-    }
+    }*/
+    
 }
 
 
