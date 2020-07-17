@@ -7,3 +7,6 @@
 [submodule "hw/TFMODEM01"]
 	path = hw/TFMODEM01
 	url = https://github.com/ThunderFly-aerospace/TFMODEM01.git
+[submodule "scripts/Dashboard"]
+	path = scripts/Dashboard
+	url = https://github.com/ThunderFly-aerospace/TFDashboard.git
