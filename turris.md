@@ -1,7 +1,16 @@
+# Turris mox/omnia
 
+## LXR
+### Nastavení LXC kontejneru a USB
 
+v OpenWRT je potřeba nainstalovat `kmod-usb-serial-ftdi`. 
 
-Nastavení LXC kontejneru
+```
+opkg update; opkg install kmod-usb-serial-ftdi
+```
+Pak je potřeba zjistit, jestli se USB v dmesg připojí a dostane nějaký tty soubor v pořádku nebo ne. Pokud ano, lze pokračovat. 
+
+Následně se USB musí nastavit v konfiguraci kontejneru. 
 ```
 # Template used to create this container: /usr/share/lxc/templates/lxc-download
 # Parameters passed to the template: --dist Ubuntu --release Focal --arch armv7l --server repo.turris.cz/lxc --no-validate
