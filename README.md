@@ -20,6 +20,7 @@ The rover is equipped by:
 # DashBoard app
 
 The dashboard application is used for display of essential data for UAV mission.  It is used by all crew members while the UAV is in the flight. 
-
+```bash
   sudo pip3 install kivy pyttsx
   sudo apt install libespeak1
+```
