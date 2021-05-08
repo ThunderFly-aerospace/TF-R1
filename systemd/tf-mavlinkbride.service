@@ -1,0 +1,8 @@
+[Unit]
+Description=Mavlink bridge - UART to UDP
+
+[Service]
+ExecStart=/root/repos/MAVLinkBridge/mavlinkbridge -s /dev/ttyUSB0 -u 192.168.1.255 -r
+
+[Install]
+WantedBy=multi-user.target
