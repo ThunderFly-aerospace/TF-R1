@@ -55,6 +55,7 @@ lxc.mount.entry = /dev/ttyUSB0 dev/ttyUSB0  none bind,optional,create=file,umask
 
 ### Turris MOX (specifika)
 
+#### USB HUB
 > 2021/05
 Při použití [USB modulu (MOX-F)](https://doc.turris.cz/doc/cs/howto/mox/mox-f-usb) je potřeba po jeho prvním zapojení nastavit toto: 
 ```
