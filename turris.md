@@ -54,12 +54,18 @@ lxc.mount.entry = /dev/ttyUSB0 dev/ttyUSB0  none bind,optional,create=file,umask
 
 
 ### Automatické spouštění kontejneru
-v openwrt do souboru `/ect/config/lxc-auto` následující kód:
+Do souboru `/srv/lxc/<nazev_kontejneru>/config` připsat řádek:
 ```
-config container
-        option name TF-GCS
-        option timeout 60
+lxc.start.auto = 1
 ```
+
+V dokumentaci CZ.NICu je následující postup pro rozfungování automatického startu. Zdá se ale být zastaralý a nefunkční (2021/05). 
+> v openwrt do souboru `/ect/config/lxc-auto` následující řádky:
+> ```
+> config container
+>         option name TF-GCS
+>         option timeout 60
+> ```
 
 
 ## Turris MOX (specifika)
