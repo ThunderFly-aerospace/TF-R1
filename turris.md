@@ -57,7 +57,7 @@ lxc.mount.entry = /dev/ttyUSB0 dev/ttyUSB0  none bind,optional,create=file,umask
 v openwrt do souboru `/ect/config/lxc-auto` následující kód:
 ```
 config container
-        option name moje_vm
+        option name TF-GCS
         option timeout 60
 ```
 
