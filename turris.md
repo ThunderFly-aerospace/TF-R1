@@ -1,6 +1,6 @@
 # Turris mox/omnia
 
-## LXR
+## LXC
 ### Nastavení LXC kontejneru a USB
 
 v OpenWRT je potřeba nainstalovat `kmod-usb-serial-ftdi`. 
@@ -53,9 +53,18 @@ lxc.mount.entry = /dev/ttyUSB0 dev/ttyUSB0  none bind,optional,create=file,umask
 ```
 
 
-### Turris MOX (specifika)
+### Automatické spouštění kontejneru
+v openwrt do souboru `/ect/config/lxc-auto` následující kód:
+```
+config container
+        option name moje_vm
+        option timeout 60
+```
 
-#### USB HUB
+
+## Turris MOX (specifika)
+
+### USB HUB
 > 2021/05
 Při použití [USB modulu (MOX-F)](https://doc.turris.cz/doc/cs/howto/mox/mox-f-usb) je potřeba po jeho prvním zapojení nastavit toto: 
 ```
