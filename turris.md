@@ -39,15 +39,6 @@ lxc.net.0.flags = up
 lxc.net.0.name = eth0
 lxc.net.0.hwaddr = a2:e2:d9:8b:64:11
 
-# Network configuration
-lxc.net.1.type = veth
-lxc.net.1.link = br-lan
-lxc.net.1.flags = up
-lxc.net.1.name = eth1
-lxc.net.1.hwaddr = a2:e2:d9:8b:64:12
-
-
-
 lxc.mount.entry = /dev/bus/usb dev/bus/usb none bind,optional,create=dir 0 0
 lxc.cgroup.devices.allow = c 188:0 rwm
 
@@ -60,3 +51,14 @@ lxc.mount.entry = /dev/ttyUSB0 dev/ttyUSB0  none bind,optional,create=file,umask
 # lxc.mount.entry = /dev/ttyUSB1 dev/ttyUSB1  none bind,optional,create=file 0 0
 # lxc.mount.entry = /dev/ttyUSB2 dev/ttyUSB2  none bind,optional,create=file 0 0
 ```
+
+
+### Turris MOX (specifika)
+
+> 2021/05
+Při použití [USB modulu (MOX-F)](https://doc.turris.cz/doc/cs/howto/mox/mox-f-usb) je potřeba po jeho prvním zapojení nastavit toto: 
+```
+fw_setenv quirks pci=nomsi
+```
+
+Jinak se děje, že USB hub se neustále odpojuje. (předpokládá se, že systém je aktuální)
