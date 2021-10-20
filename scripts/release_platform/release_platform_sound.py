@@ -1,7 +1,7 @@
 from pymavlink import mavutil
 import beepy
 
-mavlink = mavutil.mavlink_connection('udpin:localhost:14540')
+mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14550')
 
 mavlink.wait_heartbeat()
 print("Heartbeat from system (system %u component %u)" % (mavlink.target_system, mavlink.target_component))
