@@ -4,14 +4,22 @@ import time
 #14540 - pro simulator
 #14550 - pro MOX
 
-master = mavutil.mavlink_connection('udpin:0.0.0.0:14540')
+master = mavutil.mavlink_connection('udpin:0.0.0.0:14550', source_system=1, autoreconnect=True)
+print("Heartbeat from system (system %u component %u)" % (master.target_system, master.target_component))
+#master = mavutil.mavlink_connection('udpin:0.0.0.0:14445')
 master.wait_heartbeat()
 print("Mam heartbeat")
 
-min_alt = 500 # AMLS
+
+# 460 AMLS 
+
+
+min_alt = 460 # AMLS
 lat = float("NAN")
 lon = float("NAN")
 
+#lat = 49.1169
+#lon = 14.3832
 
 def set_pos(rel_alt, lat = float("NAN"), lon = float("NAN")):
     master.mav.command_long_send(
@@ -28,7 +36,21 @@ def set_pos(rel_alt, lat = float("NAN"), lon = float("NAN")):
         min_alt+rel_alt )
 
 
-for alt_sp in range(50, 100, 20):
+min = 30
+max = 300
+step = 10
+delay = 15
+steps = list(range(min, max, step))
+#steps += steps[::-1]
+print(steps)
+
+print("pocet kroku", len(steps))
+print("Doba: ", len(steps)*delay/60, "min")
+
+
+for alt_sp in steps:
     print("Nova vyska:", alt_sp)
     set_pos(alt_sp)
-    time.sleep(100);
+    time.sleep(delay/2);
+    set_pos(alt_sp);
+    time.sleep(delay/2);

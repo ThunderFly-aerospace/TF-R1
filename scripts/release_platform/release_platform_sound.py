@@ -1,6 +1,8 @@
 from pymavlink import mavutil
 import beepy
 
+
+# 14550 real situation
 mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14550')
 
 mavlink.wait_heartbeat()
@@ -22,7 +24,8 @@ while 1:
         new_state = dic['image_index']
         new_release = dic['capture_result']
         
-        if new_release or new_state == 2:
+        #if new_release or new_state == 3:
+        if new_release:
             beepy.beep(sound=6)
             print("RELEASE")
         elif last_state != new_state:
