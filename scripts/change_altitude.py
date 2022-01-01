@@ -11,7 +11,7 @@ master.wait_heartbeat()
 print("Mam heartbeat")
 
 
-# 460 AMLS 
+# 460 AMLS
 
 
 min_alt = 460 # AMLS
@@ -34,18 +34,18 @@ def set_pos(rel_alt, lat = float("NAN"), lon = float("NAN"), rate = float("NAN")
         lat,
         lon,
         min_alt+rel_alt )
-    
-    if rate > 0: 
-        master.mav.param_set_send(
-            master.target_system,
-            master.target_component,"FW_T_CLMB_R_SP", rate)
-        
-    if rate < 0: 
-        master.mav.param_set_send(
-            master.target_system,
-            master.target_component, "FW_T_SINK_R_SP", rate)
 
-try:        
+    if rate > 0:
+        master.mav.param_set_send(
+            master.target_system,
+            master.target_component,"FW_T_CLMB_R_SP", rate, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
+
+    if rate < 0:
+        master.mav.param_set_send(
+            master.target_system,
+            master.target_component, "FW_T_SINK_R_SP", rate, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
+
+try:
     min = 60
     max = 300
     delay = 300
@@ -55,20 +55,20 @@ try:
     print("Stoupani/klesani:", rate)
     print("Doba letu: ", 2*delay/60, "min")
 
-    print("Nova vyska:", max)
-    set_pos(max, rate)
+    print("Nova vyska:", max, "m AGL")
+    set_pos(max, lat, lon, rate)
     time.sleep(delay);
-    print("Nova vyska:", min)
-    set_pos(min, -rate)
+    print("Nova vyska:", min, "m AGL")
+    set_pos(min, lat, lon, -rate)
     time.sleep(delay);
 
-    except KeyboardInterrupt:
-        master.mav.param_set_send(
-            master.target_system,
-            master.target_component,"FW_T_CLMB_R_SP", 3)
+except KeyboardInterrupt:
+    master.mav.param_set_send(
+        master.target_system,
+        master.target_component,"FW_T_CLMB_R_SP", 3, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
 
-        master.mav.param_set_send(
-            master.target_system,
-            master.target_component, "FW_T_SINK_R_SP", 2)
+    master.mav.param_set_send(
+        master.target_system,
+        master.target_component, "FW_T_SINK_R_SP", 2, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
 
-    	sys.exit(0)
+    sys.exit(0)
