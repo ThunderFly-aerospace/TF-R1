@@ -1,5 +1,6 @@
 from pymavlink import mavutil
 import time
+import sys
 
 #14540 - pro simulator
 #14550 - pro MOX
@@ -38,12 +39,20 @@ def set_pos(rel_alt, lat = float("NAN"), lon = float("NAN"), rate = float("NAN")
     if rate > 0:
         master.mav.param_set_send(
             master.target_system,
-            master.target_component,"FW_T_CLMB_R_SP", rate, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
+            master.target_component, b"FW_T_CLMB_R_SP", rate, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
+
+        master.mav.param_set_send(
+            master.target_system,
+            master.target_component, b"FW_T_SINK_R_SP", 2, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
 
     if rate < 0:
         master.mav.param_set_send(
             master.target_system,
-            master.target_component, "FW_T_SINK_R_SP", rate, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
+            master.target_component, b"FW_T_SINK_R_SP", rate, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
+
+        master.mav.param_set_send(
+            master.target_system,
+            master.target_component, b"FW_T_CLMB_R_SP", 3, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
 
 try:
     min = 60
@@ -65,10 +74,10 @@ try:
 except KeyboardInterrupt:
     master.mav.param_set_send(
         master.target_system,
-        master.target_component,"FW_T_CLMB_R_SP", 3, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
+        master.target_component, b"FW_T_CLMB_R_SP", 3, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
 
     master.mav.param_set_send(
         master.target_system,
-        master.target_component, "FW_T_SINK_R_SP", 2, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
+        master.target_component, b"FW_T_SINK_R_SP", 2, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
 
     sys.exit(0)
