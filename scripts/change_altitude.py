@@ -5,7 +5,7 @@ import sys
 #14540 - pro simulator
 #14550 - pro MOX
 
-master = mavutil.mavlink_connection('udpin:0.0.0.0:14540', source_system=1, autoreconnect=True)
+master = mavutil.mavlink_connection('udpin:0.0.0.0:14550', source_system=1, autoreconnect=True)
 print("Heartbeat from system (system %u component %u)" % (master.target_system, master.target_component))
 #master = mavutil.mavlink_connection('udpin:0.0.0.0:14445')
 master.wait_heartbeat()
