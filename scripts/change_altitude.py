@@ -36,12 +36,12 @@ def set_pos(rel_alt, lat = float("NAN"), lon = float("NAN")):
         min_alt+rel_alt )
 
 
-min = 30
+min = 60
 max = 300
-step = 10
-delay = 15
+step = 15
+delay = 20
 steps = list(range(min, max, step))
-#steps += steps[::-1]
+steps = steps[::-1]
 print(steps)
 
 print("pocet kroku", len(steps))
