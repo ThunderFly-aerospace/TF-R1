@@ -21,7 +21,7 @@ lon = float("NAN")
 #lat = 49.1169
 #lon = 14.3832
 
-def set_pos(rel_alt, lat = float("NAN"), lon = float("NAN")):
+def set_pos(rel_alt, lat = float("NAN"), lon = float("NAN"), rate = float("NAN")):
     master.mav.command_long_send(
         master.target_system,
         master.target_component,
@@ -34,23 +34,41 @@ def set_pos(rel_alt, lat = float("NAN"), lon = float("NAN")):
         lat,
         lon,
         min_alt+rel_alt )
+    
+    if rate > 0: 
+        master.mav.param_set_send(
+            master.target_system,
+            master.target_component,"FW_T_CLMB_R_SP", rate)
+        
+    if rate < 0: 
+        master.mav.param_set_send(
+            master.target_system,
+            master.target_component, "FW_T_SINK_R_SP", rate)
 
+try:        
+    min = 60
+    max = 300
+    delay = 300
 
-min = 60
-max = 300
-step = 15
-delay = 20
-steps = list(range(min, max, step))
-steps = steps[::-1]
-print(steps)
+    rate = (max-min)/delay
 
-print("pocet kroku", len(steps))
-print("Doba: ", len(steps)*delay/60, "min")
+    print("Stoupani/klesani:", rate)
+    print("Doba letu: ", 2*delay/60, "min")
 
+    print("Nova vyska:", max)
+    set_pos(max, rate)
+    time.sleep(delay);
+    print("Nova vyska:", min)
+    set_pos(min, -rate)
+    time.sleep(delay);
 
-for alt_sp in steps:
-    print("Nova vyska:", alt_sp)
-    set_pos(alt_sp)
-    time.sleep(delay/2);
-    set_pos(alt_sp);
-    time.sleep(delay/2);
+    except KeyboardInterrupt:
+        master.mav.param_set_send(
+            master.target_system,
+            master.target_component,"FW_T_CLMB_R_SP", 3)
+
+        master.mav.param_set_send(
+            master.target_system,
+            master.target_component, "FW_T_SINK_R_SP", 2)
+
+    	sys.exit(0)
