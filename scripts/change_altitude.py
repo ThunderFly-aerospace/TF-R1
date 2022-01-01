@@ -5,7 +5,7 @@ import sys
 #14540 - pro simulator
 #14550 - pro MOX
 
-master = mavutil.mavlink_connection('udpin:0.0.0.0:14550', source_system=1, autoreconnect=True)
+master = mavutil.mavlink_connection('udpin:0.0.0.0:14540', source_system=1, autoreconnect=True)
 print("Heartbeat from system (system %u component %u)" % (master.target_system, master.target_component))
 #master = mavutil.mavlink_connection('udpin:0.0.0.0:14445')
 master.wait_heartbeat()
@@ -36,24 +36,6 @@ def set_pos(rel_alt, lat = float("NAN"), lon = float("NAN"), rate = float("NAN")
         lon,
         min_alt+rel_alt )
 
-    if rate > 0:
-        master.mav.param_set_send(
-            master.target_system,
-            master.target_component, b"FW_T_CLMB_R_SP", rate, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
-
-        master.mav.param_set_send(
-            master.target_system,
-            master.target_component, b"FW_T_SINK_R_SP", 2, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
-
-    if rate < 0:
-        master.mav.param_set_send(
-            master.target_system,
-            master.target_component, b"FW_T_SINK_R_SP", rate, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
-
-        master.mav.param_set_send(
-            master.target_system,
-            master.target_component, b"FW_T_CLMB_R_SP", 3, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
-
 try:
     min = 60
     max = 300
@@ -63,6 +45,15 @@ try:
 
     print("Stoupani/klesani:", rate)
     print("Doba letu: ", 2*delay/60, "min")
+
+    master.mav.param_set_send(
+        master.target_system,
+        master.target_component, b"FW_T_CLMB_R_SP", rate, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
+
+    master.mav.param_set_send(
+        master.target_system,
+        master.target_component, b"FW_T_SINK_R_SP", rate, mavutil.mavlink.MAVLINK_TYPE_FLOAT)
+
 
     print("Nova vyska:", max, "m AGL")
     set_pos(max, lat, lon, rate)
