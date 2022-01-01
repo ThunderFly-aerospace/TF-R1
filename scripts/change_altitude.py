@@ -57,10 +57,13 @@ try:
 
     print("Nova vyska:", max, "m AGL")
     set_pos(max, lat, lon, rate)
-    time.sleep(delay);
-    print("Nova vyska:", min, "m AGL")
-    set_pos(min, lat, lon, -rate)
-    time.sleep(delay);
+    print("Klesani vyresit pres QGC")
+    while True:
+        pass
+##    time.sleep(delay);
+#    print("Nova vyska:", min, "m AGL")
+#    set_pos(min, lat, lon, -rate)
+#    time.sleep(delay);
 
 except KeyboardInterrupt:
     master.mav.param_set_send(
