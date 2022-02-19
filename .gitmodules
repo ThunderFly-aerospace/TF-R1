@@ -1,12 +1,16 @@
 [submodule "CAD/src/lib/stdlib"]
 	path = CAD/src/lib/stdlib
 	url = git@github.com:ThunderFly-aerospace/Openscad_stdlib.git
+        branch = master
 [submodule "doc/anemometer"]
 	path = doc/anemometer
 	url = https://github.com/mlab-modules/WINDGAUGE03
+        branch = WINDGAUGE03A
 [submodule "hw/TFMODEM01"]
 	path = hw/TFMODEM01
 	url = https://github.com/ThunderFly-aerospace/TFMODEM01.git
+        branch = TFMODEM01A
 [submodule "scripts/Dashboard"]
 	path = scripts/Dashboard
 	url = https://github.com/ThunderFly-aerospace/TFDashboard.git
+        branch = master
