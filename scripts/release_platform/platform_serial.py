@@ -3,8 +3,9 @@ import time
 
 
 class platform_serial():
-    def __init__(self, serial_port):
+    def __init__(self, serial_port, debug=False):
         self.ser = serial.Serial(serial_port, timeout=0)
+        self.debug = debug
 
         self.lock_status = -1
         self.actuator_status = -1
@@ -28,16 +29,19 @@ class platform_serial():
         except Exception as e:
             print("Chyba prijmu dat", e)
 
-
     def open(self):
-        ser.write(b"$O;0;0;\n")
-
+        self.write(b"$O;0;0;\n")
 
     def close(self):
-        ser.write(b"$C;\n")
+        self.write(b"$C;\n")
 
     def block(self):
-        ser.write(b"$BL;\n")
+        self.write(b"$BL;\n")
 
     def unblock(self):
-        ser.write(b"$UL;\n")
+        self.write(b"$UL;\n")
+
+    def write(self, data):
+        if self.debug:
+            print("Serial>> ", data.decode("utf-8"))
+        self.ser.write(data)

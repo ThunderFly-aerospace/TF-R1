@@ -14,3 +14,6 @@
 	path = scripts/Dashboard
 	url = https://github.com/ThunderFly-aerospace/TFDashboard.git
         branch = master
+[submodule "sw/WebDashboard"]
+	path = sw/WebDashboard
+	url = git@github.com:ThunderFly-aerospace/WebDashboard.git
