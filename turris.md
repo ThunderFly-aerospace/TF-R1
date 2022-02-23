@@ -72,9 +72,10 @@ V dokumentaci CZ.NICu je následující postup pro rozfungování automatického
 
 ### USB HUB
 > 2021/05
-Při použití [USB modulu (MOX-F)](https://doc.turris.cz/doc/cs/howto/mox/mox-f-usb) je potřeba po jeho prvním zapojení nastavit toto: 
+Při použití [USB modulu (MOX-F)](https://doc.turris.cz/doc/cs/howto/mox/mox-f-usb) společně s modulem G je potřeba po jeho prvním zapojení nastavit toto: 
 ```
 fw_setenv quirks pci=nomsi
 ```
+Tento příkaz vypne MSI interrupty na PCIe sběrnici. Nastavení se ukládá v u-boot a je nutné jej udělat pro každý kus modulu A, neboť se nepřenáší na SDkartě ani ve snapshotech.
 
 Jinak se děje, že USB hub se neustále odpojuje. (předpokládá se, že systém je aktuální)
