@@ -28,6 +28,7 @@ Ground control station (GCS) is one of key element of unmanned system. GCS has s
  * Ensuring high quality data connection to UAV
  * Monitors drone condition (battery, fail-safe modes, position, ...)
  * Allows the operator to control and command the UAV
+
 **Optional**:
  * Live data collecting
  * Visualization of some units
