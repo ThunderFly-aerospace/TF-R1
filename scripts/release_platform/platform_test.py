@@ -5,9 +5,9 @@ ps = platform_serial.platform_serial('/dev/ttyUSB0', debug=True)
 
 while 1:
     print("Open")
-    ps.open()
-    time.sleep(2)
+    ps.open(timeout = 10)
+    time.sleep(5)
 
     print("Close")
     ps.close()
-    time.sleep(2)
+    time.sleep(5)
