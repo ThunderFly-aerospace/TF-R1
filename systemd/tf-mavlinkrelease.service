@@ -1,0 +1,12 @@
+[Unit]
+Description=Release platform control script
+After=tf-mavlinkbride.service
+Requires=tf-mavlinkbride.service
+
+[Service]
+Environment=MAVLINK_ENDPOINT=udpin:0.0.0.0:14550
+Environment=MAVLINK20=1
+ExecStart=python3 /root/repos/TF-R1/scripts/release_platform/release_platform_serial.py
+
+[Install]
+WantedBy=multi-user.target

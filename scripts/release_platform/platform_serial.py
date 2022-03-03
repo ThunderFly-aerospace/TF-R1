@@ -15,23 +15,26 @@ class platform_serial():
 
     def update(self):
         try:
-            s = self.ser.read(500)
-            s = s.split('\n')
+            if self.ser.in_waiting > 0:
+                s = self.ser.read(self.ser.in_waiting).decode(encoding="utf-8")
+                if len(s):
+                    s = s.split('\n')
 
-            for message in s:
-                if '$S;' in message:
-                    parts = message.split(";")
-                    self.service_btn = int(parts[2])
-                    self.ready_bts = int(parts[3])
-                    self.lock_status  = int(parts[4])
-                    self.actuator_status =  float(parts[5])
-                    self.last_status_update = time.time.now()
-                if self.debug():
-                    print(s)
+                    for message in s:
+                        if '$S;' in message:
+                            parts = message.split(";")
+                            self.service_btn = int(parts[2])
+                            self.ready_bts = int(parts[3])
+                            self.lock_status  = int(parts[4])
+                            self.actuator_status =  float(parts[5])
+                            #self.last_status_update = time.time.now()
+                        if self.debug:
+                            print(repr(message))
         except Exception as e:
             print("Chyba prijmu dat", e)
 
     def open(self, timeout = 10):
+        time.sleep(1)
         string = "$O;"+str(int(timeout))+";0;\n"
         self.write(bytes(string, 'utf-8'))
 
