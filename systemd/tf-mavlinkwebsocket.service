@@ -1,7 +1,7 @@
 [Unit]
 Description=Mavlink websocket server - UDP to websocket
-After=tf-mavlinkbride.service
-Requires=tf-mavlinkbride.service
+After=mavlink-router.service
+Requires=mavlink-router.service
 
 [Service]
 Environment=MAVLINK_ENDPOINT=udpin:0.0.0.0:14550
