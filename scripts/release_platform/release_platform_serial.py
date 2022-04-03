@@ -5,6 +5,21 @@ import serial
 import time
 
 
+class PeriodicTimer():
+    def __init__(self, function, duration=1, args={}):
+        self.duration = duration
+        self.function = function
+        self.run()
+
+    def run(self):
+        self.last_run = time.time()
+        return self.function()
+
+    def update(self):
+        if time.time() > self.last_run+self.duration:
+            return self.run()
+        return False
+
 
 def request_message_interval(message_id: int, frequency_hz: float):
     """
@@ -25,29 +40,37 @@ def request_message_interval(message_id: int, frequency_hz: float):
         0, # Target address of message stream (if message has target address fields). 0: Flight-stack default (recommended), 1: address of requestor, 2: broadcast.
     )
 
-
-
-
+def send_hb():
+    mavlink.mav.heartbeat_send(mavutil.mavlink.MAV_TYPE_GENERIC, # type
+                               mavutil.mavlink.MAV_AUTOPILOT_INVALID, #autopilot
+                               1, # base_mode
+                               mavutil.mavlink.MAV_STATE_ACTIVE, #custom mode
+                               0 # system status
+                               )
 
 print("Script started, waiting to mavlink heartbeat")
 # 14550 real situation
-mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14550')
+#mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14550')
+mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14551', source_system=67)
+
 #mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14555')
 
-ps = platform_serial.platform_serial('/dev/ttyUSB1', debug=True)
+ps = platform_serial.platform_serial('/dev/ttyUSB0', debug=True)
 
 mavlink.wait_heartbeat()
 request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_DEBUG, 5)
+print(mavutil.mavlink.MAV_AUTOPILOT_GENERIC)
+
+send_hb()
+hb_timer = PeriodicTimer(send_hb, 1)
 #mavlink.request_data_stream_send(mavlink.target_system, mavlink.target_component, mavutil.mavlink.MAVLINK_MSG_ID_DEBUG, 10)
 print("Heartbeat from system (system %u component %u)" % (mavlink.target_system, mavlink.target_component))
 
 last_state = -1
 
 while 1:
-    #print(".", end="")
-    #ps.update()
+    hb_timer.update()
     msg = mavlink.recv_match(blocking=False)
-    #print(msg)
     if not msg:
         continue
         pass
