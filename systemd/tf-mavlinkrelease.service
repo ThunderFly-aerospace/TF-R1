@@ -4,8 +4,10 @@ After=mavlink-router.service
 Requires=mavlink-router.service
 
 [Service]
-Environment=MAVLINK_ENDPOINT=udpin:0.0.0.0:14550
+Environment=MAVLINK_ENDPOINT=udpin:0.0.0.0:14552
 Environment=MAVLINK20=1
+Environment=export MAVLINK_DIALECT=common
+
 ExecStart=python3 /root/repos/TF-R1/scripts/release_platform/release_platform_serial.py
 
 [Install]

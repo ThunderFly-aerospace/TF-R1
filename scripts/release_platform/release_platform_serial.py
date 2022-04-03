@@ -55,7 +55,7 @@ mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14551', source_system=67)
 
 #mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14555')
 
-ps = platform_serial.platform_serial('/dev/ttyUSB0', debug=True)
+ps = platform_serial.platform_serial('/dev/ttyUSB1', debug=True)
 
 mavlink.wait_heartbeat()
 request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_DEBUG, 5)
@@ -70,6 +70,7 @@ last_state = -1
 
 while 1:
     hb_timer.update()
+    ps.update()
     msg = mavlink.recv_match(blocking=False)
     if not msg:
         continue
