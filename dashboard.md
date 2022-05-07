@@ -12,6 +12,8 @@ __Popis uživatelského rozhaní pro obsluhu dronů ThunderFly__
 Zobrazení pro řidiče je určeno pro snadné provedení startu ze střechy auta za pomoci platformy. Zobrazení je co nejjednodušší bez zbytčných informací navíc. V levé části je zobrazen indikátor ukazující aktuální airspeed z vírníku a pomocí zeleného pruhu. 
 
 V levé části pak je indikace stavu jednotlivých komponent. První dlaždice indikuje stav platformy. 
+
+
 **Platforma**
 
 
