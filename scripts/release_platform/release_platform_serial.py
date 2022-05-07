@@ -47,13 +47,17 @@ def send_hb():
                                mavutil.mavlink.MAV_STATE_ACTIVE, #custom mode
                                0 # system status
                                )
+    send_val("bla")
+    print("Send HB")
+
+def send_val(name = "test"):
+    mavlink.mav.named_value_int_send(0, #time from boot
+        bytes(name, 'utf-8'), 0)
 
 print("Script started, waiting to mavlink heartbeat")
-# 14550 real situation
-#mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14550')
-mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14551', source_system=67)
 
-#mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14555')
+mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14552', source_system=67)
+#mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14555', source_system=67)
 
 ps = platform_serial.platform_serial('/dev/ttyUSB1', debug=True)
 
@@ -68,9 +72,12 @@ print("Heartbeat from system (system %u component %u)" % (mavlink.target_system,
 
 last_state = -1
 
+platform_state = 0
+
 while 1:
     hb_timer.update()
     ps.update()
+
     msg = mavlink.recv_match(blocking=False)
     if not msg:
         continue
@@ -78,8 +85,7 @@ while 1:
 
     if msg.get_type() == 'HEARTBEAT':
         pass
-        print("heartbeat")
-        #ps.open(1)
+        print("heartbeat recieved")
 
     if msg.get_type() == 'DEBUG':
         dic = msg.to_dict()
@@ -90,12 +96,20 @@ while 1:
 #        if dic['ind'] == 0:
         new_state = float(dic['value'])
         print(new_state)
-        if new_state > 2.5:
-            ps.open(10)
-            print("RELEASE")
 
         if last_state != new_state:
             print("CHANGE")
+
+        if new_state > 2.5:
+            if platform_state != 1:
+                platform_state = 1
+                ps.open(10)
+                print("RELEASE")
+            print("Release again")
+        else:
+            if platform_state:
+                platform_state = 0
+                print("Reset stavu zamku")
 
         last_state = new_state
 
