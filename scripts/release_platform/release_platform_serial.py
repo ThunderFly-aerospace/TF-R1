@@ -47,32 +47,37 @@ def send_hb():
                                mavutil.mavlink.MAV_STATE_ACTIVE, #custom mode
                                0 # system status
                                )
-    send_val("bla")
     print("Send HB")
 
-def send_val(name = "test"):
+def send_val(name = "lock", val = 0):
     mavlink.mav.named_value_int_send(0, #time from boot
-        bytes(name, 'utf-8'), 0)
+        bytes(name, 'utf-8'), val)
 
-print("Script started, waiting to mavlink heartbeat")
+
+def callback_funct(status):
+    send_val(val=status)
 
 mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14552', source_system=67)
 #mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14555', source_system=67)
 
 ps = platform_serial.platform_serial('/dev/ttyUSB1', debug=True)
+ps.set_status_callback(callback_funct)
 
+print("Script started, waiting to mavlink heartbeat")
 mavlink.wait_heartbeat()
 request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_DEBUG, 5)
 print(mavutil.mavlink.MAV_AUTOPILOT_GENERIC)
 
 send_hb()
 hb_timer = PeriodicTimer(send_hb, 1)
-#mavlink.request_data_stream_send(mavlink.target_system, mavlink.target_component, mavutil.mavlink.MAVLINK_MSG_ID_DEBUG, 10)
 print("Heartbeat from system (system %u component %u)" % (mavlink.target_system, mavlink.target_component))
 
 last_state = -1
 
 platform_state = 0
+
+autogyro_armed = 0
+autogyro_armed_last = 0
 
 while 1:
     hb_timer.update()
@@ -84,8 +89,16 @@ while 1:
         pass
 
     if msg.get_type() == 'HEARTBEAT':
-        pass
         print("heartbeat recieved")
+        autogyro_armed = (msg.base_mode & mavutil.mavlink.MAV_MODE_FLAG_SAFETY_ARMED)
+        print("Autogyro armed?", autogyro_armed)
+        if autogyro_armed != autogyro_armed_last:
+            autogyro_armed_last = autogyro_armed
+            
+            if autogyro_armed:
+                ps.unlock()
+            else:
+                ps.lock()
 
     if msg.get_type() == 'DEBUG':
         dic = msg.to_dict()
