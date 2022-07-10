@@ -96,8 +96,10 @@ while 1:
             autogyro_armed_last = autogyro_armed
             
             if autogyro_armed:
+                print("Odemykam platformu")
                 ps.unlock()
             else:
+                print("Zamykam platformu")
                 ps.lock()
 
     if msg.get_type() == 'DEBUG':

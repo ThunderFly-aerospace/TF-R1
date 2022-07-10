@@ -48,7 +48,7 @@ class platform_serial():
                         #if self.debug:
                         #    print(repr(message))
         except Exception as e:
-            print("Chyba prijmu dat", e, s)
+            print("Chyba prijmu dat", e)
 
     def unlock(self):
         string = chck("$PLBLK,0")
