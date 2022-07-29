@@ -88,13 +88,14 @@ while 1:
         continue
         pass
 
-    if msg.get_type() == 'HEARTBEAT':
+    if msg.get_type() == 'HEARTBEAT' and msg.get_srcSystem() == 1:
         print("heartbeat recieved")
         autogyro_armed = (msg.base_mode & mavutil.mavlink.MAV_MODE_FLAG_SAFETY_ARMED)
+        print(bin(msg.base_mode))
         print("Autogyro armed?", autogyro_armed)
         if autogyro_armed != autogyro_armed_last:
             autogyro_armed_last = autogyro_armed
-            
+
             if autogyro_armed:
                 print("Odemykam platformu")
                 ps.unlock()
@@ -118,6 +119,7 @@ while 1:
         if new_state > 2.5:
             if platform_state != 1:
                 platform_state = 1
+#                time.sleep(1.5)
                 ps.open(10)
                 print("RELEASE")
             print("Release again")

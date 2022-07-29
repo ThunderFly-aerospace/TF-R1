@@ -35,6 +35,7 @@ class platform_serial():
 
                     for message in s:
                         if '$PLSTS,' in message and len(message.split('*')[0].split(",")) == 7:
+                            print(message)
                             parts = message.split('*')[0].split(",")
                             self.service_btn = int(parts[4])
                             self.ready_btn = int(parts[5])
