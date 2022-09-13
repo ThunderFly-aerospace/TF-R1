@@ -57,19 +57,40 @@ def send_val(name = "lock", val = 0):
 def callback_funct(status):
     send_val(val=status)
 
+
 mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14552', source_system=67)
 #mavlink = mavutil.mavlink_connection('udpin:0.0.0.0:14555', source_system=67)
 
 ps = platform_serial.platform_serial('/dev/ttyUSB1', debug=True)
 ps.set_status_callback(callback_funct)
 
-print("Script started, waiting to mavlink heartbeat")
-mavlink.wait_heartbeat()
-request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_DEBUG, 5)
-print(mavutil.mavlink.MAV_AUTOPILOT_GENERIC)
+platsi = 0
+
+def send_platform_status():
+    global platsi
+    platsi += 1
+    try:
+        pstate = [0]*128
+        for i, x in enumerate(ps.platform_status[1:]):
+            pstate[i] = int(x)
+        pstate[0] = 0
+        pstate[5] = int(pstate[5]/10)
+        pstate[6] = int(pstate[6]/10)
+        mavlink.mav.tunnel_send(0, 0, 30, 10, pstate)
+        print("Send tunnel status", pstate[:15])
+    except Exception as e:
+        print("Chyba prevodu statusu", e)
+
+
+#print("Script started, waiting to mavlink heartbeat")
+#mavlink.wait_heartbeat()
+#request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_DEBUG, 5)
+#print(mavutil.mavlink.MAV_AUTOPILOT_GENERIC)
 
 send_hb()
 hb_timer = PeriodicTimer(send_hb, 1)
+status_timer = PeriodicTimer(send_platform_status, 0.5)
+
 print("Heartbeat from system (system %u component %u)" % (mavlink.target_system, mavlink.target_component))
 
 last_state = -1
@@ -82,6 +103,7 @@ autogyro_armed_last = 0
 while 1:
     hb_timer.update()
     ps.update()
+    status_timer.update()
 
     msg = mavlink.recv_match(blocking=False)
     if not msg:
@@ -116,7 +138,7 @@ while 1:
         if last_state != new_state:
             print("CHANGE")
 
-        if new_state > 2.5:
+        if new_state > 3.5:
             if platform_state != 1:
                 platform_state = 1
 #                time.sleep(1.5)

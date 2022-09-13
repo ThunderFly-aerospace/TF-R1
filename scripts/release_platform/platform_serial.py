@@ -17,6 +17,7 @@ class platform_serial():
         self.ready_btn = -1
         self.service_btn = -1
         self.last_status_update = 0
+        self.platform_status = []
 
         self.callback_f = None
 
@@ -31,12 +32,14 @@ class platform_serial():
             if self.ser.in_waiting > 0:
                 s = self.ser.read(self.ser.in_waiting).decode(encoding="utf-8")
                 if len(s):
-                    s = s.split('\n')
-
+                    s = s.split('\r\n')
+                    print(s[0])
                     for message in s:
-                        if '$PLSTS,' in message and len(message.split('*')[0].split(",")) == 7:
-                            print(message)
+                        if '$PLSTS,' in message and len(message.split('*')[0].split(",")) == 9:
+                            #print("STATUS", message)
                             parts = message.split('*')[0].split(",")
+                            self.platform_status = list(parts[1:])
+                            #print("PS", self.platform_status)
                             self.service_btn = int(parts[4])
                             self.ready_btn = int(parts[5])
                             self.lock_status  = int(parts[2])
@@ -82,6 +85,6 @@ class platform_serial():
         self.write(b"$UL;\n")
 
     def write(self, data):
-        if self.debug:
-            print("Serial>> ", data.decode("utf-8"))
+        #if self.debug:
+        print("Serial>> ", data.decode("utf-8"))
         self.ser.write(data)
