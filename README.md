@@ -3,13 +3,13 @@ Mission support rover for unmanned drones.
 
 ThunderFly developes UAVs designed for flying in extreme conditions. In these conditions, it can be dangerous for the mission crew to be under sky. The aim of this rover is keep crew in safety of car chassis and be able to proceed drone takeoff.
 
-Car is equipted with necessary equipment to perform flight operations. 
+The car is equipped with the necessary equipment to perform flight operations. 
 
 ![TF-R1 in the field](/doc/TF-R1.jpg)
 
 The rover is equipped by:
   * Datalink telemetry diagnostics tools
-  * Long range datalink modem
+  * Long-range datalink modem
   * Datalink antennas
   * UAV pilot terminal
   * Driver indicators
@@ -21,12 +21,12 @@ The rover is equipped by:
   * Aerotow hitch
 
 
-## ThunderFly UAV Groung control station ([TF-BOX]())
-Ground control station (GCS) is one of key element of unmanned system. GCS has several tasks. 
+## ThunderFly UAV Ground control station ([TF-GCS01](https://github.com/ThunderFly-aerospace/TF-GCS01))
+Ground control stations (GCS) are a key element of unmanned systems. GCS has several tasks. 
 
 **High important**:
- * Ensuring high quality data connection to UAV
- * Monitors drone condition (battery, fail-safe modes, position, ...)
+ * Ensuring high-quality data connection to UAV
+ * Monitors drone condition (battery, fail-safe modes, position, etc.)
  * Allows the operator to control and command the UAV
 
 **Optional**:
@@ -41,7 +41,7 @@ Ground control station (GCS) is one of key element of unmanned system. GCS has s
 
 # DashBoard app
 
-The dashboard application is used for display of essential data for UAV mission.  It is used by all crew members while the UAV is in the flight. 
+The dashboard application is used for the display of essential data for UAV missions.  It is used by all crew members while the UAV is in the flight. 
 ```bash
   sudo pip3 install kivy pyttsx
   sudo apt install libespeak1
